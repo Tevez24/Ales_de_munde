@@ -1,0 +1,133 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Inicio - Ailes du Monde{% endblock %}
+
+{% block content %}
+  <!-- Hero Section with Background Image -->
+  <div class="relative">
+    <div class="relative bg-blue-800 bg-opacity-50 py-20 text-white text-center">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Descubre el Mundo</h1>
+        <p class="text-xl mb-8">Paquetes de viaje únicos para aventureros como tú</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combos Especiales -->
+  <div class="container mx-auto px-4 py-12">
+    <section class="mt-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">OFERTAS ESPECIALES</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+       <div class="border rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow">
+          <div class="relative">
+            <img src="{% static 'Carrito_app/img/europa magica.jpg' %}" class="w-full h-48 object-cover" alt="Combo Europa Clásica">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Combo Europa Clásica</h3>
+            <p class="text-gray-600 mb-2">Destinos incluidos: París, Roma, Madrid</p>
+            <p class="text-gray-600 mb-2">Incluye: Vuelos, Hoteles 4★, Desayunos, Tours guiados</p>
+            <p class="text-2xl font-bold text-blue-600">$3500 <span class="text-sm text-gray-500 line-through ml-2">$4000</span></p>
+            <div class="flex justify-end space-x-4">
+              <a href="{% url 'paquetes' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Ver Combo</a>
+              <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded" onclick="addToCart('Combo Europa Clásica', 3500)">Añadir al Carrito</button>
+            </div>
+          </div>
+        </div>
+        <div class="border rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow">
+          <div class="relative">
+            <img src="{% static 'Carrito_app/img/aventura patagonica.jpg' %}" class="w-full h-48 object-cover" alt="Combo Sudamérica Aventura">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Combo Sudamérica Aventura</h3>
+            <p class="text-gray-600 mb-2">Destinos incluidos: Buenos Aires, Machu Picchu, Río de Janeiro</p>
+            <p class="text-gray-600 mb-2">Incluye: Vuelos internos, Hoteles, Aventura, Guías locales</p>
+            <p class="text-2xl font-bold text-blue-600">$2800 <span class="text-sm text-gray-500 line-through ml-2">$3200</span></p>
+            <div class="flex justify-end space-x-4">
+              <a href="{% url 'paquetes' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Ver Combo</a>
+              <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded" onclick="addToCart('Combo Sudamérica Aventura', 2800)">Añadir al Carrito</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section class="mt-16 shadow">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Nuestros Servicios</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <a href="{% url 'vuelos' %}" class="border rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center shadow">
+            <i data-lucide="plane" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+            <h3 class="text-xl font-bold">Vuelos</h3>
+            <p class="text-gray-600">Encuentra los mejores vuelos a precios increíbles</p>
+          </div>
+        </a>
+        <a href="{% url 'alojamiento' %}" class="border rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <i data-lucide="hotel" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+            <h3 class="text-xl font-bold">Alojamientos</h3>
+            <p class="text-gray-600">Hoteles y resorts de lujo para tu estadía perfecta</p>
+          </div>
+        </a>
+        <a href="{% url 'paquetes' %}" class="border rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <i data-lucide="map-pin" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+            <h3 class="text-xl font-bold">Paquetes</h3>
+            <p class="text-gray-600">Paquetes completos diseñados para cada tipo de viajero</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Por Qué Elegirnos -->
+    <div class="mt-16 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl p-8">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">¿Por Qué Elegir Ailes du Monde?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center">
+          <i data-lucide="award" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+          <h3 class="text-xl font-bold">14 Años de Experiencia</h3>
+          <p class="text-gray-600">Más de una década creando experiencias inolvidables</p>
+        </div>
+        <div class="text-center">
+          <i data-lucide="users" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+          <h3 class="text-xl font-bold">50,000+ Clientes Satisfechos</h3>
+          <p class="text-gray-600">Miles de viajeros han confiado en nosotros</p>
+        </div>
+        <div class="text-center">
+          <i data-lucide="shield" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+          <h3 class="text-xl font-bold">Viajes Seguros</h3>
+          <p class="text-gray-600">Tu seguridad es nuestra prioridad número uno</p>
+        </div>
+        <div class="text-center">
+          <i data-lucide="heart-handshake" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+          <h3 class="text-xl font-bold">Atención Personalizada</h3>
+          <p class="text-gray-600">Cada viaje es único, como tú</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrepentimiento -->
+    <section class="mt-16 bg-yellow-50 border-t-4 border-yellow-400 py-8">
+      <div class="container mx-auto px-4 text-center">
+        <i data-lucide="alert-triangle" class="h-8 w-8 text-yellow-600 mb-3 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-yellow-800 mb-4">¿Necesitas ejercer tu derecho de arrepentimiento?</h3>
+        <p class="text-yellow-800 mb-6">Según la Ley de Defensa del Consumidor, tienes derecho a arrepentirte de tu compra dentro de los 10 días corridos desde la confirmación de tu reserva.</p>
+        <a href="{% url 'arrepentimiento' %}" class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-xl inline-flex items-center">
+          <i data-lucide="alert-triangle" class="h-5 w-5 mr-2"></i> Solicitar Arrepentimiento
+        </a>
+      </div>
+    </section>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function addToCart(packageName, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name: packageName, price: price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${packageName} ha sido agregado al carrito!`);
+  }
+</script>
+{% endblock %}

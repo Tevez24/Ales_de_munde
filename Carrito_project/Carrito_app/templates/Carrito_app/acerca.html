@@ -1,0 +1,261 @@
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Ailes Du Monde{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'estilos.css' %}">
+  <title>Acerca -  AILES DU MONDE</title>
+  <!-- Tailwind CDN para mantener los estilos tal cual -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide para íconos -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<button onclick="window.history.back()" class="btn-volver">⬅ Volver</button>
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Navigation (componente) -->
+
+  <div id="navigation"></div>
+  <!-- Si tenés el HTML del componente Navigation, colócalo aquí -->
+  <div class="container mx-auto px-4 py-8">
+
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+      <div class="flex justify-center mb-6">
+        <i data-lucide="plane" class="h-16 w-16 text-blue-600"></i>
+      </div>
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">AILES DU MONDE</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Tu agencia de viajes de confianza desde 2010. Creamos experiencias
+        inolvidables para viajeros que buscan aventuras únicas alrededor del mundo.
+      </p>
+    </div>
+
+    <!-- Nuestra Historia -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Nuestra Historia</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+            ViajesPro nació en 2010 con la visión de hacer que los viajes sean accesibles
+            y extraordinarios para todos. Comenzamos como una pequeña agencia familiar y
+            hemos crecido hasta convertirnos en una de las agencias de viajes más confiables
+            de la región.
+          </p>
+          <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+            Durante más de una década, hemos ayudado a más de 50,000 viajeros a explorar
+            el mundo, desde aventuras en la Patagonia hasta safaris en África, desde
+            templos místicos en Asia hasta escapadas románticas en Europa.
+          </p>
+          <p class="text-gray-600 text-lg leading-relaxed">
+            Nuestro compromiso es brindar experiencias de viaje personalizadas, seguras
+            y memorables, con el respaldo de nuestro equipo de expertos en destinos.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Card 1 -->
+          <div class="text-center bg-white rounded-xl border border-gray-200 shadow-sm">
+            <div class="p-6">
+              <i data-lucide="users" class="h-12 w-12 text-blue-600 mx-auto mb-4"></i>
+              <div class="text-3xl font-bold text-blue-600 mb-2">50K+</div>
+              <div class="text-gray-600">Viajeros Felices</div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="text-center bg-white rounded-xl border border-gray-200 shadow-sm">
+            <div class="p-6">
+              <i data-lucide="globe" class="h-12 w-12 text-green-600 mx-auto mb-4"></i>
+              <div class="text-3xl font-bold text-green-600 mb-2">85+</div>
+              <div class="text-gray-600">Destinos</div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="text-center bg-white rounded-xl border border-gray-200 shadow-sm">
+            <div class="p-6">
+              <i data-lucide="award" class="h-12 w-12 text-yellow-600 mx-auto mb-4"></i>
+              <div class="text-3xl font-bold text-yellow-600 mb-2">14</div>
+              <div class="text-gray-600">Años de Experiencia</div>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="text-center bg-white rounded-xl border border-gray-200 shadow-sm">
+            <div class="p-6">
+              <i data-lucide="heart" class="h-12 w-12 text-red-600 mx-auto mb-4"></i>
+              <div class="text-3xl font-bold text-red-600 mb-2">4.9</div>
+              <div class="text-gray-600">Rating Promedio</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aerolíneas Partner -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Nuestras Aerolíneas Partner</h2>
+      <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        Trabajamos con las mejores aerolíneas del mundo para garantizar tu comodidad
+        y seguridad en cada vuelo.
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- 1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇦🇷</div>
+            <h3 class="font-semibold text-gray-800">Aerolíneas Argentinas</h3>
+          </div>
+        </div>
+        <!-- 2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">✈</div>
+            <h3 class="font-semibold text-gray-800">LATAM Airlines</h3>
+          </div>
+        </div>
+        <!-- 3 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇺🇸</div>
+            <h3 class="font-semibold text-gray-800">American Airlines</h3>
+          </div>
+        </div>
+        <!-- 4 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇦🇪</div>
+            <h3 class="font-semibold text-gray-800">Emirates</h3>
+          </div>
+        </div>
+        <!-- 5 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇩🇪</div>
+            <h3 class="font-semibold text-gray-800">Lufthansa</h3>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇫🇷</div>
+            <h3 class="font-semibold text-gray-800">Air France</h3>
+          </div>
+        </div>
+        <!-- 7 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇬🇧</div>
+            <h3 class="font-semibold text-gray-800">British Airways</h3>
+          </div>
+        </div>
+        <!-- 8 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 text-center">
+            <div class="text-4xl mb-3">🇶🇦</div>
+            <h3 class="font-semibold text-gray-800">Qatar Airways</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contactos -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Contactanos</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Teléfono -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+          <div class="px-6 pt-6">
+            <h3 class="flex items-center text-xl font-semibold text-gray-800">
+              <i data-lucide="phone" class="h-5 w-5 mr-2 text-blue-600"></i>
+              Teléfono
+            </h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600">Atención al Cliente</p>
+            <p class="text-lg font-semibold">+54 9 351 -0000</p>
+            <p class="text-gray-600 mt-2">Emergencias 24hs</p>
+            <p class="text-lg font-semibold">+54 11 4000-0001</p>
+          </div>
+        </div>  
+        <!-- Email -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+          <div class="px-6 pt-6">
+            <h3 class="flex items-center text-xl font-semibold text-gray-800">
+              <i data-lucide="mail" class="h-5 w-5 mr-2 text-green-600"></i>
+              Email
+            </h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600">Consultas Generales</p>
+            <p class="text-lg font-semibold">INFO - ailesdumonde@gmail.com</p>
+            <p class="text-gray-600 mt-2">Reservas</p>
+            <p class="text-lg font-semibold">RESERVAS - ailesdumonde@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Redes Sociales -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Seguinos en Redes Sociales</h2>
+      <div class="flex justify-center space-x-8">
+        <a href="https://www.instagram.com/ailes_du_munde?igsh=MTI4bmVsbGJyN3Vweg==" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow group">
+          <i data-lucide="instagram" class="h-12 w-12 text-pink-600 group-hover:scale-110 transition-transform"></i>
+          <span class="mt-3 text-gray-700 font-semibold">Instagram</span>
+          <span class="text-sm text-gray-500">@ailes_du_munde</span>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61579658952085&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow group">
+          <i data-lucide="facebook" class="h-12 w-12 text-blue-600 group-hover:scale-110 transition-transform"></i>
+          <span class="mt-3 text-gray-700 font-semibold">Facebook</span>
+          <span class="text-sm text-gray-500">Ailes Du Monde</span>
+        </a>
+        <a href="https://x.com/AilesDuMunde?t=fx3-97UhEL3bRXGqsmeMaA&s=08" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow group">
+          <i data-lucide="twitter" class="h-12 w-12 text-gray-800 group-hover:scale-110 transition-transform"></i>
+          <span class="mt-3 text-gray-700 font-semibold">Twitter/X</span>
+          <span class="text-sm text-gray-500">AilesDuMunde</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Certificaciones -->
+    <section class="mb-16 shadow">
+      <div class="bg-blue-50 rounded-2xl p-8 text-center">
+        <h3 class="text-2xl font-bold text-blue-800 mb-4">Certificaciones y Membresías</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <i data-lucide="award" class="h-12 w-12 text-blue-600 mx-auto mb-3"></i>
+            <h4 class="font-semibold text-blue-800">IATA Certificado</h4>
+            <p class="text-blue-600 text-sm">Asociación Internacional de Transporte Aéreo</p>
+          </div>
+          <div>
+            <i data-lucide="globe" class="h-12 w-12 text-blue-600 mx-auto mb-3"></i>
+            <h4 class="font-semibold text-blue-800">WTTC Member</h4>
+            <p class="text-blue-600 text-sm">Consejo Mundial de Viajes y Turismo</p>
+          </div>
+          <div>
+            <i data-lucide="heart" class="h-12 w-12 text-blue-600 mx-auto mb-3"></i>
+            <h4 class="font-semibold text-blue-800">Turismo Responsable</h4>
+            <p class="text-blue-600 text-sm">Certificación en Turismo Sostenible</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ArrepentimientoNotice (componente) -->
+    <div id="arrepentimiento-notice"></div>
+    <!-- Si tenés el HTML del componente ArrepentimientoNotice, colócalo aquí -->
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
+{% endblock %}

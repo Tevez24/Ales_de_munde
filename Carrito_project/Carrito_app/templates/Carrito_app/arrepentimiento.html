@@ -1,0 +1,199 @@
+
+{% load static %}
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<div class="container mx-auto px-4 py-8">
+  <button onclick="window.history.back()" class="fixed top-4 left-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 z-20">
+  <i data-lucide="arrow-left" class="h-5 w-5"></i>
+</button>
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <div class="flex justify-center mb-4">
+      <i data-lucide="alert-triangle" class="h-16 w-16 text-yellow-600"></i>
+    </div>
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">
+      Derecho de Arrepentimiento
+    </h1>
+    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      Según la Ley de Defensa del Consumidor, tienes derecho a arrepentirte 
+      de tu compra dentro de los plazos establecidos.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Información Legal -->
+    <div class="lg:col-span-1 space-y-6">
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="flex items-center text-lg font-semibold text-gray-800 mb-4">
+          <i data-lucide="file-text" class="h-5 w-5 mr-2 text-blue-600"></i>
+          Marco Legal
+        </h2>
+        <div class="space-y-4 text-sm text-gray-600">
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-2">Ley N° 24.240</h4>
+            <p>Ley de Defensa del Consumidor - Artículo 34</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-2">Plazo</h4>
+            <p>10 días corridos desde la confirmación de la reserva</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-2">Aplicabilidad</h4>
+            <p>Válido para compras realizadas fuera del establecimiento comercial</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="flex items-center text-lg font-semibold text-gray-800 mb-4">
+          <i data-lucide="calendar" class="h-5 w-5 mr-2 text-green-600"></i>
+          Condiciones
+        </h2>
+        <div class="space-y-3 text-sm text-gray-600">
+          <div class="flex items-start">
+            <div class="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2"></div>
+            <p>Compra realizada online o por teléfono</p>
+          </div>
+          <div class="flex items-start">
+            <div class="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2"></div>
+            <p>Dentro del plazo de 10 días corridos</p>
+          </div>
+          <div class="flex items-start">
+            <div class="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2"></div>
+            <p>No se requiere justificación del motivo</p>
+          </div>
+          <div class="flex items-start">
+            <div class="w-2 h-2 bg-red-500 rounded-full mr-3 mt-2"></div>
+            <p>Pueden aplicar gastos de cancelación según el tipo de servicio</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="flex items-center text-lg font-semibold text-gray-800 mb-4">
+          <i data-lucide="clock" class="h-5 w-5 mr-2 text-orange-600"></i>
+          Proceso de Reembolso
+        </h2>
+        <div class="space-y-2 text-sm text-gray-600">
+          <p><strong>1-2 días:</strong> Revisión de solicitud</p>
+          <p><strong>3-5 días:</strong> Proceso de cancelación</p>
+          <p><strong>7-15 días:</strong> Reembolso procesado</p>
+          <p class="text-xs text-orange-600 mt-3">
+            * Los tiempos pueden variar según la forma de pago y el banco
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-2xl font-semibold mb-2">Formulario de Arrepentimiento</h2>
+        <p class="text-gray-600 mb-6">
+          Completa todos los campos para procesar tu solicitud de arrepentimiento.
+        </p>
+
+        <form class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Número de Reserva *</label>
+              <input type="text" placeholder="VPR-12345678" class="w-full border rounded-lg px-3 py-2" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Fecha de Compra</label>
+              <input type="date" class="w-full border rounded-lg px-3 py-2">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Nombre Completo *</label>
+              <input type="text" placeholder="Juan Pérez" class="w-full border rounded-lg px-3 py-2" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+              <input type="text" placeholder="+54 11 1234-5678" class="w-full border rounded-lg px-3 py-2">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Email de Contacto *</label>
+            <input type="email" placeholder="tu-email@ejemplo.com" class="w-full border rounded-lg px-3 py-2" required>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Motivo del Arrepentimiento</label>
+            <input type="text" placeholder="Cambio de planes, problemas económicos, etc. (opcional)" class="w-full border rounded-lg px-3 py-2">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Detalles Adicionales</label>
+            <textarea rows="4" placeholder="Información adicional que consideres relevante (opcional)" class="w-full border rounded-lg px-3 py-2"></textarea>
+          </div>
+
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div class="flex items-start">
+              <i data-lucide="alert-triangle" class="h-5 w-5 text-yellow-600 mt-0.5 mr-3"></i>
+              <div class="text-sm text-yellow-800">
+                <p class="font-semibold mb-1">Importante:</p>
+                <p>
+                  Al enviar este formulario, estás ejerciendo tu derecho de arrepentimiento 
+                  según la Ley de Defensa del Consumidor. El proceso de cancelación iniciará 
+                  automáticamente y recibirás una confirmación por email.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold">
+            Enviar Solicitud de Arrepentimiento
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Footer -->
+<footer class="bg-gray-800 text-black py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-xl font-bold mb-4">ViajesPro</h3>
+          <p class="text-gray-300">Nuestra agencia de viajes de confianza desde 2025. Creamos experiencias inolvidables.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Contacto</h3>
+          <p class="text-gray-300 mb-1"><i data-lucide="phone" class="h-4 w-4 mr-2 inline"></i>+54 11 4000-0000</p>
+          <p class="text-gray-300"><i data-lucide="mail" class="h-4 w-4 mr-2 inline"></i>INFO - viajespro.com</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Síguenos</h3>
+<div class="flex gap-6">
+  <a href="https://www.instagram.com/ailes_du_munde?igsh=MTI4bmVsbGJyN3Vweg==" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="instagram" class="h-6 w-6"></i>
+    <span>Instagram</span>
+  </a>
+
+  <a href="https://www.facebook.com/share/19Wqz2444r/" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="facebook" class="h-6 w-6"></i>
+    <span>Facebook</span>
+  </a>
+
+  <a href="https://x.com/AliesDuMunde?t=VBdnpXfnNOCIB_Ac0PxREA&s=08" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="twitter" class="h-6 w-6"></i>
+    <span>Twitter</span>
+  </a>
+</div>
+
+      <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
+        &copy; 2025 ViajesPro. Todos los derechos reservados.
+      </div>
+    </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+</script>
+{% endblock %}

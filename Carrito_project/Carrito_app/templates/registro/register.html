@@ -1,0 +1,146 @@
+<!-- User Registration Modal -->
+<div id="user-registration-modal" class="modal" style="display:none; max-width:800px; max-height:90vh; overflow-y:auto;">
+
+  <!-- Header -->
+  <div class="modal-header relative p-4 border-b">
+    <h2 class="flex items-center gap-2 text-2xl">
+      <svg class="icon h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <!-- Icono User -->
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+        <path d="M6 20v-1c0-2.21 3.58-4 8-4s8 1.79 8 4v1H6z"/>
+      </svg>
+      Registro de Usuario
+    </h2>
+    <button class="btn btn-ghost btn-sm absolute right-4 top-4" onclick="closeModal()">
+      <svg class="icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Formulario -->
+  <form id="user-registration-form" class="space-y-4 p-4">
+
+    <!-- Datos Personales -->
+    <div class="section bg-blue-50 p-4 rounded-lg">
+      <h3 class="font-semibold text-blue-800 mb-3">Datos Personales</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="firstName">Nombre *</label>
+          <input type="text" id="firstName" class="input" />
+          <p class="text-red-500 text-sm mt-1" id="error-firstName"></p>
+        </div>
+        <div>
+          <label for="lastName">Apellido *</label>
+          <input type="text" id="lastName" class="input" />
+          <p class="text-red-500 text-sm mt-1" id="error-lastName"></p>
+        </div>
+        <div>
+          <label for="birthDate">Fecha de Nacimiento *</label>
+          <input type="date" id="birthDate" class="input" />
+          <p class="text-red-500 text-sm mt-1" id="error-birthDate"></p>
+        </div>
+        <div>
+          <label for="documentType">Tipo de Documento *</label>
+          <select id="documentType" class="input">
+            <option value="">Seleccionar documento</option>
+            <option value="dni">DNI</option>
+            <option value="passport">Pasaporte</option>
+            <option value="cedula">Cédula</option>
+            <option value="rut">RUT</option>
+          </select>
+          <p class="text-red-500 text-sm mt-1" id="error-documentType"></p>
+        </div>
+        <div class="md:col-span-2">
+          <label for="documentNumber">Número de Documento *</label>
+          <input type="text" id="documentNumber" class="input" />
+          <p class="text-red-500 text-sm mt-1" id="error-documentNumber"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información de Contacto -->
+    <div class="section bg-green-50 p-4 rounded-lg">
+      <h3 class="font-semibold text-green-800 mb-3">Información de Contacto</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="relative">
+          <label for="email">Email *</label>
+          <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400">
+            <path d="M4 4h16v16H4z"/>
+          </svg>
+          <input type="email" id="email" class="input pl-10" />
+          <p class="text-red-500 text-sm mt-1" id="error-email"></p>
+        </div>
+        <div class="relative">
+          <label for="phone">Teléfono *</label>
+          <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400">
+            <path d="M6 6h12v12H6z"/>
+          </svg>
+          <input type="text" id="phone" class="input pl-10" />
+          <p class="text-red-500 text-sm mt-1" id="error-phone"></p>
+        </div>
+        <div>
+          <label for="country">País *</label>
+          <select id="country" class="input">
+            <option value="">Seleccionar país</option>
+            <option value="argentina">Argentina</option>
+            <option value="chile">Chile</option>
+            <option value="brasil">Brasil</option>
+            <option value="uruguay">Uruguay</option>
+            <option value="colombia">Colombia</option>
+            <option value="peru">Perú</option>
+            <option value="mexico">México</option>
+            <option value="otro">Otro</option>
+          </select>
+          <p class="text-red-500 text-sm mt-1" id="error-country"></p>
+        </div>
+        <div class="relative">
+          <label for="city">Ciudad *</label>
+          <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400">
+            <path d="M6 6h12v12H6z"/>
+          </svg>
+          <input type="text" id="city" class="input pl-10" />
+          <p class="text-red-500 text-sm mt-1" id="error-city"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seguridad -->
+    <div class="section bg-purple-50 p-4 rounded-lg">
+      <h3 class="font-semibold text-purple-800 mb-3">Seguridad</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="relative">
+          <label for="password">Contraseña *</label>
+          <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400">
+            <path d="M6 12h12v0H6z"/>
+          </svg>
+          <input type="password" id="password" class="input pl-10" />
+          <p class="text-red-500 text-sm mt-1" id="error-password"></p>
+        </div>
+        <div class="relative">
+          <label for="confirmPassword">Confirmar Contraseña *</label>
+          <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400">
+            <path d="M6 12h12v0H6z"/>
+          </svg>
+          <input type="password" id="confirmPassword" class="input pl-10" />
+          <p class="text-red-500 text-sm mt-1" id="error-confirmPassword"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex gap-4 pt-4">
+      <button type="button" class="btn btn-outline flex-1" onclick="closeModal()">Cancelar</button>
+      <button type="submit" class="btn btn-primary flex-1">Registrarse</button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  function closeModal() {
+    document.getElementById('user-registration-modal').style.display = 'none';
+  }
+
+  // Aquí podrías agregar validación y manejo de formulario con JS similar al React original
+</script>

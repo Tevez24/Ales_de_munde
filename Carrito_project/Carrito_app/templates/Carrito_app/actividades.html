@@ -1,0 +1,289 @@
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Actividades</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>{% block title %}Ailes Du munde{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'estilos.css' %}">
+</head>
+<button onclick="window.history.back()" class="btn-volver">⬅ Volver</button>
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-teal-600 to-blue-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Experiencias Inolvidables</h1>
+      <p class="text-xl mb-8">Descubre actividades únicas en cada destino</p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12">
+
+    <!-- Buscador 
+    <div class="bg-white rounded-2xl shadow-xl p-8 -mt-20 relative z-10 mb-16">
+      <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center">
+        <span class="mr-3">📅</span>
+        Buscar Actividades
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Destino</label>
+          <input type="text" placeholder="¿Dónde quieres la actividad?" class="w-full border rounded px-3 py-2" />
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Fecha</label>
+          <input type="date" class="w-full border rounded px-3 py-2" />
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Hora</label>
+          <input type="time" class="w-full border rounded px-3 py-2" />
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Personas</label>
+          <select class="w-full border rounded px-3 py-2">
+            <option>1 Persona</option>
+            <option>2 Personas</option>
+            <option>3 Personas</option>
+            <option>4 Personas</option>
+            <option>5 Personas</option>
+            <option>6+ Personas</option>
+          </select>
+        </div>
+
+        <div class="flex items-end">
+          <button class="w-full h-10 bg-teal-600 hover:bg-teal-700 text-white rounded">
+            📅 Buscar
+          </button>
+        </div>
+      </div>
+
+  Opciones -->
+      <div class="flex flex-col md:flex-row items-center justify-center mt-6 space-y-4 md:space-y-0 md:space-x-4">
+        <select class="w-64 border rounded px-3 py-2">
+          <option selected>Categoría de actividad</option>
+          <option>Aventura</option>
+          <option>Cultural</option>
+          <option>Gastronomía</option>
+          <option>Naturaleza</option>
+          <option>Relajación</option>
+        </select>
+
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" id="sinFechaActividad" class="rounded" />
+          <label for="sinFechaActividad" class="text-sm text-gray-700">Todavía no he decidido la fecha</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categorías -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Categorías de Actividades</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        <button class="bg-red-100 text-red-800 px-4 py-2 rounded">Aventura</button>
+        <button class="bg-blue-100 text-blue-800 px-4 py-2 rounded">Cultural</button>
+        <button class="bg-green-100 text-green-800 px-4 py-2 rounded">Gastronomía</button>
+        <button class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded">Naturaleza</button>
+        <button class="bg-purple-100 text-purple-800 px-4 py-2 rounded">Relajación</button>
+      </div>
+    </section>
+
+    <!-- Actividades Populares -->
+    <section>
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Actividades Populares</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Original Card: Tour de Vinos en Mendoza -->
+        <div class="rounded-xl border bg-white hover:shadow-lg overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="relative">
+              <img src="Carrito_app/img/Tour de Vinos en Mendoza" alt="Tour de Vinos" class="w-full h-48 md:h-full object-cover" />
+              <div class="absolute top-4 left-4">
+                <span class="bg-green-100 text-green-800 px-2 py-1 text-sm rounded">Gastronomía</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="text-xl font-bold">Tour de Vinos en Mendoza</h3>
+                <div class="flex items-center text-yellow-500">
+                  ★ 4.9 <span class="ml-1 text-sm text-gray-500">(156)</span>
+                </div>
+              </div>
+              <div class="flex items-center text-gray-600 mb-2">📍 Mendoza, Argentina</div>
+              <div class="flex items-center text-gray-600 mb-4">⏰ 8 horas</div>
+              <p class="text-sm text-gray-500 mb-4">Recorre las mejores bodegas de Mendoza con degustación de vinos premium.</p>
+
+              <div class="mb-4">
+                <h4 class="font-semibold text-sm mb-2">Incluye:</h4>
+                <div class="flex flex-wrap gap-1">
+                  <span class="border px-2 py-1 text-xs rounded">Transporte</span>
+                  <span class="border px-2 py-1 text-xs rounded">Degustación</span>
+                  <span class="border px-2 py-1 text-xs rounded">Almuerzo</span>
+                  <span class="border px-2 py-1 text-xs rounded">Guía</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-teal-600">$85</span>
+                  <span class="text-sm text-gray-500"> / persona</span>
+                </div>
+                <div class="flex gap-2">
+                  <button class="border bg-teal-50 hover:bg-teal-100 text-sm px-3 py-2 rounded">🛒</button>
+                  <button class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded">🎟 Reservar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Card: Trekking en el Cerro Aconcagua -->
+        <div class="rounded-xl border bg-white hover:shadow-lg overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="relative">
+              <img src="{% static 'Carrito_app/img/Trekking Glaciar Perito Moreno' %}" alt="Trekking en el Cerro Aconcagua" class="w-full h-48 md:h-full object-cover" />
+              <div class="absolute top-4 left-4">
+                <span class="bg-red-100 text-red-800 px-2 py-1 text-sm rounded">Aventura</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="text-xl font-bold">Trekking en el Cerro Aconcagua</h3>
+                <div class="flex items-center text-yellow-500">
+                  ★ 4.7 <span class="ml-1 text-sm text-gray-500">(89)</span>
+                </div>
+              </div>
+              <div class="flex items-center text-gray-600 mb-2">📍 Mendoza, Argentina</div>
+              <div class="flex items-center text-gray-600 mb-4">⏰ 6 horas</div>
+              <p class="text-sm text-gray-500 mb-4">Explora el majestuoso Cerro Aconcagua con un guía experto.</p>
+
+              <div class="mb-4">
+                <h4 class="font-semibold text-sm mb-2">Incluye:</h4>
+                <div class="flex flex-wrap gap-1">
+                  <span class="border px-2 py-1 text-xs rounded">Guía</span>
+                  <span class="border px-2 py-1 text-xs rounded">Equipo</span>
+                  <span class="border px-2 py-1 text-xs rounded">Transporte</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-teal-600">$120</span>
+                  <span class="text-sm text-gray-500"> / persona</span>
+                </div>
+                <div class="flex gap-2">
+                  <button class="border bg-teal-50 hover:bg-teal-100 text-sm px-3 py-2 rounded">🛒</button>
+                  <button class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded">🎟 Reservar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Card: Visita Cultural a Salta -->
+        <div class="rounded-xl border bg-white hover:shadow-lg overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="relative">
+              <img src="{% static 'images/activity3.jpg' %}" alt="Visita Cultural a Salta" class="w-full h-48 md:h-full object-cover" />
+              <div class="absolute top-4 left-4">
+                <span class="bg-blue-100 text-blue-800 px-2 py-1 text-sm rounded">Cultural</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="text-xl font-bold">Visita Cultural a Salta</h3>
+                <div class="flex items-center text-yellow-500">
+                  ★ 4.8 <span class="ml-1 text-sm text-gray-500">(102)</span>
+                </div>
+              </div>
+              <div class="flex items-center text-gray-600 mb-2">📍 Salta, Argentina</div>
+              <div class="flex items-center text-gray-600 mb-4">⏰ 4 horas</div>
+              <p class="text-sm text-gray-500 mb-4">Descubre la historia y cultura de Salta en un recorrido por sus museos y plazas.</p>
+
+              <div class="mb-4">
+                <h4 class="font-semibold text-sm mb-2">Incluye:</h4>
+                <div class="flex flex-wrap gap-1">
+                  <span class="border px-2 py-1 text-xs rounded">Guía</span>
+                  <span class="border px-2 py-1 text-xs rounded">Entradas</span>
+                  <span class="border px-2 py-1 text-xs rounded">Transporte</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-teal-600">$50</span>
+                  <span class="text-sm text-gray-500"> / persona</span>
+                </div>
+                <div class="flex gap-2">
+                  <button class="border bg-teal-50 hover:bg-teal-100 text-sm px-3 py-2 rounded">🛒</button>
+                  <button class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded">🎟 Reservar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Card: Paseo en Kayak por el Delta -->
+        <div class="rounded-xl border bg-white hover:shadow-lg overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="relative">
+              <img src="{% static 'images/activity4.jpg' %}" alt="Paseo en Kayak por el Delta" class="w-full h-48 md:h-full object-cover" />
+              <div class="absolute top-4 left-4">
+                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 text-sm rounded">Naturaleza</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="text-xl font-bold">Paseo en Kayak por el Delta</h3>
+                <div class="flex items-center text-yellow-500">
+                  ★ 4.6 <span class="ml-1 text-sm text-gray-500">(75)</span>
+                </div>
+              </div>
+              <div class="flex items-center text-gray-600 mb-2">📍 Tigre, Argentina</div>
+              <div class="flex items-center text-gray-600 mb-4">⏰ 5 horas</div>
+              <p class="text-sm text-gray-500 mb-4">Navega por los canales del Delta del Paraná en kayak.</p>
+
+              <div class="mb-4">
+                <h4 class="font-semibold text-sm mb-2">Incluye:</h4>
+                <div class="flex flex-wrap gap-1">
+                  <span class="border px-2 py-1 text-xs rounded">Kayak</span>
+                  <span class="border px-2 py-1 text-xs rounded">Guía</span>
+                  <span class="border px-2 py-1 text-xs rounded">Seguro</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-teal-600">$65</span>
+                  <span class="text-sm text-gray-500"> / persona</span>
+                </div>
+                <div class="flex gap-2">
+                  <button class="border bg-teal-50 hover:bg-teal-100 text-sm px-3 py-2 rounded">🛒</button>
+                  <button class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded">🎟 Reservar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Información adicional -->
+    <section class="mt-16 bg-teal-600 text-white rounded-2xl p-8 text-center">
+      <h3 class="text-2xl font-bold mb-4">¿Buscas algo específico?</h3>
+      <p class="text-lg mb-6">Nuestros expertos pueden crear una experiencia personalizada para ti</p>
+      <button class="bg-white text-teal-600 px-6 py-2 rounded hover:bg-gray-100">Contactar Especialista</button>
+    </section>
+  </div>
+</body>
+</html>
+{% endblock %}

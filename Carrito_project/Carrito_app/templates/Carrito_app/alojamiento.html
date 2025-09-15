@@ -1,0 +1,325 @@
+
+{% load static %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alojamientos</title>
+  <!-- CSS de Alquileres -->
+  <link rel="stylesheet" href="{% static 'estilos.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<button onclick="window.history.back()" class="fixed top-4 left-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 z-20">
+  <i data-lucide="arrow-left" class="h-5 w-5"></i>
+</button>
+
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Encuentra tu Alojamiento Perfecto</h1>
+      <p class="text-xl mb-8">Hoteles, hostels, resorts y más con las mejores ofertas</p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12">
+    <!-- Buscador -->
+<!---    <div class="bg-white rounded-2xl shadow-xl p-8 -mt-20 relative z-10 mb-16">
+      <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center">
+        <i data-lucide="hotel" class="mr-3 h-6 w-6"></i>
+        Buscar Alojamiento
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Destino</label>
+          <input type="text" placeholder="¿A dónde viajas?" class="w-full border rounded-md px-3 py-2" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Entrada</label>
+          <input type="date" class="w-full border rounded-md px-3 py-2" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Salida</label>
+          <input type="date" class="w-full border rounded-md px-3 py-2" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Habitaciones</label>
+          <select class="w-full border rounded-md px-3 py-2">
+            <option>1 Habitación</option>
+            <option>2 Habitaciones</option>
+            <option>3 Habitaciones</option>
+            <option>4+ Habitaciones</option>
+          </select>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Huéspedes</label>
+          <select class="w-full border rounded-md px-3 py-2">
+            <option>1 Huésped</option>
+            <option>2 Huéspedes</option>
+            <option>3 Huéspedes</option>
+            <option>4 Huéspedes</option>
+            <option>5+ Huéspedes</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button class="w-full h-10 bg-green-600 hover:bg-green-700 text-white rounded-md flex items-center justify-center">
+            <i data-lucide="hotel" class="mr-2 h-4 w-4"></i>
+            Buscar
+          </button>
+        </div>
+      </div>-->
+
+      <!-- Filtro tipo 
+      <div class="flex justify-center mt-6">
+        <select class="w-64 border rounded-md px-3 py-2">
+          <option>Tipo de alojamiento</option>
+          <option>Hotel</option>
+          <option>Hostel</option>
+          <option>Resort</option>
+          <option>Apartamento</option>
+          <option>Cabaña</option>
+        </select>
+      </div>
+    </div> -->
+
+    <!-- Resultados -->
+    <section>
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Alojamientos Disponibles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Tarjeta ejemplo -->
+        <div class="rounded-xl border hover:shadow-lg transition-shadow overflow-hidden">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+            <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-md text-sm">Hotel</div>
+            <div class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded-md text-sm">Oferta</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="text-xl font-bold">Hotel Boutique Palermo</h3>
+              <div class="flex items-center">
+                <i data-lucide="star" class="h-4 w-4 fill-yellow-400 text-yellow-400"></i>
+                <span class="ml-1 text-sm font-medium">4.8</span>
+                <span class="ml-1 text-sm text-gray-500">(324)</span>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-2">Palermo, Buenos Aires</p>
+            <p class="text-sm text-gray-500 mb-4">Elegante hotel boutique en el corazón de Palermo con diseño moderno y servicios de lujo.</p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="border rounded px-2 py-1 text-xs">Wifi</span>
+              <span class="border rounded px-2 py-1 text-xs">Desayuno</span>
+              <span class="border rounded px-2 py-1 text-xs">Gym</span>
+              <span class="border rounded px-2 py-1 text-xs">Piscina</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-2xl font-bold text-green-600">$120</span>
+                  <span class="text-lg text-gray-500 line-through">$150</span>
+                </div>
+                <span class="text-sm text-gray-500">por noche</span>
+              </div>
+              <div class="flex gap-2">
+                <button class="border rounded-md p-2 bg-green-50 hover:bg-green-100">
+                  <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+                </button>
+                <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-2">Reservar</button>
+              </div>
+            </div>
+
+            <!-- Galería -->
+            <div class="mt-4 pt-4 border-t">
+              <button class="flex items-center gap-2 w-full justify-center text-gray-700">
+                <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                Ver galería (4 fotos)
+              </button>
+              <div class="grid grid-cols-2 gap-2 mt-4 hidden">
+                <img src="https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1527576539890-dfa815648363?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border hover:shadow-lg transition-shadow overflow-hidden">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+            <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-md text-sm">Hostel</div>
+            <div class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded-md text-sm">Oferta</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="text-xl font-bold">Hostel Backpackers</h3>
+              <div class="flex items-center">
+                <i data-lucide="star" class="h-4 w-4 fill-yellow-400 text-yellow-400"></i>
+                <span class="ml-1 text-sm font-medium">4.2</span>
+                <span class="ml-1 text-sm text-gray-500">(156)</span>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-2">San Telmo, Buenos Aires</p>
+            <p class="text-sm text-gray-500 mb-4">Hostel juvenil con ambiente internacional, perfecto para viajeros jovenes.</p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="border rounded px-2 py-1 text-xs">Wifi</span>
+              <span class="border rounded px-2 py-1 text-xs">Cocina</span>
+              <span class="border rounded px-2 py-1 text-xs">Terraza</span>
+              <span class="border rounded px-2 py-1 text-xs">Tour</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-2xl font-bold text-green-600">$35</span>
+                </div>
+                <span class="text-sm text-gray-500">por noche</span>
+              </div>
+              <div class="flex gap-2">
+                <button class="border rounded-md p-2 bg-green-50 hover:bg-green-100">
+                  <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+                </button>
+                <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-2">Reservar</button>
+              </div>
+            </div>
+
+            <!-- Galería -->
+            <div class="mt-4 pt-4 border-t">
+              <button class="flex items-center gap-2 w-full justify-center text-gray-700">
+                <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                Ver galería (4 fotos)
+              </button>
+              <div class="grid grid-cols-2 gap-2 mt-4 hidden">
+                <img src="https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1527576539890-dfa815648363?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="rounded-xl border hover:shadow-lg transition-shadow overflow-hidden">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+            <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-md text-sm">Resort</div>
+            <div class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded-md text-sm"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="text-xl font-bold">Resort & Spa Mendoza</h3>
+              <div class="flex items-center">
+                <i data-lucide="star" class="h-4 w-4 fill-yellow-400 text-yellow-400"></i>
+                <span class="ml-1 text-sm font-medium">4.9</span>
+                <span class="ml-1 text-sm text-gray-500">(89)</span>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-2">Mendoza, Argentina</p>
+            <p class="text-sm text-gray-500 mb-4">Resort de lujo con vistas a Los Andes, spa completo y tours de vinos incluidos.</p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="border rounded px-2 py-1 text-xs">Spa</span>
+              <span class="border rounded px-2 py-1 text-xs">Wifi</span>
+              <span class="border rounded px-2 py-1 text-xs">Piscina</span>
+              <span class="border rounded px-2 py-1 text-xs">Restaurant</span>
+              <span class="border rounded px-2 py-1 text-xs">Viñedos</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-2xl font-bold text-green-600">$280</span>
+                </div>
+                <span class="text-sm text-gray-500">por noche</span>
+              </div>
+              <div class="flex gap-2">
+                <button class="border rounded-md p-2 bg-green-50 hover:bg-green-100">
+                  <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+                </button>
+                <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-2">Reservar</button>
+              </div>
+            </div>
+
+            <!-- Galería -->
+            <div class="mt-4 pt-4 border-t">
+              <button class="flex items-center gap-2 w-full justify-center text-gray-700">
+                <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                Ver galería (4 fotos)
+              </button>
+              <div class="grid grid-cols-2 gap-2 mt-4 hidden">
+                <img src="https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1527576539890-dfa815648363?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+                <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=800&q=80" class="rounded-lg" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Sección contacto -->
+    <section class="mt-16 bg-blue-600 text-white rounded-2xl p-8">
+      <div class="text-center">
+        <h3 class="text-2xl font-bold mb-4">¿No encuentras lo que buscas?</h3>
+        <p class="text-lg mb-6">Contáctanos y te ayudamos a encontrar el alojamiento perfecto</p>
+        <button class="text-blue-600 bg-white hover:bg-gray-100 px-6 py-2 rounded-md font-medium">Contactar Asesor</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+<footer class="bg-gray-800 text-black py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-xl font-bold mb-4">ViajesPro</h3>
+          <p class="text-gray-300">Nuestra agencia de viajes de confianza desde 2025. Creamos experiencias inolvidables.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Contacto</h3>
+          <p class="text-gray-300 mb-1"><i data-lucide="phone" class="h-4 w-4 mr-2 inline"></i>+54 11 4000-0000</p>
+          <p class="text-gray-300"><i data-lucide="mail" class="h-4 w-4 mr-2 inline"></i>INFO - viajespro.com</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Síguenos</h3>
+<div class="flex gap-6">
+  <a href="https://www.instagram.com/ailes_du_munde?igsh=MTI4bmVsbGJyN3Vweg==" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="instagram" class="h-6 w-6"></i>
+    <span>Instagram</span>
+  </a>
+
+  <a href="https://www.facebook.com/share/19Wqz2444r/" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="facebook" class="h-6 w-6"></i>
+    <span>Facebook</span>
+  </a>
+
+  <a href="https://x.com/AliesDuMunde?t=VBdnpXfnNOCIB_Ac0PxREA&s=08" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="twitter" class="h-6 w-6"></i>
+    <span>Twitter</span>
+  </a>
+</div>
+
+      <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
+        &copy; 2025 ViajesPro. Todos los derechos reservados.
+      </div>
+    </div>
+</footer>
+
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
+{% endblock %}

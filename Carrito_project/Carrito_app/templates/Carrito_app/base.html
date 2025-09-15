@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Ailes du Monde{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'estilos.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+</head>
+<body class="bg-gray-50">
+  <nav class="bg-blue-600 text-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="{% url 'inicio' %}" class="text-2xl font-bold tracking-wider">Ailes du Monde</a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="{% url 'paquetes' %}" class="hover:text-blue-200 transition-colors">Paquetes</a>
+        <a href="{% url 'vuelos' %}" class="hover:text-blue-200 transition-colors">Vuelos</a>
+        <a href="{% url 'acerca' %}" class="hover:text-blue-200 transition-colors">Acerca</a>
+        <a href="{% url 'contacto' %}" class="hover:text-blue-200 transition-colors">Contacto</a>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        {% if user.is_authenticated %}
+          <div class="relative">
+            <button id="profile-toggle" class="flex items-center space-x-2 cursor-pointer">
+              <i data-lucide="user" class="h-6 w-6"></i>
+              <span class="font-medium">{{ user.username }}</span>
+              <i data-lucide="chevron-down" class="h-4 w-4"></i>
+            </button>
+            <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg hidden z-20">
+              <a href="{% url 'home' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Mi Cuenta</a>
+              <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">Cerrar Sesión</a>
+            </div>
+          </div>
+        {% else %}
+          <a href="{% url 'login' %}" class="bg-white text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-md font-semibold transition-colors">Iniciar Sesión</a>
+          <a href="{% url 'register' %}" class="hidden lg:inline-block bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-md font-semibold transition-colors">Registrarse</a>
+        {% endif %}
+        <button class="md:hidden" id="mobile-menu-button">
+            <i data-lucide="menu" class="h-6 w-6"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+        <a href="{% url 'paquetes' %}" class="block hover:text-blue-200 transition-colors">Paquetes</a>
+        <a href="{% url 'vuelos' %}" class="block hover:text-blue-200 transition-colors">Vuelos</a>
+        <a href="{% url 'acerca' %}" class="block hover:text-blue-200 transition-colors">Acerca</a>
+        <a href="{% url 'contacto' %}" class="block hover:text-blue-200 transition-colors">Contacto</a>
+    </div>
+  </nav>
+
+  <main>
+    <div id="message-container" class="fixed top-20 right-0 left-0 container mx-auto px-4 z-50 space-y-2">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-message p-4 rounded-md text-white shadow-lg {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2024 Ailes du Monde. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggle = document.getElementById('profile-toggle');
+        const dropdown = document.getElementById('profile-dropdown');
+        
+        if (toggle && dropdown) {
+            toggle.addEventListener('click', function() {
+                dropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        const messageTagsToClasses = {
+            'debug': 'bg-gray-500',
+            'info': 'bg-blue-500',
+            'success': 'bg-green-600',
+            'warning': 'bg-yellow-500',
+            'error': 'bg-red-600',
+        };
+
+        const alertMessages = document.querySelectorAll('.alert-message');
+        
+        alertMessages.forEach(function(message) {
+            Object.keys(messageTagsToClasses).forEach(function(tag) {
+                if (message.classList.contains(tag)) {
+                    message.classList.add(messageTagsToClasses[tag]);
+                }
+            });
+
+            setTimeout(function() {
+                message.classList.add('alert-fade');
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            }, 5000);
+        });
+    });
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,274 @@
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transporte - AILES DU MUNDE</title>
+<!-- CSS de Alquileres -->
+  <link rel="stylesheet" href="{% static 'estilos.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<button onclick="window.history.back()" class="fixed top-4 left-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 z-20">
+  <i data-lucide="arrow-left" class="h-5 w-5"></i>
+</button>
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-orange-600 to-red-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Transporte Confiable</h1>
+      <p class="text-xl mb-8">Transfers al aeropuerto, traslados urbanos y más</p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12">
+
+    <!-- Buscador de Transporte 
+    <div class="bg-white rounded-2xl shadow-xl p-8 -mt-20 relative z-10 mb-16">
+      <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center">
+        🚗 Reservar Transporte
+      </h2>
+
+    Selector de tipo de servicio 
+      <div class="flex justify-center mb-6">
+        <div class="flex gap-2 p-1 bg-gray-100 rounded-lg">
+          <button class="btn btn-default flex items-center gap-2">✈ Desde Aeropuerto</button>
+          <button class="btn btn-default flex items-center gap-2">✈ Hacia Aeropuerto</button>
+          <button class="btn btn-default flex items-center gap-2">🚗 Traslado Urbano</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Origen</label>
+          <input type="text" placeholder="Punto de partida" class="input"/>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Destino</label>
+          <input type="text" placeholder="Punto de llegada" class="input"/>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Fecha</label>
+          <input type="date" class="input"/>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Hora</label>
+          <input type="time" class="input"/>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Pasajeros</label>
+          <select class="select">
+            <option>1 Pasajero</option>
+            <option>2 Pasajeros</option>
+            <option>3 Pasajeros</option>
+            <option>4 Pasajeros</option>
+            <option>5 Pasajeros</option>
+            <option>6 Pasajeros</option>
+            <option>7+ Pasajeros</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button class="w-full h-10 bg-orange-600 hover:bg-orange-700 text-white flex items-center justify-center gap-2">
+            🚗 Buscar
+          </button>
+        </div>
+      </div>
+
+    Filtro de tipo de vehículo 
+      <div class="flex justify-center mt-6">
+        <select class="select w-64">
+          <option value="">Tipo de vehículo</option>
+          <option value="auto">Auto</option>
+          <option value="auto-premium">Auto Premium</option>
+          <option value="minivan">Minivan</option>
+          <option value="bus">Bus</option>
+          <option value="van">Van</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Servicios Disponibles -->
+    <section>
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Servicios de Transporte</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Servicio 1 -->
+        <div class="card hover:shadow-lg transition-shadow">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Transfer Premium Aeropuerto" class="w-full h-48 object-cover rounded-t-lg"/>
+            <div class="absolute top-4 right-4 bg-orange-600 text-white px-2 py-1 rounded">Aeropuerto</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Transfer Premium Aeropuerto</h3>
+            <p class="text-gray-600 mb-4">Auto Premium</p>
+            <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+              <div class="flex items-center">👥 Hasta 3 personas</div>
+              <div class="flex items-center">⏱ 45 min</div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs">
+              <span class="badge">A/C</span>
+              <span class="badge">WiFi</span>
+              <span class="badge">Agua</span>
+              <span class="badge">Puntualidad</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-orange-600">$25</span>
+              <div class="flex gap-2">
+                <button class="btn btn-outline">🛒</button>
+                <button class="btn bg-orange-600 hover:bg-orange-700 text-white">Reservar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Transfer Premium Aeropuerto" class="w-full h-48 object-cover rounded-t-lg"/>
+            <div class="absolute top-4 right-4 bg-orange-600 text-white px-2 py-1 rounded">Aeropuerto</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Minivan Familiar</h3>
+            <p class="text-gray-600 mb-4">Minivan</p>
+            <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+              <div class="flex items-center">👥 Hasta 7 personas</div>
+              <div class="flex items-center">⏱ 45 min</div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs">
+              <span class="badge">A/C</span>
+              <span class="badge">Equipaje</span>
+              <span class="badge">Asientos comodos</span>
+              <span class="badge">GPS</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-orange-600">$35</span>
+              <div class="flex gap-2">
+                <button class="btn btn-outline">🛒</button>
+                <button class="btn bg-orange-600 hover:bg-orange-700 text-white">Reservar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card hover:shadow-lg transition-shadow">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Transfer Premium Aeropuerto" class="w-full h-48 object-cover rounded-t-lg"/>
+            <div class="absolute top-4 right-4 bg-orange-600 text-white px-2 py-1 rounded">Aeropuerto</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Transfer Premium Aeropuerto</h3>
+            <p class="text-gray-600 mb-4">Auto Premium</p>
+            <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+              <div class="flex items-center">👥 Hasta 3 personas</div>
+              <div class="flex items-center">⏱ 45 min</div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs">
+              <span class="badge">A/C</span>
+              <span class="badge">WiFi</span>
+              <span class="badge">Agua</span>
+              <span class="badge">Puntualidad</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-orange-600">$25</span>
+              <div class="flex gap-2">
+                <button class="btn btn-outline">🛒</button>
+                <button class="btn bg-orange-600 hover:bg-orange-700 text-white">Reservar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Información de servicios especiales -->
+    <section class="mt-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <div class="card bg-blue-50 p-8">
+          <div class="flex items-center mb-4">
+            ✈
+            <h3 class="text-2xl font-bold text-gray-800 ml-3">Transfers Aeropuerto</h3>
+          </div>
+          <p class="text-gray-600 mb-4">
+            Servicio 24/7 desde y hacia todos los aeropuertos principales. Monitoreo de vuelos incluido.
+          </p>
+          <ul class="text-sm text-gray-600 space-y-2">
+            <li>• Puntualidad garantizada</li>
+            <li>• Seguimiento de vuelos</li>
+            <li>• Meet & Greet disponible</li>
+            <li>• Vehículos premium</li>
+          </ul>
+        </div>
+
+        <div class="card bg-green-50 p-8">
+          <div class="flex items-center mb-4">
+            🚗
+            <h3 class="text-2xl font-bold text-gray-800 ml-3">Traslados Personalizados</h3>
+          </div>
+          <p class="text-gray-600 mb-4">
+            Tours y traslados a medida para tu itinerario. Conductores profesionales y vehículos cómodos.
+          </p>
+          <ul class="text-sm text-gray-600 space-y-2">
+            <li>• Rutas personalizadas</li>
+            <li>• Guías locales</li>
+            <li>• Paradas incluidas</li>
+            <li>• Precios competitivos</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+  <!-- Footer -->
+<footer class="bg-gray-800 text-white py-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Columna 1 -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-white">AILES DU MUNDE</h3>
+        <p class="text-gray-200">Nuestra agencia de viajes de confianza desde 2025. Creamos experiencias inolvidables.</p>
+      </div>
+
+      <!-- Columna 2 -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-white">Contacto</h3>
+        <p class="text-gray-200 mb-1">
+          <i data-lucide="phone" class="h-4 w-4 mr-2 inline"></i>
+          +54 11 4000-0000
+        </p>
+        <p class="text-gray-200">
+          <i data-lucide="mail" class="h-4 w-4 mr-2 inline"></i>
+          INFO - ailesdumunde@gmail.com
+        </p>
+      </div>
+
+      <!-- Columna 3 -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-white">Síguenos</h3>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-200 hover:text-white"><i data-lucide="instagram" class="h-6 w-6"></i></a>
+          <a href="#" class="text-gray-200 hover:text-white"><i data-lucide="facebook" class="h-6 w-6"></i></a>
+          <a href="#" class="text-gray-200 hover:text-white"><i data-lucide="twitter" class="h-6 w-6"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Línea inferior -->
+    <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
+      &copy; 2025 AILES DU MUNDE. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+{% endblock %}
+
+

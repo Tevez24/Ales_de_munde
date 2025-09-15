@@ -1,0 +1,342 @@
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vuelos - Alies du munde</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'estilos.css' %}">
+</head>
+<button onclick="window.history.back()" class="fixed top-4 left-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 z-20">
+  <i data-lucide="arrow-left" class="h-5 w-5"></i>
+</button>
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Navigation -->
+  <nav>
+    <!-- Aquí se incluiría el contenido del componente Navigation -->
+  </nav>
+
+  <!-- Hero Section 
+  <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Encuentra tu Vuelo Ideal</h1>
+      <p class="text-xl mb-8">Los mejores precios en vuelos nacionales e internacionales</p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12">
+
+  Buscador de Vuelos 
+    <div class="bg-white rounded-2xl shadow-xl p-8 -mt-20 relative z-10 mb-16">
+      <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center">
+        ✈ Buscar Vuelos
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Origen</label>
+          <input type="text" placeholder="Ciudad de origen" class="input"/>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Destino</label>
+          <input type="text" placeholder="Ciudad de destino" class="input"/>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Fecha de Ida</label>
+          <input type="date" class="input"/>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Fecha de Regreso</label>
+          <input type="date" class="input"/>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700">Pasajeros</label>
+          <select class="select">
+            <option>1 Pasajero</option>
+            <option>2 Pasajeros</option>
+            <option>3 Pasajeros</option>
+            <option>4 Pasajeros</option>
+            <option>5+ Pasajeros</option>
+          </select>
+        </div>
+
+        <div class="flex items-end">
+          <button class="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2">
+            ✈ Buscar
+          </button>
+        </div>
+      </div>
+
+     Filtros adicionales 
+      <div class="flex items-center justify-center mt-6 space-x-4">
+        <select class="select w-48">
+          <option value="">Clase de vuelo</option>
+          <option value="economica">Económica</option>
+          <option value="premium">Premium Economy</option>
+          <option value="business">Business</option>
+          <option value="primera">Primera Clase</option>
+        </select>
+        <button class="btn btn-outline flex items-center gap-2">
+          🔍 Más Filtros
+        </button>
+      </div>
+    </div>
+
+     Resultados -->
+    <section>
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Vuelos Disponibles</h2>
+
+      <!-- Vuelo 1 -->
+      <div class="card hover:shadow-lg transition-shadow mb-6">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-4">
+              <div class="bg-blue-100 p-3 rounded-full">✈</div>
+              <div>
+                <h3 class="font-bold text-lg">Aerolíneas Argentinas</h3>
+                <span class="badge">Económica</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-bold text-green-600">$850</div>
+              <div class="text-sm text-gray-500">por persona</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+
+            <!-- Vuelo de Ida -->
+            <div>
+              <h4 class="font-semibold mb-2 text-blue-600">Vuelo de Ida</h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-bold">23:50</div>
+                  <div class="text-sm text-gray-500">Buenos Aires (EZE)</div>
+                </div>
+                <div>➡</div>
+                <div class="text-right">
+                  <div class="font-bold">23:50</div>
+                  <div class="text-sm text-gray-500">Madrid (MAD)</div>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">2024-08-15 • 12h 30m</div>
+            </div>
+
+            <!-- Vuelo de Regreso -->
+            <div>
+              <h4 class="font-semibold mb-2 text-purple-600">Vuelo de Regreso</h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-bold">14:30</div>
+                  <div class="text-sm text-gray-500">Madrid (MAD)</div>
+                </div>
+                <div>➡</div>
+                <div class="text-right">
+                  <div class="font-bold">14:30</div>
+                  <div class="text-sm text-gray-500">Buenos Aires (EZE)</div>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">2024-08-22 • 12h 30m</div>
+            </div>
+
+            <!-- Detalles -->
+            <div>
+              <h4 class="font-semibold mb-2">Detalles</h4>
+              <div class="space-y-1 text-sm">
+                <div>Escalas: Directo</div>
+                <div>Duración: 12h 30m</div>
+                <div>Clase: Económica</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="flex justify-end">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Seleccionar Vuelo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Repetir la estructura para los demás vuelos (LATAM y American Airlines) -->
+      <div class="card hover:shadow-lg transition-shadow mb-6">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-4">
+              <div class="bg-blue-100 p-3 rounded-full">✈</div>
+              <div>
+                <h3 class="font-bold text-lg">LATAM</h3>
+                <span class="badge">Económica</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-bold text-green-600">$320</div>
+              <div class="text-sm text-gray-500">por persona</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+            <div>
+              <h4 class="font-semibold mb-2 text-blue-600">Vuelo de Ida</h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-bold">08:15</div>
+                  <div class="text-sm text-gray-500">Buenos Aires (EZE)</div>
+                </div>
+                <div>➡</div>
+                <div class="text-right">
+                  <div class="font-bold">08:15</div>
+                  <div class="text-sm text-gray-500">Santiago (SCL)</div>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">2024-08-10 • 2h 15m</div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2 text-purple-600">Vuelo de Regreso</h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-bold">16:45</div>
+                  <div class="text-sm text-gray-500">Santiago (SCL)</div>
+                </div>
+                <div>➡</div>
+                <div class="text-right">
+                  <div class="font-bold">16:45</div>
+                  <div class="text-sm text-gray-500">Buenos Aires (EZE)</div>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">2024-08-17 • 2h 15m</div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2">Detalles</h4>
+              <div class="space-y-1 text-sm">
+                <div>Escalas: Directo</div>
+                <div>Duración: 2h 15m</div>
+                <div>Clase: Económica</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Seleccionar Vuelo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vuelo 3 -->
+      <div class="card hover:shadow-lg transition-shadow mb-6">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-4">
+              <div class="bg-blue-100 p-3 rounded-full">✈</div>
+              <div>
+                <h3 class="font-bold text-lg">American Airlines</h3>
+                <span class="badge">Premium</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-bold text-green-600">$750</div>
+              <div class="text-sm text-gray-500">por persona</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+            <div>
+              <h4 class="font-semibold mb-2 text-blue-600">Vuelo de Ida</h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-bold">10:30</div>
+                  <div class="text-sm text-gray-500">Buenos Aires (EZE)</div>
+                </div>
+                <div>➡</div>
+                <div class="text-right">
+                  <div class="font-bold">10:30</div>
+                  <div class="text-sm text-gray-500">Miami (MIA)</div>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">2024-09-05 • 8h 45m</div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2 text-purple-600">Vuelo de Regreso</h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-bold">19:20</div>
+                  <div class="text-sm text-gray-500">Miami (MIA)</div>
+                </div>
+                <div>➡</div>
+                <div class="text-right">
+                  <div class="font-bold">19:20</div>
+                  <div class="text-sm text-gray-500">Buenos Aires (EZE)</div>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">2024-09-12 • 8h 45m</div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2">Detalles</h4>
+              <div class="space-y-1 text-sm">
+                <div>Escalas: 1 escala(s)</div>
+                <div>Duración: 8h 45m</div>
+                <div>Clase: Premium</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Seleccionar Vuelo</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  <!-- Footer -->
+  <!-- Footer -->
+<footer class="bg-gray-800 text-black py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-xl font-bold mb-4">ViajesPro</h3>
+          <p class="text-gray-300">Nuestra agencia de viajes de confianza desde 2025. Creamos experiencias inolvidables.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Contacto</h3>
+          <p class="text-gray-300 mb-1"><i data-lucide="phone" class="h-4 w-4 mr-2 inline"></i>+54 11 4000-0000</p>
+          <p class="text-gray-300"><i data-lucide="mail" class="h-4 w-4 mr-2 inline"></i>INFO - viajespro.com</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Síguenos</h3>
+<div class="flex gap-6">
+  <a href="https://www.instagram.com/ailes_du_munde?igsh=MTI4bmVsbGJyN3Vweg==" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="instagram" class="h-6 w-6"></i>
+    <span>Instagram</span>
+  </a>
+
+  <a href="https://www.facebook.com/share/19Wqz2444r/" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="facebook" class="h-6 w-6"></i>
+    <span>Facebook</span>
+  </a>
+
+  <a href="https://x.com/AliesDuMunde?t=VBdnpXfnNOCIB_Ac0PxREA&s=08" class="flex items-center gap-2 text-gray-300 hover:text-white">
+    <i data-lucide="twitter" class="h-6 w-6"></i>
+    <span>Twitter</span>
+  </a>
+</div>
+
+      <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
+        &copy; 2025 ViajesPro. Todos los derechos reservados.
+      </div>
+    </div>
+</footer>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'Carrito_app/base.html' %}
+{% block title %}Mi Cuenta - Ailes du Monde{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">¡Bienvenido de nuevo, {{ user.username }}!</h1>
+        <p class="text-gray-600 mb-8">Nos alegra verte. Aquí tienes acceso rápido a tus opciones.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <a href="#" class="bg-blue-100 hover:bg-blue-200 p-6 rounded-lg text-center transition-transform transform hover:scale-105">
+                <i data-lucide="user" class="h-10 w-10 text-blue-600 mb-3 mx-auto"></i>
+                <h3 class="text-xl font-bold">Mi Perfil</h3>
+                <p class="text-gray-600">Ver y editar tus datos</p>
+            </a>
+            <a href="#" class="bg-green-100 hover:bg-green-200 p-6 rounded-lg text-center transition-transform transform hover:scale-105">
+                <i data-lucide="shopping-bag" class="h-10 w-10 text-green-600 mb-3 mx-auto"></i>
+                <h3 class="text-xl font-bold">Mis Compras</h3>
+                <p class="text-gray-600">Historial de tus viajes</p>
+            </a>
+            <a href="{% url 'logout' %}" class="bg-red-100 hover:bg-red-200 p-6 rounded-lg text-center transition-transform transform hover:scale-105">
+                <i data-lucide="log-out" class="h-10 w-10 text-red-600 mb-3 mx-auto"></i>
+                <h3 class="text-xl font-bold">Cerrar Sesión</h3>
+                <p class="text-gray-600">Finalizar tu sesión</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
