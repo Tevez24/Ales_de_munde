@@ -55,18 +55,13 @@ TEMPLATES = [
 # WSGI
 WSGI_APPLICATION = 'Carrito_project.wsgi.application'
 
+# Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'carrito_bd',
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

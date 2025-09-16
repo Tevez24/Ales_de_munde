@@ -1,69 +1,135 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.templatetags.static import static
 from .forms import CustomUser_CreationForm
-def home_view(request):
-    return render(request, 'home.html')
-@login_required
-def profile_view(request):
-    return render(request, 'profile.html', {'user': request.user})
-# Inicio
+from .models import Paquete, Destino
+
+# Vistas de páginas estáticas
 def inicio(request):
     return render(request, 'Carrito_app/inicio.html')
+
 def home(request):
-    return render(request, 'Carrito_app/home.html')
-# Base
-def base(request):
-    return render(request, 'Carrito_app/base.html')
-# Acerca
+    # Redirigir a la vista de paquetes que ahora será la página principal
+    return redirect('paquetes')
+
 def acerca(request):
     return render(request, 'Carrito_app/acerca.html')
-# Arrepentimiento
+
 def arrepentimiento(request):
     return render(request, 'Carrito_app/arrepentimiento.html')
-# Actividades
+
 def actividades(request):
     return render(request, 'Carrito_app/actividades.html')
-# Alojamientos
+
 def alojamiento(request):
     return render(request, 'Carrito_app/alojamiento.html')
-# Alquileres
+
 def alquileres(request):
     return render(request, 'Carrito_app/alquileres.html')
-# Carrito
-def carrito(request):
-    return render(request, 'Carrito_app/carrito.html')
-# Paquetes
-def paquetes(request):
-    return render(request, 'Carrito_app/paquetes.html')
-# Vuelos
+
 def vuelos(request):
     return render(request, 'Carrito_app/vuelos.html')
-# Transporte
+
 def transporte(request):
     return render(request, 'Carrito_app/transporte.html')
-#Contacto
+
 def contacto(request):
     return render(request, 'Carrito_app/contacto.html')
-# Registro
+
+# Vista principal de paquetes (Home)
+def paquetes(request):
+    paquetes = Paquete.objects.all()
+    destinos = Destino.objects.all()
+    
+    # Lógica de filtrado
+    destino_id = request.GET.get('destino')
+    if destino_id:
+        paquetes = paquetes.filter(destino_id=destino_id)
+        
+    return render(request, 'Carrito_app/paquetes.html', {
+        'paquetes': paquetes,
+        'destinos': destinos
+    })
+
+# Vista de detalle del paquete
+def paquete_detalle(request, paquete_id):
+    paquete = get_object_or_404(Paquete, id=paquete_id)
+    return render(request, 'Carrito_app/paquete_detalle.html', {'paquete': paquete})
+
+# --- Vistas del Carrito ---
+def carrito(request):
+    cart = request.session.get('cart', {})
+    items = []
+    total = 0
+    for item_id, item_data in cart.items():
+        paquete = get_object_or_404(Paquete, id=item_id)
+        item_total = paquete.precio * item_data['quantity']
+        items.append({
+            'id': item_id,
+            'nombre': paquete.nombre,
+            'precio': paquete.precio,
+            'quantity': item_data['quantity'],
+            'imagen': paquete.imagen,
+            'total': item_total
+        })
+        total += item_total
+    
+    return render(request, 'Carrito_app/carrito.html', {'items': items, 'total': total})
+
+@login_required
+def add_to_cart(request, paquete_id):
+    paquete = get_object_or_404(Paquete, id=paquete_id)
+    cart = request.session.get('cart', {})
+    
+    item_id = str(paquete_id)
+    
+    if item_id in cart:
+        # Si ya está en el carrito, no hacemos nada (o podrías aumentar cantidad)
+        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
+    else:
+        cart[item_id] = {'quantity': 1}
+        messages.success(request, f'"{paquete.nombre}" ha sido añadido a tu carrito.')
+        
+    request.session['cart'] = cart
+    return redirect('carrito')
+
+@login_required
+def remove_from_cart(request, item_id):
+    cart = request.session.get('cart', {})
+    item_id_str = str(item_id)
+
+    if item_id_str in cart:
+        del cart[item_id_str]
+        request.session['cart'] = cart
+        messages.success(request, "El producto fue eliminado de tu carrito.")
+        
+    return redirect('carrito')
+
+@login_required
+def checkout(request):
+    # Aquí iría la lógica de pago, pero para la demo, solo vaciamos el carrito
+    # y mostramos una página de éxito.
+    request.session['cart'] = {}
+    return render(request, 'Carrito_app/checkout_success.html')
+
+# --- Vistas de Autenticación ---
 def register_view(request):
     if request.method == "POST":
         form = CustomUser_CreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "¡Registro exitoso! Ya puedes empezar a comprar.")
             return redirect("home")
-        else:
-            messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = CustomUser_CreationForm()
     return render(request, "Carrito_app/register.html", {"form": form})
 
-# Login
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -75,25 +141,12 @@ def login_view(request):
                 return redirect("home")
             else:
                 messages.error(request, "Usuario o contraseña incorrectos.")
-        else:
-            messages.error(request, "Usuario o contraseña incorrectos.")
     else:
         form = AuthenticationForm()
     return render(request, "Carrito_app/login.html", {"form": form})
 
-# Logout
+@login_required
 def logout_view(request):
     logout(request)
+    messages.info(request, "Has cerrado sesión exitosamente.")
     return redirect("inicio")
-def cart_view(request):
-    cart = request.session.get('cart', [])
-    cart_items = []  # Populate with actual data
-    for item_id in cart:
-        # Example: Fetch package details from database or static data
-        cart_items.append({
-            'package_id': item_id,
-            'name': 'Combo Sudamérica Aventura',  # Replace with actual data
-            'price': 2800,  # Replace with actual data
-            'image': static('Carrito_app/img/aventura patagonica.jpg')  # Replace with actual path
-        })
-    return render(request, 'Carrito_app/carrito.html', {'cart_items': cart_items})

@@ -1,272 +1,53 @@
+{% extends 'Carrito_app/base.html' %}
 {% load static %}
+
+{% block title %}Paquetes Turísticos - Tu Aventura {% endblock %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ailes du munde - Paquetes Turísticos</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'estilos.css' %}">
-  <style>
-    .card {
-      height: 450px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card-img-top {
-      height: 200px;
-      object-fit: cover;
-    }
-    .card-body {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card-footer {
-      padding: 10px;
-      border-top: none;
-    }
-  </style>
- <button onclick="window.history.back()" class="fixed top-4 left-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 z-20">
-  <i data-lucide="arrow-left" class="h-5 w-5"></i>
- </button>
-<body>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Explora Nuestros Paquetes</h1>
 
-  <!-- Navegación 
-  <nav class="navbar navbar-expand-lg navbar color-blue shadow">
-    <div class="container">
-      <a class="navbar-brand">Alies du munde</a>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'paquetes' %}">Paquetes</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'vuelos' %}">Vuelos</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'carrito' %}">Carrito</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'acerca' %}">Acerca</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'actividades' %}">Actividades</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'alojamiento' %}">Alojamiento</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'alquileres' %}">Alquileres</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'transporte' %}">Transporte</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'arrepentimiento' %}">Arrepentimiento</a></li>
-      </ul>
+    <!-- Formulario de Filtro -->
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <form method="GET" action="{% url 'paquetes' %}" class="form-inline justify-content-center">
+                <div class="form-group mr-2">
+                    <label for="destino" class="mr-2">Filtrar por Destino:</label>
+                    <select name="destino" id="destino" class="form-control">
+                        <option value="">Todos</option>
+                        {% for d in destinos %}
+                            <option value="{{ d.id }}" {% if request.GET.destino == d.id|stringformat:"s" %}selected{% endif %}>{{ d.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+        </div>
     </div>
-  </nav>
 
-  Encabezado -->
-  <header class="bg-light py-5 text-center">
-    <div class="container">
-      <h1 class="fw-bold">Paquetes Turísticos</h1>
-      <p class="lead">Descubre nuestras mejores opciones nacionales e internacionales</p>
+    <!-- Listado de Paquetes -->
+    <div class="row">
+        {% if paquetes %}
+            {% for paquete in paquetes %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{% static paquete.imagen %}" class="card-img-top" alt="{{ paquete.nombre }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ paquete.nombre }}</h5>
+                        <p class="card-text"><strong>Destino:</strong> {{ paquete.destino.nombre }}</p>
+                        <p class="card-text">{{ paquete.descripcion|truncatewords:20 }}</p>
+                        <h4 class="card-text mt-auto">${{ paquete.precio|floatformat:2 }}</h4>
+                        <a href="{% url 'paquete_detalle' paquete.id %}" class="btn btn-info mt-2">Ver Detalle</a>
+                        <a href="{% url 'add_to_cart' paquete.id %}" class="btn btn-success mt-2">Agregar al Carrito</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <p class="text-center">No se encontraron paquetes para el destino seleccionado.</p>
+            </div>
+        {% endif %}
     </div>
-  </header>
-
-  <!-- Paquetes -->
-  <main class="container my-5">
-    <div class="row g-4">
-      
-      <!-- Suiza -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" class="card-img-top" alt="Suiza">
-          <div class="card-body">
-            <h5 class="card-title">Suiza Aventura Alpina</h5>
-            <p class="card-text">Explora los Alpes suizos con excursiones guiadas y experiencias inolvidables.</p>
-            <div class="mt-2">
-              <span class="badge bg-primary me-1">Internacional</span>
-              <span class="badge bg-info">Aventura</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$3,500</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Suiza Aventura Alpina', 3500)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Islandia -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e" class="card-img-top" alt="Islandia">
-          <div class="card-body">
-            <h5 class="card-title">Auroras en Islandia</h5>
-            <p class="card-text">Disfruta del espectáculo natural de las auroras boreales en un viaje único.</p>
-            <div class="mt-2">
-              <span class="badge bg-primary me-1">Internacional</span>
-              <span class="badge bg-success">Naturaleza</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$2,800</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Auroras en Islandia', 2800)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Safari en Kenia -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" class="card-img-top" alt="Safari">
-          <div class="card-body">
-            <h5 class="card-title">Safari en Kenia</h5>
-            <p class="card-text">Vive la emoción de un safari africano con guías expertos.</p>
-            <div class="mt-2">
-              <span class="badge bg-primary me-1">Internacional</span>
-              <span class="badge bg-warning text-dark">Cultural</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$4,200</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Safari en Kenia', 4200)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Myanmar -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="card-img-top" alt="Myanmar">
-          <div class="card-body">
-            <h5 class="card-title">Templos de Myanmar</h5>
-            <p class="card-text">Descubre la espiritualidad y la historia en los templos milenarios.</p>
-            <div class="mt-2">
-              <span class="badge bg-primary me-1">Internacional</span>
-              <span class="badge bg-warning text-dark">Cultural</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$3,000</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Templos de Myanmar', 3000)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Patagonia -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429" class="card-img-top" alt="Patagonia">
-          <div class="card-body">
-            <h5 class="card-title">Patagonia Argentina</h5>
-            <p class="card-text">Recorre glaciares y paisajes únicos en el fin del mundo.</p>
-            <div class="mt-2">
-              <span class="badge bg-secondary me-1">Nacional</span>
-              <span class="badge bg-success">Naturaleza</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$1,200</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Patagonia Argentina', 1200)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Maldivas -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="card-img-top" alt="Maldivas">
-          <div class="card-body">
-            <h5 class="card-title">Playas de Maldivas</h5>
-            <p class="card-text">Relájate en un paraíso tropical con todo incluido.</p>
-            <div class="mt-2">
-              <span class="badge bg-primary me-1">Internacional</span>
-              <span class="badge bg-info">Relax</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$5,000</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Playas de Maldivas', 5000)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Iguazú -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" class="card-img-top" alt="Iguazú">
-          <div class="card-body">
-            <h5 class="card-title">Cataratas del Iguazú</h5>
-            <p class="card-text">Maravíllate con una de las siete maravillas naturales del mundo.</p>
-            <div class="mt-2">
-              <span class="badge bg-secondary me-1">Nacional</span>
-              <span class="badge bg-success">Naturaleza</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$900</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Cataratas del Iguazú', 900)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mendoza -->
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429" class="card-img-top" alt="Mendoza">
-          <div class="card-body">
-            <h5 class="card-title">Mendoza Enoturismo</h5>
-            <p class="card-text">Degusta los mejores vinos en el corazón de la región vitivinícola.</p>
-            <div class="mt-2">
-              <span class="badge bg-secondary me-1">Nacional</span>
-              <span class="badge bg-warning text-dark">Cultural</span>
-            </div>
-          </div>
-          <div class="card-footer text-end">
-            <strong>$1,100</strong>
-            <button class="btn btn-success btn-sm ms-2" onclick="addToCart('Mendoza Enoturismo', 1100)">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Footer -->
-<footer class="bg-gray-800 text-black py-8">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
-        <div>
-          <h3 class="text-xl font-bold mb-4">ViajesPro</h3>
-          <p class="text-gray-300">Nuestra agencia de viajes de confianza desde 2025. Creamos experiencias inolvidables.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-bold mb-4">Contacto</h3>
-          <p class="text-gray-300 mb-1"><i data-lucide="phone" class="h-4 w-4 mr-2 inline"></i>+54 11 4000-0000</p>
-          <p class="text-gray-300"><i data-lucide="mail" class="h-4 w-4 mr-2 inline"></i>INFO - viajespro.com</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-bold mb-4">Síguenos</h3>
-<div class="flex gap-6">
-  <a href="https://www.instagram.com/ailes_du_munde?igsh=MTI4bmVsbGJyN3Vweg==" class="flex items-center gap-2 text-gray-300 hover:text-white">
-    <i data-lucide="instagram" class="h-6 w-6"></i>
-    <span>Instagram</span>
-  </a>
-
-  <a href="https://www.facebook.com/share/19Wqz2444r/" class="flex items-center gap-2 text-gray-300 hover:text-white">
-    <i data-lucide="facebook" class="h-6 w-6"></i>
-    <span>Facebook</span>
-  </a>
-
-  <a href="https://x.com/AliesDuMunde?t=VBdnpXfnNOCIB_Ac0PxREA&s=08" class="flex items-center gap-2 text-gray-300 hover:text-white">
-    <i data-lucide="twitter" class="h-6 w-6"></i>
-    <span>Twitter</span>
-  </a>
 </div>
-
-      <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
-        &copy; 2025 ViajesPro. Todos los derechos reservados.
-      </div>
-    </div>
-</footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    function addToCart(packageName, price) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ name: packageName, price: price });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${packageName} ha sido agregado al carrito!`);
-    }
-  </script>
-</body>
-</html>
 {% endblock %}
