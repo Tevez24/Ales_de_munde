@@ -1,0 +1,76 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Iniciar Sesión - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    
+    <div>
+      <i data-lucide="plane" class="mx-auto h-12 w-auto text-blue-600"></i>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Inicia sesión en tu cuenta
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        O
+        <a href="{% url 'register' %}" class="font-medium text-blue-600 hover:text-blue-500">
+          crea una cuenta nueva
+        </a>
+      </p>
+    </div>
+
+    {% if form.errors %}
+        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md" role="alert">
+            <strong class="font-bold">Error: </strong>
+            <span class="block sm:inline">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        </div>
+    {% endif %}
+
+    <form class="mt-8 space-y-6" method="post">
+        {% csrf_token %}
+        <div class="rounded-md shadow-sm -space-y-px">
+            <div>
+                <label for="id_username" class="sr-only">Usuario</label>
+                <input id="id_username" name="username" type="text" autocomplete="username" required
+                    class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                    placeholder="Nombre de usuario">
+            </div>
+            <div>
+                <label for="id_password" class="sr-only">Contraseña</label>
+                <input id="id_password" name="password" type="password" autocomplete="current-password" required
+                    class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                    placeholder="Contraseña">
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <div class="text-sm">
+                <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit"
+                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <i data-lucide="lock" class="h-5 w-5 text-blue-500 group-hover:text-blue-400"></i>
+                </span>
+                Iniciar Sesión
+            </button>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

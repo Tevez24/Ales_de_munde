@@ -1,0 +1,67 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Mi Cuenta - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-16">
+  <div class="container mx-auto px-4">
+    
+    <!-- Welcome Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-800">Bienvenido de nuevo, {{ user.username }}</h1>
+      <p class="mt-2 text-lg text-gray-600">Gestiona tu cuenta, revisa tus pedidos y explora nuevos destinos.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Sidebar: Profile Info -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+          <i data-lucide="user-circle-2" class="h-24 w-24 text-blue-500 mx-auto mb-4"></i>
+          <h2 class="text-2xl font-semibold">{{ user.first_name }} {{ user.last_name }}</h2>
+          <p class="text-gray-500">{{ user.email }}</p>
+          <a href="{% url 'logout' %}" class="mt-6 inline-block w-full bg-red-100 text-red-700 hover:bg-red-200 font-semibold px-4 py-2 rounded-md transition-colors">Cerrar Sesión</a>
+        </div>
+      </aside>
+
+      <!-- Right Content: Dashboard -->
+      <main class="lg:col-span-2">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6">Panel de Usuario</h3>
+          
+          <!-- Quick Actions -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <a href="#" class="bg-blue-50 hover:bg-blue-100 p-6 rounded-lg flex items-center space-x-4 transition-colors">
+              <i data-lucide="user" class="h-8 w-8 text-blue-600"></i>
+              <div>
+                <h4 class="font-semibold text-lg">Editar Perfil</h4>
+                <p class="text-gray-600">Actualiza tus datos personales.</p>
+              </div>
+            </a>
+            <a href="#" class="bg-green-50 hover:bg-green-100 p-6 rounded-lg flex items-center space-x-4 transition-colors">
+              <i data-lucide="shopping-cart" class="h-8 w-8 text-green-600"></i>
+              <div>
+                <h4 class="font-semibold text-lg">Mis Pedidos</h4>
+                <p class="text-gray-600">Revisa tu historial de compras.</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Recent Activity (Placeholder) -->
+          <div>
+            <h4 class="text-xl font-bold text-gray-800 mb-4">Actividad Reciente</h4>
+            <div class="border border-gray-200 rounded-lg p-6 text-center">
+              <i data-lucide="history" class="h-12 w-12 text-gray-400 mx-auto mb-3"></i>
+              <p class="text-gray-500">Aún no tienes actividad reciente.</p>
+              <p class="text-gray-500">¡<a href="{% url 'paquetes' %}" class="text-blue-600 hover:underline">Explora nuestros paquetes</a> para empezar!</p>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
