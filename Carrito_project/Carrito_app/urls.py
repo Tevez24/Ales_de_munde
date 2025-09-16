@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     # La página de paquetes ahora es la página de inicio principal del sitio
-    path('', views.paquetes, name='inicio'), 
+    path('', views.inicio, name='inicio'), 
 
     # Página del panel de usuario (cuando ya ha iniciado sesión)
     path('home/', views.home, name='home'),
