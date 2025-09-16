@@ -48,7 +48,7 @@
           {% if paquetes %}
             {% for paquete in paquetes %}
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-              <img src="{% if paquete.imagen %}{% static paquete.imagen %}{% else %}{% static 'Carrito_app/img/default_package.jpg' %}{% endif %}" alt="Imagen de {{ paquete.nombre }}" class="w-full h-56 object-cover">
+              <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}{% static 'Carrito_app/img/default_package.jpg' %}{% endif %}" alt="Imagen de {{ paquete.nombre }}" class="w-full h-56 object-cover">
               <div class="p-6 flex flex-col flex-grow">
                 <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ paquete.nombre }}</h3>
                 <p class="text-gray-600 mb-4"><i data-lucide="map-pin" class="inline-block h-4 w-4 mr-1 text-blue-500"></i><strong>{{ paquete.destino.nombre }}</strong></p>

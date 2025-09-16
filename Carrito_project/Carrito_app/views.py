@@ -43,11 +43,21 @@ def paquetes(request):
     paquetes = Paquete.objects.all()
     destinos = Destino.objects.all()
     
-    # Lógica de filtrado
+    # Lógica de filtrado por destino
     destino_id = request.GET.get('destino')
     if destino_id:
         paquetes = paquetes.filter(destino_id=destino_id)
         
+    # Lógica de filtrado por precio máximo
+    precio_max = request.GET.get('precio_max')
+    if precio_max:
+        try:
+            # Filtra los paquetes cuyo precio es menor o igual al máximo
+            paquetes = paquetes.filter(precio__lte=float(precio_max))
+        except (ValueError, TypeError):
+            # Ignora el filtro si el valor no es un número válido
+            pass
+
     return render(request, 'Carrito_app/paquetes.html', {
         'paquetes': paquetes,
         'destinos': destinos
@@ -66,12 +76,18 @@ def carrito(request):
     for item_id, item_data in cart.items():
         paquete = get_object_or_404(Paquete, id=item_id)
         item_total = paquete.precio * item_data['quantity']
+        
+        # Genera la URL de la imagen, si existe
+        imagen_url = ''
+        if paquete.imagen:
+            imagen_url = paquete.imagen.url
+            
         items.append({
             'id': item_id,
             'nombre': paquete.nombre,
             'precio': paquete.precio,
             'quantity': item_data['quantity'],
-            'imagen': paquete.imagen,
+            'imagen_url': imagen_url,  # Pasamos la URL a la plantilla
             'total': item_total
         })
         total += item_total
