@@ -1,0 +1,88 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Contacto - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-white">
+  <!-- Header Section -->
+  <div class="bg-gray-50 py-12">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Ponte en Contacto</h1>
+      <p class="mt-4 text-lg text-gray-600">Estamos aquí para ayudarte. Envíanos un mensaje o encuéntranos en nuestras oficinas.</p>
+    </div>
+  </div>
+
+  <!-- Contact Form and Info Section -->
+  <div class="container mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      
+      <!-- Contact Form -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Envíanos un Mensaje</h2>
+        <form action="#" method="POST" class="space-y-6">
+          {% csrf_token %}
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+            <input type="text" name="name" id="name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="email" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4">
+          </div>
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-700">Asunto</label>
+            <input type="text" name="subject" id="subject" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4">
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700">Mensaje</label>
+            <textarea name="message" id="message" rows="4" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-sm hover:shadow-lg transition-transform transform hover:-translate-y-1">
+              Enviar Mensaje
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Contact Info & Map -->
+      <div class="space-y-8">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Información de Contacto</h2>
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <i data-lucide="mail" class="h-6 w-6 text-blue-600 mr-4"></i>
+                    <div>
+                        <h3 class="font-semibold">Email</h3>
+                        <a href="mailto:info@ailesdumonde.com" class="text-blue-600 hover:underline">info@ailesdumonde.com</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <i data-lucide="phone" class="h-6 w-6 text-blue-600 mr-4"></i>
+                    <div>
+                        <h3 class="font-semibold">Teléfono</h3>
+                        <p class="text-gray-700">+54 11 1234 5678</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <i data-lucide="map-pin" class="h-6 w-6 text-blue-600 mr-4"></i>
+                    <div>
+                        <h3 class="font-semibold">Oficina</h3>
+                        <p class="text-gray-700">Av. Corrientes 123, Piso 4, Oficina A<br>CABA, Argentina</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Nuestra Ubicación</h2>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016888121644!2d-58.3815704!3d-34.6037389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac6f7bce6cb%3A0x803ba67a288a44b3!2sObelisco!5e0!3m2!1ses!2sar!4v1678886 Obelisco de Buenos Aires como ejemplo" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

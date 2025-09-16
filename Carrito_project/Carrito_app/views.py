@@ -10,9 +10,9 @@ from .models import Paquete, Destino
 def inicio(request):
     return render(request, 'Carrito_app/inicio.html')
 
+@login_required
 def home(request):
-    # Redirigir a la vista de paquetes que ahora será la página principal
-    return redirect('paquetes')
+    return render(request, 'registration/home.html')
 
 def acerca(request):
     return render(request, 'Carrito_app/acerca.html')
@@ -86,11 +86,10 @@ def add_to_cart(request, paquete_id):
     item_id = str(paquete_id)
     
     if item_id in cart:
-        # Si ya está en el carrito, no hacemos nada (o podrías aumentar cantidad)
-        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
+        messages.info(request, f'\"{paquete.nombre}\" ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'"{paquete.nombre}" ha sido añadido a tu carrito.')
+        messages.success(request, f'\"{paquete.nombre}\" ha sido añadido a tu carrito.')
         
     request.session['cart'] = cart
     return redirect('carrito')
@@ -109,8 +108,6 @@ def remove_from_cart(request, item_id):
 
 @login_required
 def checkout(request):
-    # Aquí iría la lógica de pago, pero para la demo, solo vaciamos el carrito
-    # y mostramos una página de éxito.
     request.session['cart'] = {}
     return render(request, 'Carrito_app/checkout_success.html')
 
@@ -125,7 +122,7 @@ def register_view(request):
             return redirect("home")
     else:
         form = CustomUser_CreationForm()
-    return render(request, "Carrito_app/register.html", {"form": form})
+    return render(request, "registration/register.html", {"form": form})
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -138,12 +135,13 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("home")
+                # Redirige al home del usuario logueado
+                return redirect("home") 
             else:
                 messages.error(request, "Usuario o contraseña incorrectos.")
     else:
         form = AuthenticationForm()
-    return render(request, "Carrito_app/login.html", {"form": form})
+    return render(request, "registration/login.html", {"form": form})
 
 @login_required
 def logout_view(request):
