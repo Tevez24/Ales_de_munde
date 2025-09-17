@@ -16,6 +16,7 @@ urlpatterns = [
     path('alojamiento/', views.alojamiento, name='alojamiento'),
     path('alquileres/', views.alquileres, name='alquileres'),
     path('transporte/', views.transporte, name='transporte'),
+    path('transporte/<int:transporte_id>/', views.transporte_detalle, name='transporte_detalle'),
     path('arrepentimiento/', views.arrepentimiento, name='arrepentimiento'),
     path('acerca/', views.acerca, name='acerca'),
     path('contacto/', views.contacto, name='contacto'),

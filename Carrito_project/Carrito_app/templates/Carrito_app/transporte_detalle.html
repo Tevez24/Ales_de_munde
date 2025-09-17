@@ -1,0 +1,26 @@
+
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+      <img src="{{ transporte.imagen.url }}" alt="{{ transporte.nombre }}" class="w-full h-auto object-cover rounded-lg shadow-lg">
+    </div>
+    <div>
+      <h1 class="text-4xl font-bold mb-4">{{ transporte.nombre }}</h1>
+      <p class="text-gray-600 mb-4">{{ transporte.descripcion }}</p>
+      <p class="text-2xl font-bold text-orange-600 mb-4">${{ transporte.precio }}</p>
+      <div class="flex items-center mb-4">
+        <p class="mr-4">👥 Hasta {{ transporte.capacidad }} personas</p>
+        <p>{{ transporte.tipo }}</p>
+      </div>
+      <div class="flex gap-2">
+        <a href="#" class="btn btn-outline">🛒 Añadir al carrito</a>
+        <a href="{% url 'transporte' %}" class="btn bg-gray-500 hover:bg-gray-600 text-white">Volver</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

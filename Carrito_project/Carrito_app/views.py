@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUser_CreationForm
-from .models import Paquete, Destino
+from .models import Paquete, Destino, Transporte
 
 # Vistas de páginas estáticas
 def inicio(request):
@@ -33,7 +33,12 @@ def vuelos(request):
     return render(request, 'Carrito_app/vuelos.html')
 
 def transporte(request):
-    return render(request, 'Carrito_app/transporte.html')
+    transportes = Transporte.objects.all()
+    return render(request, 'Carrito_app/transporte.html', {'transportes': transportes})
+
+def transporte_detalle(request, transporte_id):
+    transporte = get_object_or_404(Transporte, id=transporte_id)
+    return render(request, 'Carrito_app/transporte_detalle.html', {'transporte': transporte})
 
 def contacto(request):
     return render(request, 'Carrito_app/contacto.html')
