@@ -11,7 +11,18 @@ class Paquete(models.Model):
     destino = models.ForeignKey(Destino, on_delete=models.CASCADE, related_name='paquetes')
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
-    imagen = models.CharField(max_length=200, help_text="Ruta a la imagen desde la carpeta static. Ej: Carrito_app/img/nombre_archivo.jpg")
+    imagen = models.ImageField(upload_to='paquetes/')
+
+    def __str__(self):
+        return self.nombre
+
+class Transporte(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    imagen = models.ImageField(upload_to='transportes/')
+    capacidad = models.IntegerField()
+    tipo = models.CharField(max_length=50)
 
     def __str__(self):
         return self.nombre
