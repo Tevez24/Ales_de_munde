@@ -17,32 +17,11 @@ def run():
     # Lista de paquetes a crear
     paquetes_data = [
         {
-            "nombre": "Aventura Patagónica",
-            "descripcion": "Explora los confines de la tierra en esta épica aventura por la Patagonia. Incluye trekking, navegación por glaciares y avistamiento de fauna.",
-            "precio": 2500.00,
-            "destino_nombre": "Patagonia, Argentina",
-            "imagen": "paquetes/aventura_patagonica.jpg"
-        },
-        {
-            "nombre": "Escapada Tropical a Maldivas",
-            "descripcion": "Relájate en las playas de arena blanca y aguas cristalinas de las Maldivas. Un paraíso para los amantes del sol y el buceo.",
-            "precio": 3500.00,
-            "destino_nombre": "Maldivas",
-            "imagen": "paquetes/escapada_tropical_maldivas.jpg"
-        },
-        {
             "nombre": "Europa Mágica",
             "descripcion": "Descubre el encanto de las capitales europeas. Un viaje por la historia, el arte y la gastronomía de ciudades como París, Roma y Praga.",
             "precio": 3000.00,
             "destino_nombre": "Europa",
             "imagen": "paquetes/europa_magica.jpg"
-        },
-        {
-            "nombre": "Maravillas de Islandia",
-            "descripcion": "Contempla auroras boreales, géiseres y volcanes en la tierra de hielo y fuego. Una experiencia natural que nunca olvidarás.",
-            "precio": 2800.00,
-            "destino_nombre": "Islandia",
-            "imagen": "paquetes/maravillas_de_islandia.jpg"
         },
         {
             "nombre": "Safari Fotográfico en Península Valdés",
@@ -52,11 +31,60 @@ def run():
             "imagen": "paquetes/safari_fotografico_peninsula_valdes.jpg"
         },
         {
-            "nombre": "Cataratas del Iguazú",
-            "descripcion": "Siente la fuerza de una de las maravillas naturales del mundo. Un espectáculo de agua y selva que te dejará sin aliento.",
-            "precio": 1200.00,
+            "nombre": "Aventura en los Alpes Suizos",
+            "descripcion": "Ascenso al Matterhorn con guía experto, hotel 4 estrellas incluido y seguro de aventura.",
+            "precio": 2850.00,
+            "destino_nombre": "Alpes Suizos",
+            "imagen": "paquetes/alpes_suizos.jpg"
+        },
+        {
+            "nombre": "Maravillas de Islandia",
+            "descripcion": "Auroras boreales garantizadas, visita a Blue Lagoon, cascadas espectaculares y transporte 4x4 incluido.",
+            "precio": 1950.00,
+            "destino_nombre": "Islandia",
+            "imagen": "paquetes/maravillas_de_islandia.jpg"
+        },
+        {
+            "nombre": "Safari Africano Premium",
+            "descripcion": "Big Five garantizado, alojamientos en lodges de lujo, vuelos internos incluidos y guía naturalista profesional.",
+            "precio": 4200.00,
+            "destino_nombre": "África",
+            "imagen": "paquetes/safari.jpg"
+        },
+        {
+            "nombre": "Templos Místicos de Myanmar",
+            "descripcion": "Bagan al amanecer, hoteles boutique, experiencias auténticas y crucero por el río Irrawaddy.",
+            "precio": 1680.00,
+            "destino_nombre": "Myanmar",
+            "imagen": "paquetes/Templos Místicos de Myanmar.jpg"
+        },
+        {
+            "nombre": "Patagonia Salvaje",
+            "descripcion": "Torres del Paine, Glaciar Perito Moreno, trekking guiado y refugios de montaña.",
+            "precio": 3100.00,
+            "destino_nombre": "Patagonia, Argentina",
+            "imagen": "paquetes/patagonia salvaje.jpg"
+        },
+        {
+            "nombre": "Escapada Tropical Maldivas",
+            "descripcion": "Villa sobre el agua, todo incluido premium, spa de lujo y deportes acuáticos.",
+            "precio": 5200.00,
+            "destino_nombre": "Maldivas",
+            "imagen": "paquetes/escapada_tropical_maldivas.jpg"
+        },
+        {
+            "nombre": "Cataratas de Iguazú",
+            "descripcion": "Lado argentino y brasileño, hotel frente a las cataratas, senderos ecológicos y fauna autóctona.",
+            "precio": 850.00,
             "destino_nombre": "Iguazú, Argentina",
             "imagen": "paquetes/cataratas_de_iguazu.jpg"
+        },
+        {
+            "nombre": "Mendoza y la Ruta del Vino",
+            "descripcion": "Degustación de vinos, tour por bodegas premium, vista de los Andes y gastronomía regional.",
+            "precio": 1200.00,
+            "destino_nombre": "Mendoza, Argentina",
+            "imagen": "paquetes/ruta del vino.jpg"
         }
     ]
 
