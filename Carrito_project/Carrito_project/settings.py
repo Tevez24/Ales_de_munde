@@ -39,13 +39,13 @@ ROOT_URLCONF = 'Carrito_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Agrega aquí si tienes templates fuera de la app
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',  # Para el objeto user
+                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -77,13 +77,26 @@ TIME_ZONE = 'America/Argentina/Buenos_Aires'
 USE_I18N = True
 USE_TZ = True
 
-# Archivos estáticos
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# --- Configuración de Archivos Estáticos y de Medios ---
 
-# Archivos media
+# URL para referirse a los archivos estáticos (CSS, JavaScript, Imágenes de la plantilla)
+STATIC_URL = '/static/'
+
+# Directorios donde Django buscará archivos estáticos adicionales (fuera de las apps)
+# Lo dejamos vacío por ahora ya que tus archivos están dentro de 'Carrito_app/static'
+STATICFILES_DIRS = []
+
+# Directorio donde se copiarán todos los archivos estáticos para producción (buena práctica tenerlo)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# URL para referirse a los archivos subidos por el usuario
 MEDIA_URL = '/media/'
+
+# Directorio donde se guardarán los archivos subidos por el usuario
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# --- Fin de la configuración ---
+
 
 # Login redirect
 LOGIN_REDIRECT_URL = 'home'
