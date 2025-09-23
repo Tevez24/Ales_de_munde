@@ -4,7 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUser_CreationForm
-from .models import Paquete, Destino, Transporte
+# Se importa el modelo Actividad
+from .models import Paquete, Destino, Transporte, Actividad
 
 # Vistas de páginas estáticas
 def inicio(request):
@@ -20,8 +21,10 @@ def acerca(request):
 def arrepentimiento(request):
     return render(request, 'Carrito_app/arrepentimiento.html')
 
+# Vista para mostrar las actividades
 def actividades(request):
-    return render(request, 'Carrito_app/actividades.html')
+    actividades = Actividad.objects.all()  # Se obtienen todas las actividades
+    return render(request, 'Carrito_app/actividades.html', {'actividades': actividades})
 
 def alojamiento(request):
     return render(request, 'Carrito_app/alojamiento.html')
@@ -107,10 +110,10 @@ def add_to_cart(request, paquete_id):
     item_id = str(paquete_id)
     
     if item_id in cart:
-        messages.info(request, f'\"{paquete.nombre}\" ya está en tu carrito.')
+        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'\"{paquete.nombre}\" ha sido añadido a tu carrito.')
+        messages.success(request, f'"{paquete.nombre}" ha sido añadido a tu carrito.')
         
     request.session['cart'] = cart
     return redirect('carrito')

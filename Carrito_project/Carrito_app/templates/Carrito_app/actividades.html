@@ -20,7 +20,7 @@
       <form class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
         <div class="md:col-span-1">
           <label for="destination" class="block text-sm font-medium text-gray-700">Destino o Actividad</label>
-          <input type="text" id="destination" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Ej: Tour por Roma">
+          <input type="text" id="destination" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Ej: Snorkel en cenote">
         </div>
         <div>
           <label for="activity-date" class="block text-sm font-medium text-gray-700">Fecha</label>
@@ -37,51 +37,37 @@
   <!-- Featured Activities -->
   <div class="container mx-auto px-4 py-16">
     <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Nuestras Actividades Más Populares</h2>
+    
+    {% if actividades %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
-      <!-- Activity Example 1 -->
+      {% for actividad in actividades %}
       <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-        <img src="{% static 'Carrito_app/img/tour_roma.jpg' %}" alt="Tour en Roma" class="w-full h-56 object-cover">
+        {% if actividad.imagen %}
+        <img src="{{ actividad.imagen.url }}" alt="{{ actividad.nombre }}" class="w-full h-56 object-cover">
+        {% else %}
+        <img src="{% static 'Carrito_app/img/default_activity.jpg' %}" alt="Imagen no disponible" class="w-full h-56 object-cover">
+        {% endif %}
         <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Tour Guiado por el Coliseo</h3>
-          <p class="text-gray-600 mb-1"><i data-lucide="map-pin" class="inline-block h-4 w-4 mr-1"></i>Roma, Italia</p>
-          <p class="text-gray-600 mb-4">Acceso sin filas al Coliseo, Foro Romano y Palatino.</p>
+          <h3 class="text-xl font-semibold mb-2">{{ actividad.nombre }}</h3>
+          <p class="text-gray-600 mb-1"><i data-lucide="map-pin" class="inline-block h-4 w-4 mr-1"></i>{{ actividad.destino.nombre }}</p>
+          <p class="text-gray-600 mb-4">{{ actividad.descripcion|truncatewords:20 }}</p>
           <div class="flex justify-between items-center">
-            <p class="text-lg font-bold text-blue-600">$75<span class="text-sm font-normal text-gray-500">/persona</span></p>
+            <p class="text-lg font-bold text-blue-600">${{ actividad.precio|floatformat:2 }}<span class="text-sm font-normal text-gray-500">/persona</span></p>
             <a href="#" class="bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-2 rounded-md transition-colors">Reservar</a>
           </div>
         </div>
       </div>
-
-      <!-- Activity Example 2 -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-        <img src="{% static 'Carrito_app/img/buceo_cancun.jpg' %}" alt="Buceo en Cancún" class="w-full h-56 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Buceo en Arrecifes de Cancún</h3>
-          <p class="text-gray-600 mb-1"><i data-lucide="map-pin" class="inline-block h-4 w-4 mr-1"></i>Cancún, México</p>
-          <p class="text-gray-600 mb-4">Explora el mundo submarino del Caribe. Equipo incluido.</p>
-          <div class="flex justify-between items-center">
-            <p class="text-lg font-bold text-blue-600">$120<span class="text-sm font-normal text-gray-500">/persona</span></p>
-            <a href="#" class="bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-2 rounded-md transition-colors">Reservar</a>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Activity Example 3 -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-        <img src="{% static 'Carrito_app/img/clase_cocina.jpg' %}" alt="Clase de Cocina en Florencia" class="w-full h-56 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Clase de Cocina Toscana</h3>
-          <p class="text-gray-600 mb-1"><i data-lucide="map-pin" class="inline-block h-4 w-4 mr-1"></i>Florencia, Italia</p>
-          <p class="text-gray-600 mb-4">Aprende a preparar pasta fresca y otros platos locales.</p>
-          <div class="flex justify-between items-center">
-            <p class="text-lg font-bold text-blue-600">$90<span class="text-sm font-normal text-gray-500">/persona</span></p>
-            <a href="#" class="bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-2 rounded-md transition-colors">Reservar</a>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
 
     </div>
+    {% else %}
+    <div class="text-center py-12">
+        <i data-lucide="alert-circle" class="mx-auto h-12 w-12 text-gray-400"></i>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No hay actividades disponibles</h3>
+        <p class="mt-1 text-sm text-gray-500">Por favor, vuelve a intentarlo más tarde o carga los datos de ejemplo.</p>
+    </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
