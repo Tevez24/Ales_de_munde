@@ -8,5 +8,6 @@ pkgs.mkShell {
     pkgs.python3Packages.django
     pkgs.python3Packages.pip
     pkgs.python3Packages.mysqlclient
+    pkgs.python3Packages.pillow
   ];
 }
