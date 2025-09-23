@@ -26,3 +26,13 @@ class Transporte(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class Actividad(models.Model):
+    nombre = models.CharField(max_length=100)
+    destino = models.ForeignKey(Destino, on_delete=models.CASCADE, related_name='actividades')
+    descripcion = models.TextField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    imagen = models.ImageField(upload_to='actividades/')
+
+    def __str__(self):
+        return self.nombre
