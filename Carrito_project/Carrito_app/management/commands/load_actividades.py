@@ -18,53 +18,88 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Creando nuevas actividades...'))
 
         try:
-            # Intentamos obtener los destinos, o crearlos si no existen
-            destino_playa, _ = Destino.objects.get_or_create(nombre='Playa del Carmen')
-            destino_tulum, _ = Destino.objects.get_or_create(nombre='Tulum')
-            destino_cancun, _ = Destino.objects.get_or_create(nombre='Cancún')
+            # Destinos de las nuevas actividades
+            destino_mendoza, _ = Destino.objects.get_or_create(nombre='Mendoza, Argentina')
+            destino_calafate, _ = Destino.objects.get_or_create(nombre='El Calafate, Argentina')
+            destino_puerto_madryn, _ = Destino.objects.get_or_create(nombre='Puerto Madryn, Argentina')
+            destino_queenstown, _ = Destino.objects.get_or_create(nombre='Queenstown, Nueva Zelanda')
+            destino_santorini, _ = Destino.objects.get_or_create(nombre='Santorini, Grecia')
+            destino_cusco, _ = Destino.objects.get_or_create(nombre='Cusco, Perú')
+            destino_bangkok, _ = Destino.objects.get_or_create(nombre='Bangkok, Tailandia')
+            destino_geiranger, _ = Destino.objects.get_or_create(nombre='Geiranger, Noruega')
+            destino_marrakech, _ = Destino.objects.get_or_create(nombre='Marrakech, Marruecos')
+            destino_merzouga, _ = Destino.objects.get_or_create(nombre='Merzouga, Marruecos')
 
             actividades = [
                 {
-                    'nombre': 'Snorkel en Cenote Dos Ojos',
-                    'destino': destino_tulum,
-                    'descripcion': 'Explora las cavernas inundadas de uno de los cenotes más famosos del mundo. Ideal para nadadores de todos los niveles.',
-                    'precio': Decimal('75.00'),
-                    'imagen': 'actividades/snorkel_cenote.jpg'
+                    'nombre': 'Tour de Vinos en Mendoza',
+                    'destino': destino_mendoza,
+                    'descripcion': 'Un tour para degustar los mejores vinos de la región.',
+                    'precio': Decimal('60.00'),
+                    'imagen': 'actividades/tour_vinos_mendoza.jpg'
                 },
                 {
-                    'nombre': 'Visita a las Ruinas de Tulum',
-                    'destino': destino_tulum,
-                    'descripcion': 'Recorrido guiado por la antigua ciudad maya amurallada con vistas espectaculares al mar Caribe.',
-                    'precio': Decimal('50.00'),
-                    'imagen': 'actividades/ruinas_tulum.jpg'
-                },
-                {
-                    'nombre': 'Paseo en Catamarán a Isla Mujeres',
-                    'destino': destino_cancun,
-                    'descripcion': 'Un día completo de navegación, snorkel en el arrecife El Meco y relajación en la playa de Isla Mujeres. Incluye almuerzo y barra libre.',
-                    'precio': Decimal('120.00'),
-                    'imagen': 'actividades/catamaran_isla_mujeres.jpg'
-                },
-                {
-                    'nombre': 'Nado con Tiburón Ballena',
-                    'destino': destino_cancun,
-                    'descripcion': 'Una experiencia única en la vida para nadar junto al pez más grande del mundo en su hábitat natural (solo en temporada).',
-                    'precio': Decimal('190.00'),
-                    'imagen': 'actividades/tiburon_ballena.jpg'
-                },
-                {
-                    'nombre': 'Excursión a Xcaret',
-                    'destino': destino_playa,
-                    'descripcion': 'Disfruta de más de 50 atracciones naturales y culturales. Ríos subterráneos, espectáculos y fauna local en un solo lugar.',
+                    'nombre': 'Trekking Glaciar Perito Moreno',
+                    'destino': destino_calafate,
+                    'descripcion': 'Una caminata inolvidable sobre el famoso glaciar.',
                     'precio': Decimal('150.00'),
-                    'imagen': 'actividades/xcaret.jpg'
+                    'imagen': 'actividades/trekking_perito_moreno.jpg'
                 },
                 {
-                    'nombre': 'Coco Bongo Show & Disco',
-                    'destino': destino_playa,
-                    'descripcion': 'Vive una noche de fiesta inolvidable con espectáculos acrobáticos, imitaciones de artistas y la mejor música.',
+                    'nombre': 'Safari Fotográfico Península Valdés',
+                    'destino': destino_puerto_madryn,
+                    'descripcion': 'Avistaje de ballenas y fauna marina en un entorno único.',
+                    'precio': Decimal('120.00'),
+                    'imagen': 'actividades/safari_peninsula_valdes.jpg'
+                },
+                {
+                    'nombre': 'Bungee Jump Kawarau',
+                    'destino': destino_queenstown,
+                    'descripcion': 'Salto en bungee desde el histórico puente Kawarau.',
+                    'precio': Decimal('180.00'),
+                    'imagen': 'actividades/bungee_kawarau.jpg'
+                },
+                {
+                    'nombre': 'Tour en Catamaran Santorini',
+                    'destino': destino_santorini,
+                    'descripcion': 'Navega por la caldera y disfruta de las vistas icónicas.',
+                    'precio': Decimal('110.00'),
+                    'imagen': 'actividades/catamaran_santorini.jpg'
+                },
+                {
+                    'nombre': 'Trekking Camino Inca',
+                    'destino': destino_cusco,
+                    'descripcion': 'Una caminata histórica hacia Machu Picchu.',
+                    'precio': Decimal('250.00'),
+                    'imagen': 'actividades/camino_inca.jpg'
+                },
+                {
+                    'nombre': 'Curso de Cocina Tailandesa',
+                    'destino': destino_bangkok,
+                    'descripcion': 'Aprende los secretos de la auténtica cocina tailandesa.',
                     'precio': Decimal('90.00'),
-                    'imagen': 'actividades/coco_bongo.jpg'
+                    'imagen': 'actividades/cocina_tailandesa.jpg'
+                },
+                {
+                    'nombre': 'Crucero por Geirangerfjord',
+                    'destino': destino_geiranger,
+                    'descripcion': 'Navega por uno de los fiordos más famosos del mundo.',
+                    'precio': Decimal('140.00'),
+                    'imagen': 'actividades/crucero_geirangerfjord.jpg'
+                },
+                {
+                    'nombre': 'Paseo en Camello por el Sahara',
+                    'destino': destino_marrakech,
+                    'descripcion': 'Una aventura en camello por las dunas del desierto.',
+                    'precio': Decimal('85.00'),
+                    'imagen': 'actividades/paseo_sahara.jpg'
+                },
+                {
+                    'nombre': 'Safari en el Desierto del Sahara',
+                    'destino': destino_merzouga,
+                    'descripcion': 'Explora las dunas de Merzouga en un 4x4.',
+                    'precio': Decimal('220.00'),
+                    'imagen': 'actividades/safari_sahara.jpg'
                 }
             ]
 
