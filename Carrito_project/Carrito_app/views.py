@@ -24,7 +24,8 @@ def arrepentimiento(request):
 # Vista para mostrar las actividades
 def actividades(request):
     actividades = Actividad.objects.all()
-    destinos = Destino.objects.all()
+    # Obtiene solo los destinos que tienen al menos una actividad.
+    destinos = Destino.objects.filter(actividades__isnull=False).distinct()
 
     # Lógica de filtrado por destino
     destino_id = request.GET.get('destino')
