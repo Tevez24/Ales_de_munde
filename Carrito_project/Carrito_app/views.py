@@ -107,10 +107,10 @@ def add_to_cart(request, paquete_id):
     item_id = str(paquete_id)
     
     if item_id in cart:
-        messages.info(request, f'"'{paquete.nombre}"' ya está en tu carrito.')
+        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'"'{paquete.nombre}"' ha sido añadido a tu carrito.')
+        messages.success(request, f'"{paquete.nombre}" ha sido añadido a tu carrito.')
         
     request.session['cart'] = cart
     return redirect('carrito')
