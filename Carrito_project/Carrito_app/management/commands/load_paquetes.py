@@ -85,6 +85,27 @@ class Command(BaseCommand):
                 "precio": 1200.00,
                 "destino_nombre": "Mendoza, Argentina",
                 "imagen": "paquetes/ruta del vino.jpg"
+            },
+            {
+                "nombre": "Tesoros de Japón",
+                "descripcion": "Explora la fascinante cultura japonesa, desde los templos de Kioto hasta la modernidad de Tokio. Sumérgete en la belleza de sus jardines, la deliciosa gastronomía y la calidez de su gente.",
+                "precio": 3500.00,
+                "destino_nombre": "Japón",
+                "imagen": "paquetes/tesoros_de_japon.jpg"
+            },
+            {
+                "nombre": "Playas de Tailandia",
+                "descripcion": "Relájate en las playas de Phuket, explora las islas Phi Phi y disfruta de la vibrante vida nocturna de Bangkok.",
+                "precio": 2200.00,
+                "destino_nombre": "Tailandia",
+                "imagen": "paquetes/playas_tailandia.jpg"
+            },
+            {
+                "nombre": "Aventura en Costa Rica",
+                "descripcion": "Descubre la pura vida en Costa Rica. Selvas tropicales, volcanes y playas paradisíacas te esperan en esta aventura inolvidable.",
+                "precio": 1900.00,
+                "destino_nombre": "Costa Rica",
+                "imagen": "paquetes/aventura_costa_rica.jpg"
             }
         ]
 
