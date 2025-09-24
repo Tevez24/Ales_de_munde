@@ -31,4 +31,8 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    
+    # Vistas de Perfil de Usuario
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('profile/orders/', views.order_history, name='order_history'),
 ]
