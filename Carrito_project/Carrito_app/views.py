@@ -23,8 +23,18 @@ def arrepentimiento(request):
 
 # Vista para mostrar las actividades
 def actividades(request):
-    actividades = Actividad.objects.all()  # Se obtienen todas las actividades
-    return render(request, 'Carrito_app/actividades.html', {'actividades': actividades})
+    actividades = Actividad.objects.all()
+    destinos = Destino.objects.all()
+
+    # Lógica de filtrado por destino
+    destino_id = request.GET.get('destino')
+    if destino_id:
+        actividades = actividades.filter(destino_id=destino_id)
+        
+    return render(request, 'Carrito_app/actividades.html', {
+        'actividades': actividades,
+        'destinos': destinos
+    })
 
 def alojamiento(request):
     return render(request, 'Carrito_app/alojamiento.html')
@@ -110,10 +120,10 @@ def add_to_cart(request, paquete_id):
     item_id = str(paquete_id)
     
     if item_id in cart:
-        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
+        messages.info(request, f'"\{paquete.nombre}" ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'"{paquete.nombre}" ha sido añadido a tu carrito.')
+        messages.success(request, f'"\{paquete.nombre}" ha sido añadido a tu carrito.')
         
     request.session['cart'] = cart
     return redirect('carrito')
