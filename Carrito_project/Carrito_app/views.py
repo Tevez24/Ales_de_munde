@@ -107,10 +107,10 @@ def add_to_cart(request, paquete_id):
     item_id = str(paquete_id)
     
     if item_id in cart:
-        messages.info(request, f'\"{paquete.nombre}\" ya está en tu carrito.')
+        messages.info(request, f'"'{paquete.nombre}"' ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'\"{paquete.nombre}\" ha sido añadido a tu carrito.')
+        messages.success(request, f'"'{paquete.nombre}"' ha sido añadido a tu carrito.')
         
     request.session['cart'] = cart
     return redirect('carrito')
@@ -169,3 +169,22 @@ def logout_view(request):
     logout(request)
     messages.info(request, "Has cerrado sesión exitosamente.")
     return redirect("inicio")
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        # Actualiza los datos del usuario
+        request.user.first_name = request.POST.get('first_name')
+        request.user.last_name = request.POST.get('last_name')
+        request.user.email = request.POST.get('email')
+        request.user.save()
+        messages.success(request, '¡Tu perfil ha sido actualizado!')
+        return redirect('home')
+    return render(request, 'registration/edit_profile.html')
+
+@login_required
+def order_history(request):
+    # Lógica para obtener el historial de pedidos del usuario
+    # orders = request.user.orders.all()  # Suponiendo que tienes una relación
+    orders = [] # Placeholder
+    return render(request, 'registration/order_history.html', {'orders': orders})
