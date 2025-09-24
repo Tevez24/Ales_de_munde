@@ -32,14 +32,14 @@
           
           <!-- Quick Actions -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <a href="#" class="bg-blue-50 hover:bg-blue-100 p-6 rounded-lg flex items-center space-x-4 transition-colors">
+            <a href="{% url 'edit_profile' %}" class="bg-blue-50 hover:bg-blue-100 p-6 rounded-lg flex items-center space-x-4 transition-colors">
               <i data-lucide="user" class="h-8 w-8 text-blue-600"></i>
               <div>
                 <h4 class="font-semibold text-lg">Editar Perfil</h4>
                 <p class="text-gray-600">Actualiza tus datos personales.</p>
               </div>
             </a>
-            <a href="#" class="bg-green-50 hover:bg-green-100 p-6 rounded-lg flex items-center space-x-4 transition-colors">
+            <a href="{% url 'order_history' %}" class="bg-green-50 hover:bg-green-100 p-6 rounded-lg flex items-center space-x-4 transition-colors">
               <i data-lucide="shopping-cart" class="h-8 w-8 text-green-600"></i>
               <div>
                 <h4 class="font-semibold text-lg">Mis Pedidos</h4>
