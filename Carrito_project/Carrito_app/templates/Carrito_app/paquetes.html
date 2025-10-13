@@ -93,35 +93,45 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function handleAddToCart(event, url) {
-    event.preventDefault(); // Evita la navegación inmediata
+    event.preventDefault();
     
-    // Muestra el toast
-    window.showToast('¡Producto añadido al carrito!');
-
-    // Muestra el modal después de un breve retraso
-    setTimeout(() => {
-        window.showModal();
-    }, 500);
-
-    // Opcional: si realmente necesitas navegar a la URL de `add_to_cart` 
-    // (por ejemplo, si actualiza el estado del lado del servidor), puedes hacerlo aquí.
-    // Pero si la lógica del carrito es solo del lado del cliente, esto podría no ser necesario.
-    // Para este ejemplo, simularemos que la URL es necesaria para actualizar el carrito en el backend.
     fetch(url, {
-        method: 'GET', // o 'POST' si es necesario
+        method: 'GET',
         headers: {
-            'X-Requested-With': 'XMLHttpRequest' // Para identificar la solicitud AJAX en Django
+            'X-Requested-With': 'XMLHttpRequest'
         }
-    }).then(response => response.json()).then(data => {
-        if(data.status !== 'success') {
-            // Opcional: mostrar un toast de error si algo sale mal
-            window.showToast('Error al añadir el producto', 'error');
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.showToast('¡Producto añadido al carrito!');
+            setTimeout(() => {
+                window.showModal(
+                    '¡Añadido!',
+                    'El producto se ha añadido a tu carrito.',
+                    'Ver Carrito',
+                    'Seguir Comprando',
+                    () => { window.location.href = '{% url 'carrito' %}'; },
+                    () => { window.hideModal(); }
+                );
+            }, 500);
+        } else if (data.status === 'info') {
+             window.showToast(data.message, 'info');
+        } else if (data.status === 'error') {
+            window.showModal(
+                'Error',
+                data.message,
+                'Iniciar Sesión',
+                'Cancelar',
+                () => { window.location.href = data.redirect_url; },
+                () => { window.hideModal(); }
+            );
         }
-    }).catch(error => {
+    })
+    .catch(error => {
         console.error("Error adding to cart:", error);
         window.showToast('Error de conexión', 'error');
     });
 }
-
 </script>
 {% endblock %}

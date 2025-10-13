@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -100,18 +101,20 @@ def carrito(request):
         total += item_total
     return render(request, 'Carrito_app/carrito.html', {'items': items, 'total': total})
 
-@login_required
 def add_to_cart(request, paquete_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error', 'message': 'Debes iniciar sesión para añadir productos al carrito.', 'redirect_url': reverse('login')})
+
     paquete = get_object_or_404(Paquete, id=paquete_id)
     cart = request.session.get('cart', {})
     item_id = str(paquete_id)
 
     if item_id in cart:
-        return JsonResponse({'status': 'info', 'message': f'"{paquete.nombre}" ya está en tu carrito.'})
+        return JsonResponse({'status': 'info', 'message': f'\''{paquete.nombre}'\' ya está en tu carrito.'})
     else:
         cart[item_id] = {'quantity': 1}
         request.session['cart'] = cart
-        return JsonResponse({'status': 'success', 'message': f'"{paquete.nombre}" ha sido añadido a tu carrito.'})
+        return JsonResponse({'status': 'success', 'message': f'\''{paquete.nombre}'\' ha sido añadido a tu carrito.'})
 
 @login_required
 def remove_from_cart(request, item_id):
