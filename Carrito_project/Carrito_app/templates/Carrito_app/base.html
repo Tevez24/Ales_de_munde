@@ -30,6 +30,9 @@
       <!-- User/Auth Section -->
       <div class="flex items-center space-x-4">
         {% if user.is_authenticated %}
+          <a href="{% url 'carrito' %}" class="relative">
+            <i data-lucide="shopping-cart" class="h-7 w-7 text-gray-600 hover:text-blue-600"></i>
+          </a>
           <div class="relative">
             <button id="profile-toggle" class="flex items-center space-x-2 cursor-pointer">
               <i data-lucide="user-circle" class="h-7 w-7 text-gray-600"></i>
