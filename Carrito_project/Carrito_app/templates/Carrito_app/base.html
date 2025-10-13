@@ -72,17 +72,6 @@
 
   <!-- Main Content -->
   <main class="min-h-[calc(100vh-400px)]">
-    <div id="message-container" class="fixed top-24 right-0 left-0 container mx-auto px-4 z-50 space-y-2 max-w-lg">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert-message p-4 rounded-md text-white shadow-lg flex items-center space-x-3 {{ message.tags }}">
-                    <i data-lucide="info" class="h-5 w-5"></i>
-                    <span>{{ message }}</span>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-
     {% block content %}
     <!-- Page specific content will be injected here -->
     {% endblock %}
@@ -137,6 +126,25 @@
     </div>
   </footer>
 
+  <!-- Toast Notification -->
+  <div id="toast-notification" class="fixed top-24 right-5 w-auto max-w-sm p-4 rounded-md text-white shadow-lg flex items-center space-x-3 z-[100] transform translate-x-[150%] transition-transform duration-500 ease-in-out">
+      <i id="toast-icon" data-lucide="check-circle" class="h-6 w-6"></i>
+      <span id="toast-message"></span>
+  </div>
+
+  <!-- Modal -->
+  <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[90] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+      <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
+          <h2 class="text-2xl font-bold mb-4">¡Agregado al Carrito!</h2>
+          <p class="text-gray-600 mb-6">El producto fue añadido exitosamente.</p>
+          <div class="flex justify-center space-x-4">
+              <a href="{% url 'carrito' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md shadow-md hover:shadow-lg transition-shadow">Ver Carrito</a>
+              <button id="close-modal-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition-colors">Seguir Comprando</button>
+          </div>
+      </div>
+  </div>
+
+
   <script>
     // Lucide Icons
     lucide.createIcons();
@@ -167,22 +175,79 @@
             });
         }
 
-        // Alert Messages
-        const messageTagsToClasses = {
-            'debug': 'bg-gray-500', 'info': 'bg-blue-500', 'success': 'bg-green-600', 'warning': 'bg-yellow-500', 'error': 'bg-red-600',
-        };
-        document.querySelectorAll('.alert-message').forEach(function(message) {
-            Object.keys(messageTagsToClasses).forEach(function(tag) {
-                if (message.classList.contains(tag)) {
-                    message.classList.add(messageTagsToClasses[tag]);
+        // --- New Toast and Modal logic ---
+        const toast = document.getElementById('toast-notification');
+        const toastMessage = document.getElementById('toast-message');
+        const toastIcon = document.getElementById('toast-icon');
+        let toastTimeout;
+
+        window.showToast = function(message, type = 'success') {
+            if (!toast || !toastMessage || !toastIcon) return;
+
+            clearTimeout(toastTimeout); // Clear previous timeout if any
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('bg-green-600', 'bg-red-600', 'translate-x-[150%]');
+            
+            if (type === 'success') {
+                toast.classList.add('bg-green-600');
+                toastIcon.setAttribute('data-lucide', 'check-circle');
+            } else {
+                toast.classList.add('bg-red-600');
+                toastIcon.setAttribute('data-lucide', 'x-circle');
+            }
+            lucide.createIcons(); // Redraw icon
+
+            // Animate in
+            setTimeout(() => {
+                toast.classList.remove('translate-x-[150%]');
+                toast.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Automatically hide after 4 seconds
+            toastTimeout = setTimeout(() => {
+                hideToast();
+            }, 4000);
+        }
+    
+        function hideToast() {
+            if (!toast) return;
+            toast.style.transform = 'translateX(150%)';
+        }
+
+        const modal = document.getElementById('cart-modal');
+        const modalContent = modal ? modal.querySelector('div') : null;
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        window.showModal = function() {
+            if (!modal || !modalContent) return;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function hideModal() {
+            if (!modal || !modalContent) return;
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Corresponds to the transition duration
+        }
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', hideModal);
+        }
+        
+        if (modal) {
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    hideModal();
                 }
             });
-            setTimeout(() => {
-                message.style.transition = 'opacity 0.5s ease';
-                message.style.opacity = '0';
-                setTimeout(() => message.remove(), 500);
-            }, 5000);
-        });
+        }
     });
   </script>
   

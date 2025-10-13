@@ -3,8 +3,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from .forms import CustomUser_CreationForm
-# Se importa el modelo Actividad
 from .models import Paquete, Destino, Transporte, Actividad
 
 # Vistas de páginas estáticas
@@ -24,14 +25,10 @@ def arrepentimiento(request):
 # Vista para mostrar las actividades
 def actividades(request):
     actividades = Actividad.objects.all()
-    # Obtiene solo los destinos que tienen al menos una actividad.
     destinos = Destino.objects.filter(actividades__isnull=False).distinct()
-
-    # Lógica de filtrado por destino
     destino_id = request.GET.get('destino')
     if destino_id:
         actividades = actividades.filter(destino_id=destino_id)
-        
     return render(request, 'Carrito_app/actividades.html', {
         'actividades': actividades,
         'destinos': destinos
@@ -61,22 +58,15 @@ def contacto(request):
 def paquetes(request):
     paquetes = Paquete.objects.all()
     destinos = Destino.objects.all()
-    
-    # Lógica de filtrado por destino
     destino_id = request.GET.get('destino')
     if destino_id:
         paquetes = paquetes.filter(destino_id=destino_id)
-        
-    # Lógica de filtrado por precio máximo
     precio_max = request.GET.get('precio_max')
     if precio_max:
         try:
-            # Filtra los paquetes cuyo precio es menor o igual al máximo
             paquetes = paquetes.filter(precio__lte=float(precio_max))
         except (ValueError, TypeError):
-            # Ignora el filtro si el valor no es un número válido
             pass
-
     return render(request, 'Carrito_app/paquetes.html', {
         'paquetes': paquetes,
         'destinos': destinos
@@ -95,50 +85,47 @@ def carrito(request):
     for item_id, item_data in cart.items():
         paquete = get_object_or_404(Paquete, id=item_id)
         item_total = paquete.precio * item_data['quantity']
-        
-        # Genera la URL de la imagen, si existe
         imagen_url = ''
         if paquete.imagen:
             imagen_url = paquete.imagen.url
-            
         items.append({
             'id': item_id,
             'nombre': paquete.nombre,
             'precio': paquete.precio,
             'quantity': item_data['quantity'],
-            'imagen_url': imagen_url,  # Pasamos la URL a la plantilla
+            'imagen_url': imagen_url,
             'total': item_total
         })
         total += item_total
-    
     return render(request, 'Carrito_app/carrito.html', {'items': items, 'total': total})
 
 @login_required
 def add_to_cart(request, paquete_id):
     paquete = get_object_or_404(Paquete, id=paquete_id)
     cart = request.session.get('cart', {})
-    
     item_id = str(paquete_id)
-    
+    redirect_url = request.META.get('HTTP_REFERER', reverse('paquetes'))
     if item_id in cart:
-        messages.info(request, f'"\{paquete.nombre}" ya está en tu carrito.')
+        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'"\{paquete.nombre}" ha sido añadido a tu carrito.')
-        
-    request.session['cart'] = cart
-    return redirect('carrito')
+        request.session['cart'] = cart
+        cart_url = reverse('carrito')
+        message = mark_safe(
+            f'"{paquete.nombre}" ha sido añadido a tu carrito. '
+            f'<a href="{cart_url}" class="font-bold text-white underline">Ver carrito</a>'
+        )
+        messages.success(request, message)
+    return redirect(redirect_url)
 
 @login_required
 def remove_from_cart(request, item_id):
     cart = request.session.get('cart', {})
     item_id_str = str(item_id)
-
     if item_id_str in cart:
         del cart[item_id_str]
         request.session['cart'] = cart
         messages.success(request, "El producto fue eliminado de tu carrito.")
-        
     return redirect('carrito')
 
 @login_required
@@ -170,7 +157,6 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                # Redirige al home del usuario logueado
                 return redirect("home") 
             else:
                 messages.error(request, "Usuario o contraseña incorrectos.")
@@ -187,7 +173,6 @@ def logout_view(request):
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        # Actualiza los datos del usuario
         request.user.first_name = request.POST.get('first_name')
         request.user.last_name = request.POST.get('last_name')
         request.user.email = request.POST.get('email')
@@ -198,7 +183,5 @@ def edit_profile(request):
 
 @login_required
 def order_history(request):
-    # Lógica para obtener el historial de pedidos del usuario
-    # orders = request.user.orders.all()  # Suponiendo que tienes una relación
-    orders = [] # Placeholder
+    orders = []
     return render(request, 'registration/order_history.html', {'orders': orders})

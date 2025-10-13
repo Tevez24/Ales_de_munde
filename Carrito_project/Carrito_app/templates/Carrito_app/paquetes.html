@@ -59,7 +59,7 @@
                     </div>
                     <div class="flex space-x-2">
                         <a href="{% url 'paquete_detalle' paquete.id %}" class="flex-1 text-center bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-2 rounded-md transition-colors">Ver Detalles</a>
-                        <a href="{% url 'add_to_cart' paquete.id %}" class="flex-1 text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition-colors">Añadir al Carrito</a>
+                        <button onclick="handleAddToCart(event, '{% url 'add_to_cart' paquete.id %}')" class="add-to-cart-btn flex-1 text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition-colors">Añadir al Carrito</button>
                     </div>
                 </div>
               </div>
@@ -91,5 +91,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+function handleAddToCart(event, url) {
+    event.preventDefault(); // Evita la navegación inmediata
+    
+    // Muestra el toast
+    window.showToast('¡Producto añadido al carrito!');
+
+    // Muestra el modal después de un breve retraso
+    setTimeout(() => {
+        window.showModal();
+    }, 500);
+
+    // Opcional: si realmente necesitas navegar a la URL de `add_to_cart` 
+    // (por ejemplo, si actualiza el estado del lado del servidor), puedes hacerlo aquí.
+    // Pero si la lógica del carrito es solo del lado del cliente, esto podría no ser necesario.
+    // Para este ejemplo, simularemos que la URL es necesaria para actualizar el carrito en el backend.
+    fetch(url, {
+        method: 'GET', // o 'POST' si es necesario
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest' // Para identificar la solicitud AJAX en Django
+        }
+    }).then(response => response.json()).then(data => {
+        if(data.status !== 'success') {
+            // Opcional: mostrar un toast de error si algo sale mal
+            window.showToast('Error al añadir el producto', 'error');
+        }
+    }).catch(error => {
+        console.error("Error adding to cart:", error);
+        window.showToast('Error de conexión', 'error');
+    });
+}
+
 </script>
 {% endblock %}
