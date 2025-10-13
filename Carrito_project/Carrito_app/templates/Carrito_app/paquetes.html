@@ -82,6 +82,22 @@
 
 {% block extra_js %}
 <script>
+// Función para obtener el valor de una cookie por su nombre
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const precioMaxInput = document.getElementById('precio_max');
     const precioMaxValor = document.getElementById('precio-max-valor');
@@ -94,24 +110,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function handleAddToCart(event, url) {
     event.preventDefault();
-    
+    const csrftoken = getCookie('csrftoken');
+
     fetch(url, {
-        method: 'GET',
+        method: 'POST', // Cambiado a POST
         headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrftoken, // Token CSRF añadido
+            'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            // Si la respuesta no es OK, la convertimos a JSON para ver el mensaje de error
+            return response.json().then(err => Promise.reject(err));
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.status === 'success') {
             window.showToast('¡Producto añadido al carrito!');
             setTimeout(() => {
                 window.showModal(
                     '¡Añadido!',
-                    'El producto se ha añadido a tu carrito.',
+                    data.message,
                     'Ver Carrito',
                     'Seguir Comprando',
-                    () => { window.location.href = '{% url 'carrito' %}'; },
+                    () => { window.location.href = '{% url "carrito" %}'; },
                     () => { window.hideModal(); }
                 );
             }, 500);
@@ -130,7 +155,8 @@ function handleAddToCart(event, url) {
     })
     .catch(error => {
         console.error("Error adding to cart:", error);
-        window.showToast('Error de conexión', 'error');
+        // Si hay un error de red o un error del servidor, mostrar un mensaje genérico.
+        window.showToast(error.message || 'Hubo un problema de conexión. Inténtalo de nuevo.', 'error');
     });
 }
 </script>

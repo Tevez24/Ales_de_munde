@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
 from .forms import CustomUser_CreationForm
 from .models import Paquete, Destino, Transporte, Actividad
@@ -100,9 +101,10 @@ def carrito(request):
         total += item_total
     return render(request, 'Carrito_app/carrito.html', {'items': items, 'total': total})
 
+@require_POST
 def add_to_cart(request, paquete_id):
     if not request.user.is_authenticated:
-        return JsonResponse({'status': 'error', 'message': 'Debes iniciar sesión para añadir productos al carrito.', 'redirect_url': reverse('login')})
+        return JsonResponse({'status': 'error', 'message': 'Debes iniciar sesión para añadir productos al carrito.', 'redirect_url': reverse('login')}, status=401)
 
     paquete = get_object_or_404(Paquete, id=paquete_id)
     cart = request.session.get('cart', {})
