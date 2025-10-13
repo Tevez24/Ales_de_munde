@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from .forms import CustomUser_CreationForm
 from .models import Paquete, Destino, Transporte, Actividad
+from django.http import JsonResponse
 
 # Vistas de páginas estáticas
 def inicio(request):
@@ -104,19 +105,13 @@ def add_to_cart(request, paquete_id):
     paquete = get_object_or_404(Paquete, id=paquete_id)
     cart = request.session.get('cart', {})
     item_id = str(paquete_id)
-    redirect_url = request.META.get('HTTP_REFERER', reverse('paquetes'))
+
     if item_id in cart:
-        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
+        return JsonResponse({'status': 'info', 'message': f'"{paquete.nombre}" ya está en tu carrito.'})
     else:
         cart[item_id] = {'quantity': 1}
         request.session['cart'] = cart
-        cart_url = reverse('carrito')
-        message = mark_safe(
-            f'"{paquete.nombre}" ha sido añadido a tu carrito. '
-            f'<a href="{cart_url}" class="font-bold text-white underline">Ver carrito</a>'
-        )
-        messages.success(request, message)
-    return redirect(redirect_url)
+        return JsonResponse({'status': 'success', 'message': f'"{paquete.nombre}" ha sido añadido a tu carrito.'})
 
 @login_required
 def remove_from_cart(request, item_id):
