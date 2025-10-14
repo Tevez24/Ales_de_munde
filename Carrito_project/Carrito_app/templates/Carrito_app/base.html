@@ -149,17 +149,100 @@
     // Lucide Icons
     lucide.createIcons();
 
-    // Reusable script for dropdowns, mobile menus, and alerts
+    // --- Global Modal and Toast Variables ---
+    let modal, modalContent, modalTitle, modalMessage, primaryBtn, secondaryBtn;
+    let primaryBtnAction, secondaryBtnAction;
+
+    let toast, toastMessage, toastIcon;
+    let toastTimeout;
+
+    // --- Global Function Definitions ---
+    window.showToast = function(message, type = 'success') {
+        if (!toast) return; // Don't run if DOM is not ready
+
+        clearTimeout(toastTimeout);
+        
+        toastMessage.textContent = message;
+        toast.classList.remove('bg-green-600', 'bg-red-600', 'bg-blue-500', 'translate-x-[150%]');
+        
+        if (type === 'success') {
+            toast.classList.add('bg-green-600');
+            toastIcon.setAttribute('data-lucide', 'check-circle');
+        } else if (type === 'error') {
+            toast.classList.add('bg-red-600');
+            toastIcon.setAttribute('data-lucide', 'x-circle');
+        } else if (type === 'info') {
+            toast.classList.add('bg-blue-500');
+            toastIcon.setAttribute('data-lucide', 'info');
+        }
+        lucide.createIcons();
+
+        setTimeout(() => toast.style.transform = 'translateX(0)', 10);
+        
+        toastTimeout = setTimeout(() => window.hideToast(), 4000);
+    }
+
+    window.hideToast = function() {
+        if (!toast) return;
+        toast.style.transform = 'translateX(150%)';
+    }
+
+    window.showModal = function(title, message, primaryBtnText, secondaryBtnText, onPrimaryClick, onSecondaryClick) {
+        if (!modal) return;
+
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        primaryBtn.textContent = primaryBtnText;
+        secondaryBtn.textContent = secondaryBtnText;
+
+        if (primaryBtnAction) primaryBtn.removeEventListener('click', primaryBtnAction);
+        if (secondaryBtnAction) secondaryBtn.removeEventListener('click', secondaryBtnAction);
+        
+        primaryBtnAction = onPrimaryClick;
+        secondaryBtnAction = onSecondaryClick;
+
+        primaryBtn.addEventListener('click', primaryBtnAction);
+        secondaryBtn.addEventListener('click', secondaryBtnAction);
+        
+        secondaryBtn.style.display = secondaryBtnText ? 'inline-block' : 'none';
+
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+        }, 10);
+    }
+
+    window.hideModal = function() {
+        if (!modal) return;
+        modal.classList.add('opacity-0');
+        modalContent.classList.add('scale-95');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    // --- DOM Initialization and Event Listeners ---
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Modal and Toast elements
+        toast = document.getElementById('toast-notification');
+        toastMessage = document.getElementById('toast-message');
+        toastIcon = document.getElementById('toast-icon');
+
+        modal = document.getElementById('modal');
+        modalContent = document.getElementById('modal-content');
+        modalTitle = document.getElementById('modal-title');
+        modalMessage = document.getElementById('modal-message');
+        primaryBtn = document.getElementById('modal-primary-btn');
+        secondaryBtn = document.getElementById('modal-secondary-btn');
+
         // Profile Dropdown
         const toggle = document.getElementById('profile-toggle');
         const dropdown = document.getElementById('profile-dropdown');
         if (toggle && dropdown) {
-            toggle.addEventListener('click', function(e) {
+            toggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 dropdown.classList.toggle('hidden');
             });
-            document.addEventListener('click', function(event) {
+            document.addEventListener('click', (event) => {
                 if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
                     dropdown.classList.add('hidden');
                 }
@@ -170,106 +253,13 @@
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
         }
 
-        // --- New Toast and Modal logic ---
-        const toast = document.getElementById('toast-notification');
-        const toastMessage = document.getElementById('toast-message');
-        const toastIcon = document.getElementById('toast-icon');
-        let toastTimeout;
-
-        window.showToast = function(message, type = 'success') {
-            if (!toast || !toastMessage || !toastIcon) return;
-
-            clearTimeout(toastTimeout); // Clear previous timeout if any
-            
-            toastMessage.textContent = message;
-            toast.classList.remove('bg-green-600', 'bg-red-600', 'translate-x-[150%]');
-            
-            if (type === 'success') {
-                toast.classList.add('bg-green-600');
-                toastIcon.setAttribute('data-lucide', 'check-circle');
-            } else if (type === 'error') {
-                toast.classList.add('bg-red-600');
-                toastIcon.setAttribute('data-lucide', 'x-circle');
-            } else if (type === 'info') {
-                toast.classList.add('bg-blue-500');
-                toastIcon.setAttribute('data-lucide', 'info');
-            }
-            lucide.createIcons(); // Redraw icon
-
-            // Animate in
-            setTimeout(() => {
-                toast.style.transform = 'translateX(0)';
-            }, 10);
-            
-            // Automatically hide after 4 seconds
-            toastTimeout = setTimeout(() => {
-                hideToast();
-            }, 4000);
-        }
-    
-        function hideToast() {
-            if (!toast) return;
-            toast.style.transform = 'translateX(150%)';
-        }
-
-        const modal = document.getElementById('modal');
-        const modalContent = document.getElementById('modal-content');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        const primaryBtn = document.getElementById('modal-primary-btn');
-        const secondaryBtn = document.getElementById('modal-secondary-btn');
-
-        // Store current actions to remove them later
-        let primaryBtnAction;
-        let secondaryBtnAction;
-
-        window.showModal = function(title, message, primaryBtnText, secondaryBtnText, onPrimaryClick, onSecondaryClick) {
-            if (!modal || !modalContent) return;
-
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            primaryBtn.textContent = primaryBtnText;
-            secondaryBtn.textContent = secondaryBtnText;
-
-            // Remove previous event listeners
-            if (primaryBtnAction) primaryBtn.removeEventListener('click', primaryBtnAction);
-            if (secondaryBtnAction) secondaryBtn.removeEventListener('click', secondaryBtnAction);
-            
-            // Assign new actions
-            primaryBtnAction = onPrimaryClick;
-            secondaryBtnAction = onSecondaryClick;
-
-            primaryBtn.addEventListener('click', primaryBtnAction);
-            secondaryBtn.addEventListener('click', secondaryBtnAction);
-            
-            secondaryBtn.style.display = secondaryBtnText ? 'inline-block' : 'none';
-
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-            }, 10);
-        }
-
-        window.hideModal = function() {
-            if (!modal || !modalContent) return;
-            modal.classList.add('opacity-0');
-            modalContent.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
+        // Modal background click
         if (modal) {
-            modal.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    hideModal();
-                }
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) window.hideModal();
             });
         }
     });
