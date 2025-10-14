@@ -128,41 +128,41 @@ async function handleAddToCart(event, url) {
         if (!response.ok) {
             // Server returned an error (e.g., 401 Unauthorized)
             if (data.status === 'error' && data.redirect_url) {
-                window.showModal(
-                    'Error',
+                window.showCustomModal(
+                    'Debes iniciar sesión',
                     data.message,
                     'Iniciar Sesión',
                     'Cancelar',
                     () => { window.location.href = data.redirect_url; },
-                    () => { window.hideModal(); }
+                    () => {}
                 );
             } else {
-                window.showToast(data.message || 'Ocurrió un error inesperado.', 'error');
+                window.showCustomToast(data.message || 'Ocurrió un error inesperado.', 'error');
             }
             return; // Stop execution
         }
 
         // --- Success cases ---
         if (data.status === 'success') {
-            window.showToast('¡Producto añadido al carrito!');
+            window.showCustomToast('¡Producto añadido al carrito!');
             // Wait for toast to be visible before showing modal
             setTimeout(() => {
-                window.showModal(
+                window.showCustomModal(
                     '¡Añadido!',
                     data.message,
                     'Ver Carrito',
                     'Seguir Comprando',
                     () => { window.location.href = '{% url "carrito" %}'; },
-                    () => { window.hideModal(); }
+                    () => {}
                 );
             }, 500);
         } else if (data.status === 'info') {
-            window.showToast(data.message, 'info');
+            window.showCustomToast(data.message, 'info');
         }
 
     } catch (error) {
         console.error("Error en la solicitud fetch:", error);
-        window.showToast('Hubo un problema de conexión. Inténtalo de nuevo.', 'error');
+        window.showCustomToast('Hubo un problema de conexión. Inténtalo de nuevo.', 'error');
     }
 }
 
