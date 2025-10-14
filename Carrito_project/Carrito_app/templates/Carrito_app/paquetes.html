@@ -23,6 +23,7 @@
         <div class="bg-white p-6 rounded-lg shadow-md sticky top-24">
           <h2 class="text-2xl font-bold text-gray-800 mb-6">Filtrar Paquetes</h2>
           <form method="GET" action="{% url 'paquetes' %}" class="space-y-6">
+            {% csrf_token %}
             <div>
               <label for="destino" class="block text-sm font-medium text-gray-700">Destino</label>
               <select name="destino" id="destino" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3">
