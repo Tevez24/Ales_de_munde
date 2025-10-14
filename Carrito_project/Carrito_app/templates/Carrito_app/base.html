@@ -133,16 +133,16 @@
   </div>
 
   <!-- Modal -->
-  <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[90] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-      <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
-          <h2 class="text-2xl font-bold mb-4">¡Agregado al Carrito!</h2>
-          <p class="text-gray-600 mb-6">El producto fue añadido exitosamente.</p>
-          <div class="flex justify-center space-x-4">
-              <a href="{% url 'carrito' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md shadow-md hover:shadow-lg transition-shadow">Ver Carrito</a>
-              <button id="close-modal-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition-colors">Seguir Comprando</button>
-          </div>
-      </div>
-  </div>
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 z-[90] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div id="modal-content" class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
+            <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
+            <p id="modal-message" class="text-gray-600 mb-6"></p>
+            <div id="modal-buttons" class="flex justify-center space-x-4">
+                <button id="modal-primary-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md shadow-md hover:shadow-lg transition-shadow"></button>
+                <button id="modal-secondary-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition-colors"></button>
+            </div>
+        </div>
+    </div>
 
 
   <script>
@@ -192,15 +192,17 @@
             if (type === 'success') {
                 toast.classList.add('bg-green-600');
                 toastIcon.setAttribute('data-lucide', 'check-circle');
-            } else {
+            } else if (type === 'error') {
                 toast.classList.add('bg-red-600');
                 toastIcon.setAttribute('data-lucide', 'x-circle');
+            } else if (type === 'info') {
+                toast.classList.add('bg-blue-500');
+                toastIcon.setAttribute('data-lucide', 'info');
             }
             lucide.createIcons(); // Redraw icon
 
             // Animate in
             setTimeout(() => {
-                toast.classList.remove('translate-x-[150%]');
                 toast.style.transform = 'translateX(0)';
             }, 10);
             
@@ -215,12 +217,38 @@
             toast.style.transform = 'translateX(150%)';
         }
 
-        const modal = document.getElementById('cart-modal');
-        const modalContent = modal ? modal.querySelector('div') : null;
-        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const primaryBtn = document.getElementById('modal-primary-btn');
+        const secondaryBtn = document.getElementById('modal-secondary-btn');
 
-        window.showModal = function() {
+        // Store current actions to remove them later
+        let primaryBtnAction;
+        let secondaryBtnAction;
+
+        window.showModal = function(title, message, primaryBtnText, secondaryBtnText, onPrimaryClick, onSecondaryClick) {
             if (!modal || !modalContent) return;
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            primaryBtn.textContent = primaryBtnText;
+            secondaryBtn.textContent = secondaryBtnText;
+
+            // Remove previous event listeners
+            if (primaryBtnAction) primaryBtn.removeEventListener('click', primaryBtnAction);
+            if (secondaryBtnAction) secondaryBtn.removeEventListener('click', secondaryBtnAction);
+            
+            // Assign new actions
+            primaryBtnAction = onPrimaryClick;
+            secondaryBtnAction = onSecondaryClick;
+
+            primaryBtn.addEventListener('click', primaryBtnAction);
+            secondaryBtn.addEventListener('click', secondaryBtnAction);
+            
+            secondaryBtn.style.display = secondaryBtnText ? 'inline-block' : 'none';
+
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
@@ -228,19 +256,15 @@
             }, 10);
         }
 
-        function hideModal() {
+        window.hideModal = function() {
             if (!modal || !modalContent) return;
             modal.classList.add('opacity-0');
             modalContent.classList.add('scale-95');
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 300); // Corresponds to the transition duration
+            }, 300);
         }
 
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', hideModal);
-        }
-        
         if (modal) {
             modal.addEventListener('click', function(event) {
                 if (event.target === modal) {
