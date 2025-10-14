@@ -113,16 +113,15 @@ function handleAddToCart(event, url) {
     const csrftoken = getCookie('csrftoken');
 
     fetch(url, {
-        method: 'POST', // Cambiado a POST
+        method: 'POST',
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrftoken, // Token CSRF añadido
+            'X-CSRFToken': csrftoken,
             'Content-Type': 'application/json'
         }
     })
     .then(response => {
         if (!response.ok) {
-            // Si la respuesta no es OK, la convertimos a JSON para ver el mensaje de error
             return response.json().then(err => Promise.reject(err));
         }
         return response.json();
@@ -142,21 +141,22 @@ function handleAddToCart(event, url) {
             }, 500);
         } else if (data.status === 'info') {
              window.showToast(data.message, 'info');
-        } else if (data.status === 'error') {
-            window.showModal(
-                'Error',
-                data.message,
-                'Iniciar Sesión',
-                'Cancelar',
-                () => { window.location.href = data.redirect_url; },
-                () => { window.hideModal(); }
-            );
         }
     })
     .catch(error => {
         console.error("Error adding to cart:", error);
-        // Si hay un error de red o un error del servidor, mostrar un mensaje genérico.
-        window.showToast(error.message || 'Hubo un problema de conexión. Inténtalo de nuevo.', 'error');
+        if (error && error.status === 'error' && error.redirect_url) {
+            window.showModal(
+                'Error',
+                error.message,
+                'Iniciar Sesión',
+                'Cancelar',
+                () => { window.location.href = error.redirect_url; },
+                () => { window.hideModal(); }
+            );
+        } else {
+            window.showToast((error && error.message) || 'Hubo un problema de conexión. Inténtalo de nuevo.', 'error');
+        }
     });
 }
 </script>
