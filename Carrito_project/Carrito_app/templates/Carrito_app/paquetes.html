@@ -6,26 +6,34 @@
 {% block content %}
 <div class="bg-gray-50">
   <!-- Hero Section -->
-  <div class="relative py-20 bg-cover bg-center" style="background-image: url('{% static 'Carrito_app/img/hero_paquetes.jpg' %}');">
-    <div class="absolute inset-0 bg-black opacity-50"></div>
-    <div class="relative container mx-auto px-4 text-center text-white">
-      <h1 class="text-4xl md:text-5xl font-bold">Encuentra tu Próxima Aventura</h1>
-      <p class="mt-4 text-lg md:text-xl">Paquetes de viaje diseñados para cada tipo de explorador.</p>
+  <div class="relative py-28 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1518546305927-5a555bb6a32b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+    <div class="absolute inset-0 bg-black opacity-60"></div>
+    <div class="relative container mx-auto px-6 text-center text-white z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Encuentra tu Próxima Aventura</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Paquetes de viaje diseñados para cada tipo de explorador. Personalizados, sostenibles y llenos de experiencias únicas.</p>
+      <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
+      
+        <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition-all">Asesoría Personalizada</a>
+      </div>
+      </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div class="container mx-auto px-4 py-16">
+  <div class="container mx-auto px-6 py-20" id="paquetes">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
       <!-- Filters Column -->
       <aside class="lg:col-span-1">
-        <div class="bg-white p-6 rounded-lg shadow-md sticky top-24">
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Filtrar Paquetes</h2>
+        <div class="bg-white p-6 rounded-2xl shadow-lg sticky top-24 border border-gray-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center"><i data-lucide="filter" class="h-6 w-6 mr-2 text-blue-600"></i> Filtrar Paquetes</h2>
           <form method="GET" action="{% url 'paquetes' %}" class="space-y-6">
             <div>
-              <label for="destino" class="block text-sm font-medium text-gray-700">Destino</label>
-              <select name="destino" id="destino" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3">
+              <label for="destino" class="block text-sm font-medium text-gray-700 mb-2">Destino</label>
+              <select name="destino" id="destino" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4">
                 <option value="">Todos los Destinos</option>
                 {% for d in destinos %}
                   <option value="{{ d.id }}" {% if request.GET.destino == d.id|stringformat:"s" %}selected{% endif %}>{{ d.nombre }}</option>
@@ -33,46 +41,76 @@
               </select>
             </div>
             <div>
-                <label for="precio_max" class="block text-sm font-medium text-gray-700">Precio Máximo</label>
-                <input type="range" id="precio_max" name="precio_max" min="500" max="5000" step="100" value="{{ request.GET.precio_max|default:'5000' }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                <div class="text-center text-gray-600 mt-2">$ <span id="precio-max-valor">{{ request.GET.precio_max|default:'5000' }}</span></div>
+                <label for="precio_max" class="block text-sm font-medium text-gray-700 mb-2">Precio Máximo</label>
+                <input type="range" id="precio_max" name="precio_max" min="500" max="5000" step="100" value="{{ request.GET.precio_max|default:'5000' }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb">
+                <div class="text-center text-gray-600 mt-2 font-semibold">$ <span id="precio-max-valor">{{ request.GET.precio_max|default:'5000' }}</span></div>
             </div>
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm">Aplicar Filtros</button>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-sm transition-all transform hover:scale-105">Aplicar Filtros</button>
           </form>
+          <div class="mt-6 pt-6 border-t border-gray-200">
+            <p class="text-sm text-gray-500">¿No encuentras lo que buscas? <a href="{% url 'contacto' %}" class="text-blue-600 hover:underline">Contáctanos para paquetes personalizados</a>.</p>
+          </div>
         </div>
       </aside>
 
       <!-- Packages Column -->
       <main class="lg:col-span-3">
+        <div class="mb-8 flex justify-between items-center">
+          <p class="text-gray-600">Mostrando {% if paquetes %}{{ paquetes|length }} paquetes{% else %}0 paquetes{% endif %} disponibles</p>
+          <select class="border-gray-300 rounded-lg shadow-sm py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
+            <option>Ordenar por: Precio Bajo-Alto</option>
+            <option>Precio Alto-Bajo</option>
+            <option>Popularidad</option>
+          </select>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           {% if paquetes %}
             {% for paquete in paquetes %}
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-              <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}{% static 'Carrito_app/img/default_package.jpg' %}{% endif %}" alt="Imagen de {{ paquete.nombre }}" class="w-full h-56 object-cover">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 flex flex-col border border-gray-100 animate-fadeInCard">
+              <div class="relative">
+                <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}https://images.unsplash.com/photo-1501785882288-1e2a1b0b2b2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80{% endif %}" alt="Imagen de {{ paquete.nombre }}" class="w-full h-56 object-cover">
+                <div class="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">{{ paquete.duracion }} días</div>
+              </div>
               <div class="p-6 flex flex-col flex-grow">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ paquete.nombre }}</h3>
-                <p class="text-gray-600 mb-4"><i data-lucide="map-pin" class="inline-block h-4 w-4 mr-1 text-blue-500"></i><strong>{{ paquete.destino.nombre }}</strong></p>
-                <p class="text-gray-700 flex-grow">{{ paquete.descripcion|truncatewords:25 }}</p>
-                <div class="mt-4 pt-4 border-t border-gray-200">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2 flex items-center"><i data-lucide="package" class="h-5 w-5 mr-2 text-blue-600"></i> {{ paquete.nombre }}</h3>
+                <p class="text-gray-600 mb-4 flex items-center"><i data-lucide="map-pin" class="h-5 w-5 mr-2 text-green-500"></i><strong>{{ paquete.destino.nombre }}</strong> • {{ paquete.categoria }}</p>
+                <p class="text-gray-700 flex-grow mb-4">{{ paquete.descripcion|truncatewords:25 }}</p>
+                <div class="mt-auto pt-4 border-t border-gray-200">
                     <div class="flex justify-between items-center mb-4">
-                        <p class="text-2xl font-bold text-blue-600">${{ paquete.precio|floatformat:2 }}</p>
+                        <p class="text-3xl font-bold text-blue-600">${{ paquete.precio|floatformat:2 }}</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                          <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current mr-1"></i> 4.8 ({{ paquete.reseñas|length }} reseñas)
+                        </div>
                     </div>
-                    <div class="flex space-x-2">
-                        <a href="{% url 'paquete_detalle' paquete.id %}" class="flex-1 text-center bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-2 rounded-md transition-colors">Ver Detalles</a>
-                        <a href="{% url 'add_to_cart' paquete.id %}" class="flex-1 text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition-colors">Añadir al Carrito</a>
+                    <div class="flex space-x-3">
+                        <a href="{% url 'paquete_detalle' paquete.id %}" class="flex-1 text-center bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-3 rounded-lg transition-all">Ver Detalles</a>
+                        <a href="{% url 'add_to_cart' paquete.id %}" class="flex-1 text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-3 rounded-lg transition-all flex items-center justify-center"><i data-lucide="shopping-cart" class="h-5 w-5 mr-2"></i> Añadir</a>
                     </div>
                 </div>
               </div>
             </div>
             {% endfor %}
           {% else %}
-            <div class="md:col-span-2 text-center py-12">
-                <i data-lucide="search-x" class="h-16 w-16 text-gray-400 mx-auto mb-4"></i>
-                <h3 class="text-xl font-semibold text-gray-700">No se encontraron paquetes</h3>
-                <p class="text-gray-500 mt-2">Intenta ajustar tus filtros o revisa nuestros destinos nuevamente.</p>
+            <div class="md:col-span-2 text-center py-16 bg-white rounded-2xl shadow-lg">
+                <i data-lucide="search-x" class="h-20 w-20 text-gray-400 mx-auto mb-6"></i>
+                <h3 class="text-2xl font-semibold text-gray-700 mb-2">No se encontraron paquetes</h3>
+                <p class="text-gray-500 mb-6">Intenta ajustar tus filtros o revisa nuestros destinos nuevamente.</p>
+                <a href="{% url 'paquetes' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all">Reiniciar Filtros</a>
             </div>
           {% endif %}
         </div>
+        <!-- Paginación -->
+        {% if paquetes.has_other_pages %}
+        <div class="mt-12 flex justify-center space-x-2">
+          {% if paquetes.has_previous %}
+            <a href="?page={{ paquetes.previous_page_number }}" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">Anterior</a>
+          {% endif %}
+          <span class="px-4 py-2 bg-blue-600 text-white rounded-lg">Página {{ paquetes.number }} de {{ paquetes.paginator.num_pages }}</span>
+          {% if paquetes.has_next %}
+            <a href="?page={{ paquetes.next_page_number }}" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">Siguiente</a>
+          {% endif %}
+        </div>
+        {% endif %}
       </main>
 
     </div>
@@ -90,6 +128,34 @@ document.addEventListener('DOMContentLoaded', function () {
             precioMaxValor.textContent = this.value;
         });
     }
+    lucide.createIcons();  // Inicializa iconos Lucide
 });
 </script>
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeInCard {
+    animation: fadeInCard 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Secuencial para cards: JS para delays dinámicos */
+  document.querySelectorAll('.animate-fadeInCard').forEach((card , index) => {
+    card.style.animationDelay = `${index * 0.2}s`;
+  });
+  /* Estilo slider custom */
+  /* .slider-thumb {
+    -webkit-appearance: none;
+    background: #3b82f6;
+    outline: none;
+  } */
+</style>
 {% endblock %}
