@@ -69,7 +69,7 @@
                             <span>${{ total|floatformat:2 }}</span>
                         </li>
                     </ul>
-                    <a href="{% url 'checkout' %}" class="btn btn-primary btn-block mt-3">Simular Checkout</a>
+                    <button id="checkout-button" class="btn btn-primary btn-block mt-3">Finalizar Compra</button>
                 </div>
             </div>
         </div>
@@ -81,4 +81,34 @@
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+{{ items|json_script:"cart-items" }}
+{{ total|json_script:"cart-total" }}
+<script>
+  document.getElementById('checkout-button').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    const items = JSON.parse(document.getElementById('cart-items').textContent);
+    const total = JSON.parse(document.getElementById('cart-total').textContent);
+
+    let body = 'Hola, confirmo mi pedido con los siguientes productos:\n\n';
+    items.forEach(item => {
+      body += `- ${item.nombre} (Cantidad: ${item.quantity}) - $${parseFloat(item.total).toFixed(2)}\n`;
+    });
+    body += `\nTotal del Pedido: $${parseFloat(total).toFixed(2)}\n`;
+    body += '\nGracias.';
+
+    const subject = 'Confirmación de Pedido';
+    const mailtoLink = `mailto:ailesdumunde1@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+
+    // Opcional: limpiar el carrito después de enviar el correo
+    // fetch("{% url 'checkout' %}").then(() => {
+    //   console.log('Carrito limpiado');
+    // });
+  });
+</script>
 {% endblock %}

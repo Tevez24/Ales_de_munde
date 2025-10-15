@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUser_CreationForm
@@ -57,6 +59,15 @@ def transporte_detalle(request, transporte_id):
 def contacto(request):
     return render(request, 'Carrito_app/contacto.html')
 
+def medios_pago(request):
+    return render(request, 'Carrito_app/medios_pago.html')  
+
+def soporte_pago(request):
+    return render(request, 'Carrito_app/soporte_pago.html')
+
+def preguntas_frecuentes(request):
+    return render(request, 'Carrito_app/preguntas_frecuentes.html')
+ 
 # Vista principal de paquetes (Home)
 def paquetes(request):
     paquetes = Paquete.objects.all()
@@ -113,6 +124,15 @@ def carrito(request):
     
     return render(request, 'Carrito_app/carrito.html', {'items': items, 'total': total})
 
+def password_change(request):
+    return render(request, 'Carrito_app/password_change.html')  
+
+def pago(request):
+    return render(request, 'Carrito_app/pago.html')
+
+def support(request):
+    return render(request, 'Carrito_app/support.html')
+  
 @login_required
 def add_to_cart(request, paquete_id):
     paquete = get_object_or_404(Paquete, id=paquete_id)
@@ -121,10 +141,10 @@ def add_to_cart(request, paquete_id):
     item_id = str(paquete_id)
     
     if item_id in cart:
-        messages.info(request, f'"\{paquete.nombre}" ya está en tu carrito.')
+        messages.info(request, f'"{paquete.nombre}" ya está en tu carrito.')
     else:
         cart[item_id] = {'quantity': 1}
-        messages.success(request, f'"\{paquete.nombre}" ha sido añadido a tu carrito.')
+        messages.success(request, f'"{paquete.nombre}" ha sido añadido a tu carrito.')
         
     request.session['cart'] = cart
     return redirect('carrito')
@@ -146,59 +166,74 @@ def checkout(request):
     request.session['cart'] = {}
     return render(request, 'Carrito_app/checkout_success.html')
 
+# --- Formulario para editar perfil ---
+class EditProfileForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+
 # --- Vistas de Autenticación ---
-def register_view(request):
-    if request.method == "POST":
-        form = CustomUser_CreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "¡Registro exitoso! Ya puedes empezar a comprar.")
-            return redirect("home")
-    else:
-        form = CustomUser_CreationForm()
-    return render(request, "registration/register.html", {"form": form})
 
+# Login
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                # Redirige al home del usuario logueado
-                return redirect("home") 
-            else:
-                messages.error(request, "Usuario o contraseña incorrectos.")
-    else:
-        form = AuthenticationForm()
-    return render(request, "registration/login.html", {"form": form})
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'Carrito_app/login.html', {'error': 'Usuario o contraseña incorrectos'})
+    return render(request, 'Carrito_app/login.html')
 
-@login_required
+# Logout
 def logout_view(request):
     logout(request)
-    messages.info(request, "Has cerrado sesión exitosamente.")
-    return redirect("inicio")
+    return redirect('login')
 
+# Registro
+def register_view(request):
+    if request.method == 'POST':
+        form = CustomUser_CreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomUser_CreationForm()
+    return render(request, 'Carrito_app/register.html', {'form': form})
+
+# Editar perfil
 @login_required
 def edit_profile(request):
-    if request.method == 'POST':
-        # Actualiza los datos del usuario
-        request.user.first_name = request.POST.get('first_name')
-        request.user.last_name = request.POST.get('last_name')
-        request.user.email = request.POST.get('email')
-        request.user.save()
-        messages.success(request, '¡Tu perfil ha sido actualizado!')
-        return redirect('home')
-    return render(request, 'registration/edit_profile.html')
+    user = request.user
+    try:
+        profile = user.profile
+    except:
+        profile = None  # Por si no existe perfil relacionado
 
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            # Actualizar datos de perfil si existe
+            if profile:
+                profile.phone = request.POST.get('phone')
+                profile.birth_date = request.POST.get('birth_date')
+                profile.country = request.POST.get('country')
+                profile.city = request.POST.get('city')
+                profile.document_type = request.POST.get('document_type')
+                profile.document_number = request.POST.get('document_number')
+                profile.save()
+            return redirect('home')
+    else:
+        form = EditProfileForm(instance=user)
+    return render(request, 'Carrito_app/edit_profile.html', {'form': form, 'profile': profile})
+
+# Historial de órdenes
 @login_required
 def order_history(request):
-    # Lógica para obtener el historial de pedidos del usuario
-    # orders = request.user.orders.all()  # Suponiendo que tienes una relación
-    orders = [] # Placeholder
-    return render(request, 'registration/order_history.html', {'orders': orders})
+    # Acá podes traer tus órdenes desde tu modelo
+    return render(request, 'Carrito_app/order_history.html')
