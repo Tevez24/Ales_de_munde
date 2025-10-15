@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -10,6 +12,10 @@ from .forms import CustomUser_CreationForm
 from .models import Paquete, Destino, Transporte, Actividad
 from django.http import JsonResponse
 
+def support(request):
+    return render(request, 'Carrito_app/support.html')
+def pago(request):
+    return render(request, 'Carrito_app/pago.html')
 # Vistas de páginas estáticas
 def inicio(request):
     return render(request, 'Carrito_app/inicio.html')
@@ -56,6 +62,15 @@ def transporte_detalle(request, transporte_id):
 def contacto(request):
     return render(request, 'Carrito_app/contacto.html')
 
+def medios_pago(request):
+    return render(request, 'Carrito_app/medios_pago.html')  
+
+def soporte_pago(request):
+    return render(request, 'Carrito_app/soporte_pago.html')
+
+def preguntas_frecuentes(request):
+    return render(request, 'Carrito_app/preguntas_frecuentes.html')
+ 
 # Vista principal de paquetes (Home)
 def paquetes(request):
     paquetes = Paquete.objects.all()
@@ -132,15 +147,41 @@ def checkout(request):
     request.session['cart'] = {}
     return render(request, 'Carrito_app/checkout_success.html')
 
+# --- Formulario para editar perfil ---
+class EditProfileForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+
 # --- Vistas de Autenticación ---
+
+# Login
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'Carrito_app/login.html', {'error': 'Usuario o contraseña incorrectos'})
+    return render(request, 'Carrito_app/login.html')
+
+# Logout
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+# Registro
 def register_view(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CustomUser_CreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "¡Registro exitoso! Ya puedes empezar a comprar.")
-            return redirect("home")
+            form.save()
+            return redirect('login')
     else:
         form = CustomUser_CreationForm()
     return render(request, "registration/register.html", {"form": form})
@@ -163,14 +204,15 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, "registration/login.html", {"form": form})
 
-@login_required
-def logout_view(request):
-    logout(request)
-    messages.info(request, "Has cerrado sesión exitosamente.")
-    return redirect("inicio")
-
+# Editar perfil
 @login_required
 def edit_profile(request):
+    user = request.user
+    try:
+        profile = user.profile
+    except:
+        profile = None  # Por si no existe perfil relacionado
+
     if request.method == 'POST':
         request.user.first_name = request.POST.get('first_name')
         request.user.last_name = request.POST.get('last_name')
@@ -180,6 +222,7 @@ def edit_profile(request):
         return redirect('home')
     return render(request, 'registration/edit_profile.html')
 
+# Historial de órdenes
 @login_required
 def order_history(request):
     orders = []
