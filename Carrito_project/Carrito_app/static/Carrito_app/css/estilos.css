@@ -18,7 +18,7 @@
 
 /* Efectos hover para logos */
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #646cff64);
 }
 
 .logo.react:hover {
@@ -96,7 +96,7 @@
 
   /* Custom travel theme colors */
   --ocean-blue: hsl(199, 89%, 48%);
-  --sunset-orange: hsl(25, 95%, 53%);
+  --sunset-orange: hsla(25, 97%, 46%, 0.822);
   --tropical-green: hsl(142, 71%, 45%);
   --sand-beige: hsl(43, 74%, 66%);
 }
