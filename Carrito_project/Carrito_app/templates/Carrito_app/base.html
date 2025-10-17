@@ -4,10 +4,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Base - AILES DU MUNDE</title>
-<!-- CSS de Alquileres -->
-  <link rel="stylesheet" href="{% static 'Carrito_project/Carrito_app/static/Carrito_app/css/estilos.css' %}">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'Carrito_app/css/estilos.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=travel" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,16 +19,13 @@
 
   <!-- Header & Navigation Bar -->
   <header class="bg-white text-gray-500 shadow-md sticky top-0 z-50 border-b border-gray-200">
-    <nav class="container mx-auto px-4 py-3 flex justify-between items-center text-sm">
-      <a href="{% url 'inicio' %}" class="text-2xl font-bold text-blue-700 tracking-wider hover:text-blue-600 transition-colors flex items-center">
-        <span class="material-symbols-outlined">
-travel
-</span>AILES DU MUNDE</a>
-    
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center space-x-0.5">  {# Reduje space-x-1 a space-x-0.5 para menos distancia #}
-        
-        <a href="{% url 'paquetes' %}" class="group relative px-2.5 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">  {# px-3 a px-2.5 #}
+    <nav class="container mx-auto px-4 py-3 flex items-center text-sm">
+      <!-- Logo y Menú al lado -->
+      <div class="flex items-center space-x-4">
+        <a href="{% url 'inicio' %}" class="text-2xl font-bold text-blue-700 tracking-wider hover:text-blue-600 transition-colors flex items-center">
+          <span class="material-symbols-outlined">travel</span>AILES DU MUNDE
+        </a>
+        <a href="{% url 'paquetes' %}" class="group relative px-2.5 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">
           <span class="pb-1 border-b-2 border-transparent group-hover:border-blue-600 transition-all">Paquetes</span>
           <div class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
         </a>
@@ -66,36 +65,21 @@ travel
           <span class="pb-1 border-b-2 border-transparent group-hover:border-blue-600 transition-all">Contacto</span>
           <div class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
         </a>
-        <a href="{% url 'carrito' %}" class="group relative px-2.5 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
-          <i data-lucide="shopping-cart" class="h-5 w-5 mr-1"></i>
-          <span class="pb-1 border-b-2 border-transparent group-hover:border-blue-600 transition-all">Carrito</span>
-          <div class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
-        </a>
       </div>
-      
+
       <!-- User/Auth Section -->
-      <div class="flex items-center space-x-3">  {# Reduje space-x-4 a space-x-3 #}
+      <div class="flex items-center space-x-3 ml-auto">
         <a href="{% url 'carrito' %}" class="relative hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50">
           <i data-lucide="shopping-cart" class="h-6 w-6"></i>
-          <!-- Badge para items en carrito (opcional, integra con context) -->
           {% if carrito_count > 0 %}
             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{ carrito_count }}</span>
           {% endif %}
         </a>
         {% if user.is_authenticated %}
-<<<<<<< HEAD
-          <a href="{% url 'carrito' %}" class="relative">
-            <i data-lucide="shopping-cart" class="h-7 w-7 text-gray-600 hover:text-blue-600"></i>
-          </a>
-          <div class="relative">
-            <button id="profile-toggle" class="flex items-center space-x-2 cursor-pointer">
-              <i data-lucide="user-circle" class="h-7 w-7 text-gray-600"></i>
-=======
           <div class="relative group">
             <button id="profile-toggle" class="flex items-center space-x-2 cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-all">
               <i data-lucide="user-circle" class="h-8 w-8 text-gray-600"></i>
               <i data-lucide="chevron-down" class="h-4 w-4 text-gray-500 group-hover:rotate-180 transition-transform"></i>
->>>>>>> 57908fc13c984781398c27d1044a49c29798f4c8
             </button>
             <div id="profile-dropdown" class="absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-xl shadow-xl hidden z-20 border border-gray-100 overflow-hidden transform origin-top-right transition-all duration-300 scale-0 group-hover:scale-100">
               <div class="px-4 py-3 bg-blue-50 border-b border-gray-200">
@@ -104,84 +88,71 @@ travel
                 <p class="text-xs text-gray-500">{{ user.email }}</p>
               </div>
               <a href="{% url 'edit_profile' %}" class="flex items-center px-4 py-3 text-sm hover:bg-gray-50 transition-colors">
-                <i data-lucide="edit" class="h-5 w-5 mr-3 text-blue-600"></i>
-                Editar perfil
+                <i data-lucide="edit" class="h-5 w-5 mr-3 text-blue-600"></i>Editar perfil
               </a>
               <a href="{% url 'home' %}" class="flex items-center px-4 py-3 text-sm hover:bg-gray-50 transition-colors">
-                <i data-lucide="home" class="h-5 w-5 mr-3 text-blue-600"></i>
-                Mi Cuenta
+                <i data-lucide="home" class="h-5 w-5 mr-3 text-blue-600"></i>Mi Cuenta
               </a>
               <a href="{% url 'logout' %}" class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                <i data-lucide="log-out" class="h-5 w-5 mr-3"></i>
-                Cerrar Sesión
+                <i data-lucide="log-out" class="h-5 w-5 mr-3"></i>Cerrar Sesión
               </a>
             </div>
           </div>
         {% else %}
-          <a href="{% url 'login' %}" class="bg-transparent text-blue-600 hover:text-blue-800 font-semibold transition-colors px-3 py-2 rounded-full border border-blue-600 hover:bg-blue-50">Iniciar Sesión</a>  {# px-4 a px-3 #}
+          <a href="{% url 'login' %}" class="bg-transparent text-blue-600 hover:text-blue-800 font-semibold transition-colors px-3 py-2 rounded-full border border-blue-600 hover:bg-blue-50">Iniciar Sesión</a>
           <a href="{% url 'register' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Registrarse</a>
         {% endif %}
 
         <!-- Mobile Menu Button -->
         <button class="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors" id="mobile-menu-button">
-            <i data-lucide="menu" class="h-6 w-6"></i>
+          <i data-lucide="menu" class="h-6 w-6"></i>
         </button>
       </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 pb-4 pt-2 space-y-0.5 shadow-lg">  {# Reduje space-y-1 a space-y-0.5 #}
-        <a href="{% url 'inicio' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">  {# py-3 a py-2.5 #}
-          <i data-lucide="home" class="h-5 w-5 mr-3"></i> Inicio
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 pb-4 pt-2 space-y-0.5 shadow-lg">
+      <a href="{% url 'inicio' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="home" class="h-5 w-5 mr-3"></i> Inicio
+      </a>
+      <a href="{% url 'paquetes' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="package" class="h-5 w-5 mr-3"></i> Paquetes
+      </a>
+      <a href="{% url 'vuelos' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="plane" class="h-5 w-5 mr-3"></i> Vuelos
+      </a>
+      <a href="{% url 'alojamiento' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="hotel" class="h-5 w-5 mr-3"></i> Alojamiento
+      </a>
+      <a href="{% url 'alquileres' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="car" class="h-5 w-5 mr-3"></i> Alquileres
+      </a>
+      <a href="{% url 'transporte' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="bus" class="h-5 w-5 mr-3"></i> Transporte
+      </a>
+      <a href="{% url 'actividades' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="map-pin" class="h-5 w-5 mr-3"></i> Actividades
+      </a>
+      <a href="{% url 'medios_pago' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="credit-card" class="h-5 w-5 mr-3"></i> Medios de Pago
+      </a>
+      <a href="{% url 'arrepentimiento' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="alert-triangle" class="h-5 w-5 mr-3"></i> Arrepentimiento
+      </a>
+      <a href="{% url 'acerca' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="info" class="h-5 w-5 mr-3"></i> Acerca
+      </a>
+      <a href="{% url 'contacto' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
+        <i data-lucide="phone" class="h-5 w-5 mr-3"></i> Contacto
+      </a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="flex items-center py-2.5 text-red-600 hover:bg-red-50 transition-colors font-medium">
+          <i data-lucide="log-out" class="h-5 w-5 mr-3"></i> Cerrar Sesión
         </a>
-        <a href="{% url 'paquetes' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="package" class="h-5 w-5 mr-3"></i> Paquetes
-        </a>
-        <a href="{% url 'vuelos' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="plane" class="h-5 w-5 mr-3"></i> Vuelos
-        </a>
-        <a href="{% url 'alojamiento' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="hotel" class="h-5 w-5 mr-3"></i> Alojamiento
-        </a>
-        <a href="{% url 'alquileres' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="car" class="h-5 w-5 mr-3"></i> Alquileres
-        </a>
-        <a href="{% url 'transporte' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="bus" class="h-5 w-5 mr-3"></i> Transporte
-        </a>
-        <a href="{% url 'actividades' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="map-pin" class="h-5 w-5 mr-3"></i> Actividades
-        </a>
-        <a href="{% url 'medios_pago' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="credit-card" class="h-5 w-5 mr-3"></i> Medios de Pago
-        </a>
-        <a href="{% url 'arrepentimiento' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="alert-triangle" class="h-5 w-5 mr-3"></i> Arrepentimiento
-        </a>
-        <a href="{% url 'acerca' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="info" class="h-5 w-5 mr-3"></i> Acerca
-        </a>
-        <a href="{% url 'contacto' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-          <i data-lucide="phone" class="h-5 w-5 mr-3"></i> Contacto
-        </a>
-        <a href="{% url 'carrito' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-            <i data-lucide="shopping-cart" class="h-5 w-5 mr-3"></i>
-            <span>Carrito</span>
-        </a>
-
-        {% if user.is_authenticated %}
-          <a href="{% url 'edit_profile' %}" class="flex items-center py-2.5 hover:text-blue-600 transition-colors font-medium border-b border-gray-100">
-            <i data-lucide="edit" class="h-5 w-5 mr-3"></i>
-            <span>Editar perfil</span>
-          </a>
-          <a href="{% url 'logout' %}" class="flex items-center py-2.5 text-red-600 hover:bg-red-50 transition-colors font-medium">
-            <i data-lucide="log-out" class="h-5 w-5 mr-3"></i>
-            Cerrar Sesión
-          </a>
-        {% else %}
-          <a href="{% url 'login' %}" class="block py-2.5 text-center bg-transparent text-blue-600 hover:text-blue-800 rounded-full border border-blue-600 hover:bg-blue-50 transition-colors font-medium">Iniciar Sesión</a>
-          <a href="{% url 'register' %}" class="block py-2.5 text-center bg-blue-600 text-white hover:bg-blue-700 rounded-full transition-all font-medium shadow-md">Registrarse</a>
-        {% endif %}
+      {% else %}
+        <a href="{% url 'login' %}" class="block py-2.5 text-center bg-transparent text-blue-600 hover:text-blue-800 rounded-full border border-blue-600 hover:bg-blue-50 transition-colors font-medium">Iniciar Sesión</a>
+        <a href="{% url 'register' %}" class="block py-2.5 text-center bg-blue-600 text-white hover:bg-blue-700 rounded-full transition-all font-medium shadow-md">Registrarse</a>
+      {% endif %}
     </div>
   </header>
 
@@ -191,97 +162,114 @@ travel
     <!-- Page specific content will be injected here -->
     {% endblock %}
   </main>
-<!-- Footer -->
-<footer class="bg-gray-800 text-white mt-16">
-  <div class="container mx-auto px-4 py-10">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <!-- Company Info -->
-      <div class="md:col-span-1">
-        <h3 class="text-2xl font-bold tracking-wider text-blue-400">AILES DU MUNDE</h3>
-        <p class="mt-4 text-gray-400">Tu agencia de viajes de confianza. Creamos experiencias inolvidables alrededor del mundo.</p>
-        <div class="flex space-x-4 mt-6">
-          <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="facebook" class="h-8 w-8"></i></a>
-          <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="instagram" class="h-8 w-8"></i></a>
-          <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="twitter" class="h-8 w-8"></i></a>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-16">
+    <div class="container mx-auto px-4 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Company Info -->
+        <div class="md:col-span-1">
+          <h3 class="text-2xl font-bold tracking-wider text-blue-400">AILES DU MUNDE</h3>
+          <p class="mt-4 text-gray-400">Tu agencia de viajes de confianza. Creamos experiencias inolvidables alrededor del mundo.</p>
+        
         </div>
-      </div>
-      
-      <!-- Legal -->
-      <div>
-        <h4 class="font-semibold text-lg mb-4 text-gray-200">Legal</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white">Términos y Condiciones</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white">Política de Privacidad</a></li>
-          <li><a href="{% url 'arrepentimiento' %}" class="text-yellow-400 hover:text-yellow-300">Botón de Arrepentimiento</a></li>
-        </ul>
-      </div>
-      
-      <!-- Contact -->
-      <div>
-        <h4 class="font-semibold text-lg mb-4 text-gray-200">Contacto</h4>
-        <p class="text-gray-400">Email: info@ailesdumonde.com</p>
-        <p class="text-gray-400 mt-2">Tel: +54 11 1234 5678</p>
+        
+        <!-- Legal -->
+        <div>
+          <h4 class="font-semibold text-lg mb-4 text-gray-200">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="{% url 'termino_condiciones' %}" class="text-gray-400 hover:text-white">Términos y Condiciones</a></li>
+            <li><a href="{% url 'politica_privacidad' %}" class="text-gray-400 hover:text-white">Política de Privacidad</a></li>
+            <li><a href="{% url 'arrepentimiento' %}" class="text-yellow-400 hover:text-yellow-300">Botón de Arrepentimiento</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+          <h4 class="font-semibold text-lg mb-4 text-gray-200">Contacto</h4>
+          <p class="text-gray-400">Email: info@ailesdumonde.com</p>
+          <p class="text-gray-400 mt-2">Tel: +54 11 1234 5678</p>
+        </div>
+
+        <!-- Redes -->
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-white">Redes</h3>
+          <div class="flex flex-col gap-4">
+            <a href="#" class="flex items-center text-gray-200 hover:text-white space-x-3">
+              <i data-lucide="instagram" class="h-10 w-10"></i>
+              <span class="text-lg">Instagram</span>
+            </a>
+            <a href="#" class="flex items-center text-gray-200 hover:text-white space-x-3">
+              <i data-lucide="facebook" class="h-10 w-10"></i>
+              <span class="text-lg">Facebook</span>
+            </a>
+            <a href="#" class="flex items-center text-gray-200 hover:text-white space-x-3">
+              <i data-lucide="twitter" class="h-10 w-10"></i>
+              <span class="text-lg">Twitter</span>
+            </a>
+          </div>
+        </div>
       </div>
 
-      <!-- Redes -->
-      <div>
-        <h3 class="text-xl font-bold mb-4 text-white">Redes</h3>
-        <div class="flex flex-col gap-4">
-          <a href="#" class="flex items-center text-gray-200 hover:text-white space-x-3">
-            <i data-lucide="instagram" class="h-10 w-10"></i>
-            <span class="text-lg">Instagram</span>
-          </a>
-          <a href="#" class="flex items-center text-gray-200 hover:text-white space-x-3">
-            <i data-lucide="facebook" class="h-10 w-10"></i>
-            <span class="text-lg">Facebook</span>
-          </a>
-          <a href="#" class="flex items-center text-gray-200 hover:text-white space-x-3">
-            <i data-lucide="twitter" class="h-10 w-10"></i>
-            <span class="text-lg">Twitter</span>
-          </a>
-        </div>
+      <!-- Línea inferior -->
+      <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
+        &copy; 2025 AILES DU MUNDE. Todos los derechos reservados.
       </div>
     </div>
-<<<<<<< HEAD
   </footer>
 
   <!-- Toast Notification -->
   <div id="toast-notification" class="fixed top-24 right-5 w-auto max-w-sm p-4 rounded-md text-white shadow-lg flex items-center space-x-3 z-[100] transform translate-x-[150%] transition-transform duration-500 ease-in-out">
-      <i id="toast-icon" data-lucide="check-circle" class="h-6 w-6"></i>
-      <span id="toast-message"></span>
+    <i id="toast-icon" data-lucide="check-circle" class="h-6 w-6"></i>
+    <span id="toast-message"></span>
   </div>
 
   <!-- Modal -->
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 z-[90] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div id="modal-content" class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
-            <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
-            <p id="modal-message" class="text-gray-600 mb-6"></p>
-            <div id="modal-buttons" class="flex justify-center space-x-4">
-                <button id="modal-primary-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md shadow-md hover:shadow-lg transition-shadow"></button>
-                <button id="modal-secondary-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition-colors"></button>
-            </div>
-        </div>
-    </div>
-
-
-=======
-    <!-- Línea inferior -->
-    <div class="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
-      &copy; 2025 AILES DU MUNDE. Todos los derechos reservados.
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 z-[90] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div id="modal-content" class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
+      <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
+      <p id="modal-message" class="text-gray-600 mb-6"></p>
+      <div id="modal-buttons" class="flex justify-center space-x-4">
+        <button id="modal-primary-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md shadow-md hover:shadow-lg transition-shadow"></button>
+        <button id="modal-secondary-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition-colors"></button>
+      </div>
     </div>
   </div>
-</footer>
->>>>>>> 57908fc13c984781398c27d1044a49c29798f4c8
+
   <script>
     // Lucide Icons
     lucide.createIcons();
 
-    // --- Global Modal and Toast Elements ---
+    // Toast Functions
     const toast = document.getElementById('toast-notification');
     const toastMessage = document.getElementById('toast-message');
     const toastIcon = document.getElementById('toast-icon');
     let toastTimeout;
 
+    window.showCustomToast = function(message, type = 'success') {
+      clearTimeout(toastTimeout);
+      toastMessage.textContent = message;
+      toast.classList.remove('bg-green-600', 'bg-red-600', 'bg-blue-500', 'translate-x-[150%]');
+      if (type === 'success') {
+        toast.classList.add('bg-green-600');
+        toastIcon.setAttribute('data-lucide', 'check-circle');
+      } else if (type === 'error') {
+        toast.classList.add('bg-red-600');
+        toastIcon.setAttribute('data-lucide', 'x-circle');
+      } else if (type === 'info') {
+        toast.classList.add('bg-blue-500');
+        toastIcon.setAttribute('data-lucide', 'info');
+      }
+      lucide.createIcons();
+      toast.style.transform = 'translateX(0)';
+      toastTimeout = setTimeout(() => window.hideCustomToast(), 4000);
+    };
+
+    window.hideCustomToast = function() {
+      toast.style.transform = 'translateX(150%)';
+    };
+
+    // Modal Functions
     const modal = document.getElementById('modal');
     const modalContent = document.getElementById('modal-content');
     const modalTitle = document.getElementById('modal-title');
@@ -290,106 +278,74 @@ travel
     const secondaryBtn = document.getElementById('modal-secondary-btn');
     let primaryBtnAction, secondaryBtnAction;
 
-    // --- Global Function Definitions (Immediately Available) ---
-    window.showCustomToast = function(message, type = 'success') {
-        clearTimeout(toastTimeout);
-        
-        toastMessage.textContent = message;
-        toast.classList.remove('bg-green-600', 'bg-red-600', 'bg-blue-500', 'translate-x-[150%]');
-        
-        if (type === 'success') {
-            toast.classList.add('bg-green-600');
-            toastIcon.setAttribute('data-lucide', 'check-circle');
-        } else if (type === 'error') {
-            toast.classList.add('bg-red-600');
-            toastIcon.setAttribute('data-lucide', 'x-circle');
-        } else if (type === 'info') {
-            toast.classList.add('bg-blue-500');
-            toastIcon.setAttribute('data-lucide', 'info');
-        }
-        lucide.createIcons(); // Re-render icon
-
-        toast.style.transform = 'translateX(0)';
-        toastTimeout = setTimeout(() => window.hideCustomToast(), 4000);
-    }
-
-    window.hideCustomToast = function() {
-        toast.style.transform = 'translateX(150%)';
-    }
-
     window.showCustomModal = function(title, message, primaryBtnText, secondaryBtnText, onPrimaryClick, onSecondaryClick) {
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        primaryBtn.textContent = primaryBtnText;
-        secondaryBtn.textContent = secondaryBtnText;
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      primaryBtn.textContent = primaryBtnText;
+      secondaryBtn.textContent = secondaryBtnText;
 
-        // Clear old listeners before adding new ones
-        if (primaryBtnAction) primaryBtn.removeEventListener('click', primaryBtnAction);
-        if (secondaryBtnAction) secondaryBtn.removeEventListener('click', secondaryBtnAction);
-        
-        // Assign new actions
-        primaryBtnAction = onPrimaryClick;
-        secondaryBtnAction = onSecondaryClick;
+      if (primaryBtnAction) primaryBtn.removeEventListener('click', primaryBtnAction);
+      if (secondaryBtnAction) secondaryBtn.removeEventListener('click', secondaryBtnAction);
 
-        primaryBtn.addEventListener('click', primaryBtnAction);
-        secondaryBtn.addEventListener('click', secondaryBtnAction);
-        
-        secondaryBtn.style.display = secondaryBtnText ? 'inline-block' : 'none';
+      primaryBtnAction = onPrimaryClick;
+      secondaryBtnAction = onSecondaryClick;
 
-        modal.classList.remove('hidden');
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            modalContent.classList.remove('scale-95');
-        }, 10);
-    }
+      primaryBtn.addEventListener('click', primaryBtnAction);
+      secondaryBtn.addEventListener('click', secondaryBtnAction);
+
+      secondaryBtn.style.display = secondaryBtnText ? 'inline-block' : 'none';
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modalContent.classList.remove('scale-95');
+      }, 10);
+    };
 
     window.hideCustomModal = function() {
-        modal.classList.add('opacity-0');
-        modalContent.classList.add('scale-95');
-        setTimeout(() => modal.classList.add('hidden'), 300);
-    }
+      modal.classList.add('opacity-0');
+      modalContent.classList.add('scale-95');
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    };
 
-    // --- Other Event Listeners ---
+    // Event Listeners
     document.addEventListener('DOMContentLoaded', function() {
-        // Profile Dropdown (hover + click fallback)
-        const toggle = document.getElementById('profile-toggle');
-        const dropdown = document.getElementById('profile-dropdown');
-        if (toggle && dropdown) {
-<<<<<<< HEAD
-            toggle.addEventListener('click', (e) => {
-=======
-            // Hover for desktop
-            toggle.parentElement.addEventListener('mouseenter', () => dropdown.classList.remove('hidden', 'scale-0'));
-            toggle.parentElement.addEventListener('mouseleave', () => dropdown.classList.add('hidden', 'scale-0'));
-            // Click for mobile fallback
-            toggle.addEventListener('click', function(e) {
->>>>>>> 57908fc13c984781398c27d1044a49c29798f4c8
-                e.stopPropagation();
-                dropdown.classList.toggle('hidden');
-                dropdown.classList.toggle('scale-0');
-            });
-            document.addEventListener('click', (event) => {
-                if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
-                    dropdown.classList.add('hidden', 'scale-0');
-                }
-            });
-        }
-
-        // Mobile Menu
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        }
-
-        // Modal background click
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) window.hideCustomModal();
+      const toggle = document.getElementById('profile-toggle');
+      const dropdown = document.getElementById('profile-dropdown');
+      if (toggle && dropdown) {
+        toggle.parentElement.addEventListener('mouseenter', () => {
+          dropdown.classList.remove('hidden', 'scale-0');
+          dropdown.classList.add('scale-100');
         });
+        toggle.parentElement.addEventListener('mouseleave', () => {
+          dropdown.classList.add('hidden', 'scale-0');
+          dropdown.classList.remove('scale-100');
+        });
+        toggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown.classList.toggle('hidden');
+          dropdown.classList.toggle('scale-0');
+          dropdown.classList.toggle('scale-100');
+        });
+        document.addEventListener('click', (event) => {
+          if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden', 'scale-0');
+          }
+        });
+      }
+
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      }
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) window.hideCustomModal();
+      });
     });
   </script>
-  
-  {% block extra_js %}{% endblock %}
 
+  {% block extra_js %}{% endblock %}
 </body>
 </html>

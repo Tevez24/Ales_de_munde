@@ -1,26 +1,132 @@
-
 {% extends 'Carrito_app/base.html' %}
 {% load static %}
 
+{% block title %}{{ transporte.nombre }} - Tu Transporte{% endblock %}
+
 {% block content %}
-<div class="container mx-auto px-4 py-12">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    <div>
-      <img src="{{ transporte.imagen.url }}" alt="{{ transporte.nombre }}" class="w-full h-auto object-cover rounded-lg shadow-lg">
+<div class="container mt-5 p-4 bg-white rounded shadow-lg" style="border: 1px solid #dee2e6; animation: slideIn 0.7s ease-out;">
+    <div class="row align-items-center">
+        <div class="col-md-6 position-relative overflow-hidden rounded">
+            <img src="{% if transporte.imagen %}{{ transporte.imagen.url }}{% else %}{% static 'Carrito_app/img/default_transporte.jpg' %}{% endif %}" class="img-fluid rounded shadow-lg w-100" alt="{{ transporte.nombre }}" style="transition: transform 0.5s ease, box-shadow 0.3s ease; border: 3px solid #fd7e14; object-fit: cover; height: 400px;">
+            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 transition-opacity" style="transition: opacity 0.3s ease;"></div>
+            <style>
+                .col-md-6 img:hover {
+                transform: scale(1.1) rotate(2deg);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+                }
+                .col-md-6:hover .bg-dark {
+                opacity: 0.1;
+                }
+            </style>
+        </div>
+        <div class="col-md-6 ps-md-4">
+            <h1 class="display-4 font-weight-bold text-orange mb-3 position-relative" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.15); border-bottom: 3px dashed #fd7e14; padding-bottom: 10px;">
+                {{ transporte.nombre }}
+                <span class="position-absolute bottom-0 start-0 ...
+
+            <p class="text-muted lead fw-semibold"><i class="fas fa-bus text-warning me-2"></i>Tipo: {{ transporte.tipo }}</p>
+            <p class="fs-5 text-justify text-dark" style="line-height: 1.8; background: linear-gradient(to right, #fff3e0, #ffffff); padding: 15px; border-left: 5px solid #fd7e14; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">{{ transporte.descripcion }}</p>
+            <p class="display-5 mt-3 text-success fw-bold" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.1);">Precio: ${{ transporte.precio|floatformat:2 }}</p>
+            <div class="flex items-center mb-4 text-gray-700 fw-medium">
+                <i class="fas fa-users text-primary me-2"></i> Hasta {{ transporte.capacidad }} personas
+            </div>
+            
+            <div class="mt-4 d-flex flex-wrap gap-3">
+                <a href="{% url 'add_to_cart_transporte' transporte.id %}" class="btn btn-outline-warning btn-lg px-5 py-3 shadow-sm position-relative overflow-hidden" style="transition: all 0.4s ease; border-radius: 50px; border: 2px solid #fd7e14; color: #fd7e14;">
+                    <span class="position-relative z-index-1"><i class="fas fa-shopping-cart me-2"></i>Añadir al carrito</span>
+                    <span class="position-absolute top-0 start-0 w-100 h-100 bg-orange opacity-0 transition-opacity" style="transition: opacity 0.3s ease;"></span>
+                </a>
+                <a href="{% url 'transporte' %}" class="btn btn-secondary btn-lg px-5 py-3 shadow-sm position-relative overflow-hidden" style="transition: all 0.4s ease; border-radius: 50px; border: none;">
+                    <span class="position-relative z-index-1">Volver</span>
+                    <span class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 transition-opacity" style="transition: opacity 0.3s ease;"></span>
+                </a>
+                <style>
+                    .btn-outline-warning:hover {
+                        background-color: #f37d1d !important;
+                        color: white !important;
+                        transform: translateY(-3px);
+                        box-shadow: 0 5px 15px rgba(253,126,20,0.4) !important;
+                    }
+                    .btn-outline-warning:hover span:last-child {
+                        opacity: 0.1;
+                    }
+                    .btn-secondary:hover {
+                        background-color: #5a6268 !important;
+                        transform: translateY(-3px);
+                        box-shadow: 0 5px 15px rgba(90,98,104,0.4) !important;
+                    }
+                    .btn-secondary:hover span:last-child {
+                        opacity: 0.1;
+                    }
+                </style>
+            </div>
+
+            <div class="mt-5 p-4 bg-gradient rounded shadow-sm border border-warning" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); transition: transform 0.3s ease;">
+                <h4 class="text-warning border-bottom pb-2 mb-3 position-relative" style="border-color: #fd7e14 !important;">
+                    Detalles Adicionales
+                    <span class="position-absolute start-100 translate-middle-y bg-warning text-dark px-2 py-1 rounded small" style="font-size: 0.7rem; transform: translateX(-50%);">Info</span>
+                </h4>
+                <ul class="list-group list-group-flush">
+                    <li class=" jeopardize list-group-item d-flex justify-content-between align-items-center py-3 border-bottom" style="transition: all 0.3s ease; border-color: #dee2e6 !important;">
+                        <span class="fw-medium">Comodidad <i class="fas fa-chair text-success ms-2"></i></span> <span class="badge bg-warning rounded-pill fs-6 text-dark">Alta</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center py-3 border-bottom" style="transition: all 0.3s ease; border-color: #dee2e6 !important;">
+                        <span class="fw-medium">Disponibilidad <i class="fas fa-clock text-info ms-2"></i></span> <span class="badge bg-warning rounded-pill fs-6 text-dark">Inmediata</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center py-3" style="transition: all 0.3s ease;">
+                        <span class="fw-medium">Seguridad <i class="fas fa-shield-alt text-danger ms-2"></i></span> <span class="badge bg-warning rounded-pill fs-6 text-dark">Garantizada</span>
+                    </li>
+                </ul>
+                <style>
+                    .list-group-item:hover {
+                        background-color: #ffe0b2 !important;
+                        transform: translateX(5px);
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    }
+                    .badge {
+                        transition: transform 0.2s ease;
+                    }
+                    .list-group-item:hover .badge {
+                        transform: scale(1.1);
+                    }
+                </style>
+            </div>
+        </div>
     </div>
-    <div>
-      <h1 class="text-4xl font-bold mb-4">{{ transporte.nombre }}</h1>
-      <p class="text-gray-600 mb-4">{{ transporte.descripcion }}</p>
-      <p class="text-2xl font-bold text-orange-600 mb-4">${{ transporte.precio }}</p>
-      <div class="flex items-center mb-4">
-        <p class="mr-4">👥 Hasta {{ transporte.capacidad }} personas</p>
-        <p>{{ transporte.tipo }}</p>
-      </div>
-      <div class="flex gap-2">
-        <a href="#" class="btn btn-outline">🛒 Añadir al carrito</a>
-        <a href="{% url 'transporte' %}" class="btn bg-gray-500 hover:bg-gray-600 text-white">Volver</a>
-      </div>
-    </div>
-  </div>
 </div>
+
+<!-- Agregando algo de estilo global para mejorar la responsividad y animaciones sutiles -->
+<style>
+    @media (max-width: 768px) {
+        .btn-lg {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .display-4 {
+            font-size: 2.5rem;
+        }
+        .col-md-6 img {
+            height: 300px !important;
+        }
+        .row {
+            flex-direction: column;
+        }
+    }
+    .container {
+        animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+        from { transform: translateX(-50px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    .bg-gradient:hover {
+        transform: scale(1.02);
+    }
+    /* Asumiendo Font Awesome para iconos */
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+</style>
 {% endblock %}
