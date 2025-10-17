@@ -1,0 +1,32 @@
+{% extends 'Carrito_app/base.html' %}
+{% block title %}Checkout - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-20">
+  <h1 class="text-3xl font-bold mb-8">Finalizar Compra</h1>
+
+  {% if paquetes %}
+    <div class="bg-white p-6 rounded-2xl shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4">Resumen de tu carrito</h2>
+      <ul class="mb-6">
+        {% for item in paquetes %}
+          <li class="flex justify-between py-2 border-b border-gray-200">
+            <span>{{ item.nombre }} x {{ item.cantidad }}</span>
+            <span>${{ item.precio|floatformat:2 }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+      <p class="text-xl font-bold mb-6">Total: ${{ total|floatformat:2 }}</p>
+
+      <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition-all">
+          Pagar y Descargar Comprobante
+        </button>
+      </form>
+    </div>
+  {% else %}
+    <p>Tu carrito está vacío.</p>
+  {% endif %}
+</div>
+{% endblock %}

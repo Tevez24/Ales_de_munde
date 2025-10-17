@@ -1,0 +1,222 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Derecho de Arrepentimiento - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1589820296156-4e5ac9b23b83?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+    <div class="absolute inset-0 bg-gradient-to-r from-yellow-700 to-orange-700 opacity-80"></div>
+    <div class="relative container mx-auto px-6 text-center text-white z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Derecho de Arrepentimiento</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Ejercer tu derecho es simple y transparente. De acuerdo con la Ley de Defensa Defense del Consumidor, revoca tu compra sin complicaciones.</p>
+      <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
+        <a href="#info" class="bg-white text-yellow-700 px-8 py-4 rounded-full font-semibold hover:bg-yellow-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">Ver Detalles Legales</a>
+        <a href="#formulario" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-yellow-700 transition-all">Iniciar Solicitud</a>
+      </div>
+    </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+    </div>
+  </div>
+
+  <!-- Información Principal -->
+  <div class="container mx-auto px-6 py-20" id="info">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Todo lo que Necesitas Saber</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Basado en la legislación argentina, te protegemos como consumidor. Revoca compras online o a distancia fácilmente.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0s;">
+        <i data-lucide="file-text" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-gray-800 mb-3">Marco Legal</h3>
+        <p class="text-gray-600 mb-4">Artículo 34 de la Ley N° 24.240 (Defensa del Consumidor). Aplica a ventas fuera de establecimientos comerciales (online, teléfono, etc.).</p>
+        <a href="https://www.argentina.gob.ar/normativa/nacional/ley-24240" target="_blank" class="text-blue-600 font-semibold hover:underline flex items-center justify-center"><i data-lucide="external-link" class="h-5 w-5 mr-2"></i> Leer Ley Completa</a>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.2s;">
+        <i data-lucide="calendar-check" class="h-16 w-16 text-green-600 mb-6 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-gray-800 mb-3">Condiciones de Aplicación</h3>
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start"><i data-lucide="check-circle" class="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0"></i> Dentro de 10 días corridos desde la compra o recepción.</li>
+          <li class="flex items-start"><i data-lucide="check-circle" class="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0"></i> Sin necesidad de justificar el motivo.</li>
+          <li class="flex items-start"><i data-lucide="alert-circle" class="h-5 w-5 text-yellow-500 mr-2 mt-0.5 flex-shrink-0"></i> No aplica a servicios ya consumidos o personalizados.</li>
+          <li class="flex items-start"><i data-lucide="alert-circle" class="h-5 w-5 text-yellow-500 mr-2 mt-0.5 flex-shrink-0"></i> Gastos de envío/reversión pueden deducirse.</li>
+        </ul>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.4s;">
+        <i data-lucide="clock" class="h-16 w-16 text-orange-600 mb-6 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-gray-800 mb-3">Proceso de Reembolso</h3>
+        <ol class="space-y-3 text-gray-600 list-decimal list-inside">
+          <li>Envío de solicitud: Inmediato vía formulario.</li>
+          <li>Revisión interna: 1-2 días hábiles para validar.</li>
+          <li>Cancelación con proveedores: Coordinación automática.</li>
+          <li>Reembolso: 5-10 días hábiles según método de pago (tarjeta, transferencia).</li>
+          <li>Confirmación: Email con detalles y comprobante.</li>
+        </ol>
+        <p class="mt-4 text-sm text-gray-500">Monto reembolsado: Total menos gastos aplicables.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de Solicitud -->
+  <div class="container mx-auto px-6 py-20 bg-yellow-50 rounded-2xl" id="formulario">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Inicia tu Solicitud Ahora</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Completa el formulario y te contactaremos en menos de 24 hs. Todo es confidencial y seguro.</p>
+    </div>
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+      <form id="arrepentimiento-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="booking-id" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="ticket" class="h-5 w-5 mr-2 text-yellow-600"></i> Número de Reserva *</label>
+          <input type="text" name="booking-id" id="booking-id" required class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4" placeholder="Ej: VPR-123456">
+        </div>
+        <div>
+          <label for="purchase-date" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="calendar" class="h-5 w-5 mr-2 text-yellow-600"></i> Fecha de Compra *</label>
+          <input type="date" name="purchase-date" id="purchase-date" required class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4">
+        </div>
+        <div>
+          <label for="full-name" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="user" class="h-5 w-5 mr-2 text-yellow-600"></i> Nombre Completo *</label>
+          <input type="text" name="full-name" id="full-name" required class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4" placeholder="Como en la reserva">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="mail" class="h-5 w-5 mr-2 text-yellow-600"></i> Email de Contacto *</label>
+          <input type="email" name="email" id="email" required class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4" placeholder="confirmacion@ejemplo.com">
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="phone" class="h-5 w-5 mr-2 text-yellow-600"></i> Teléfono (Opcional)</label>
+          <input type="tel" name="phone" id="phone" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4" placeholder="+54 11 1234-5678">
+        </div>
+        <div>
+          <label for="payment-method" for="payment-method" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="credit-card" class="h-5 w-5 mr-2 text-yellow-600"></i> Método de Pago Original</label>
+          <select id="payment-method" name="payment-method" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4">
+            <option>Tarjeta de Crédito/Débito</option>
+            <option>Mercado Pago</option>
+            <option>Transferencia Bancaria</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label for="reason" class="block text-sm font-medium text-gray-700 mb-2 flex items-center"><i data-lucide="message-square" class="h-5 w-5 mr-2 text-yellow-600"></i> Motivo del Arrepentimiento (Opcional)</label>
+          <textarea name="reason" id="reason" rows="4" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 py-3 px-4" placeholder="Ayúdanos a mejorar: ¿Por qué decides arrepentirte?"></textarea>
+        </div>
+        <div class="md:col-span-2">
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <p class="text-sm text-gray-700 flex items-start"><i data-lucide="info" class="h-5 w-5 mr-2 text-yellow-600 flex-shrink-0"></i> Al enviar, declaras conocer las condiciones. Recibirás un email de confirmación inmediato.</p>
+          </div>
+          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg flex items-center justify-center transition-all transform hover:scale-105 shadow-lg">
+            <i data-lucide="send" class="h-6 w-6 mr-2"></i> Enviar Solicitud
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Preguntas Frecuentes (FAQ) -->
+  <div class="container mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Preguntas Frecuentes</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Resolvemos tus dudas comunes sobre el proceso.</p>
+    </div>
+    <div class="space-y-6 max-w-4xl mx-auto">
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Qué pasa si ya consumí parte del servicio?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">No aplica el arrepentimiento total. Puedes reclamar proporcional, contacta soporte.</p>
+      </details>
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Hay costos por arrepentimiento?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Solo gastos de reversión (ej: comisiones bancarias). Te informaremos en la confirmación.</p>
+      </details>
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Cómo sé si mi solicitud fue aceptada?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Recibirás email en 48 hs con estado. Trackea en "Mis Reservas" si estás logueado.</p>
+      </details>
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Puedo arrepentirme de paquetes con vuelos?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Sí, pero aerolíneas pueden tener políticas propias. Procesamos reembolso parcial si aplica.</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="container mx-auto px-6 py-20">
+    <section class="bg-yellow-600 text-white rounded-2xl p-8 text-center">
+      <i data-lucide="headphones" class="h-16 w-16 mb-6 mx-auto"></i>
+      <h3 class="text-3xl font-bold mb-4">¿Dudas Adicionales?</h3>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">Nuestro equipo legal y de soporte está aquí para asistirte en todo momento.</p>
+      <a href="{% url 'support' %}" class="bg-white text-yellow-600 hover:bg-yellow-50 px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 inline-flex items-center">
+        <i data-lucide="message-square" class="h-5 w-5 mr-2"></i> Contactar Soporte
+      </a>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+  // Form mailto logic
+  document.getElementById('arrepentimiento-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const bookingId = document.getElementById('booking-id').value;
+    const purchaseDate = document.getElementById('purchase-date').value;
+    const fullName = document.getElementById('full-name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const paymentMethod = document.getElementById('payment-method').value;
+    const reason = document.getElementById('reason').value;
+
+    const subject = 'Solicitud de Arrepentimiento - Reserva: ' + bookingId;
+   const body = `
+Hola equipo de Ailes du Monde,
+
+Solicito ejercer mi derecho de arrepentimiento:
+
+- Número de Reserva: ${bookingId}
+- Fecha de Compra: ${purchaseDate}
+- Nombre Completo: ${fullName}
+- Email: ${email}
+- Teléfono: ${phone}
+- Método de Pago: ${paymentMethod}
+- Motivo: ${reason}
+
+Gracias por su atención.
+    `;
+
+    const mailtoLink = 'mailto:ailesdumunde1@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    window.location.href = mailtoLink;
+  });
+  // Accordion rotation
+  document.querySelectorAll('details').forEach((detail) => {
+    detail.addEventListener('toggle', () => {
+      const chevron = detail.querySelector('i[data-lucide="chevron-down"]');
+      if (chevron) chevron.style.transform = detail.open ? 'rotate(180deg)' : 'rotate(0deg)';
+    });
+  });
+  // Card delays
+  document.querySelectorAll('.animate-fadeInCard').forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+  });
+</script>
+<style>
+  .animate-fadeIn { animation: fadeIn 1.5s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fadeInCard { animation: fadeInCard 0.8s ease-out forwards; opacity: 0; }
+  @keyframes fadeInCard { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] summary i { transform: rotate(180deg); }
+</style>
+{% endblock %}

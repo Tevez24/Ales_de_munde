@@ -1,0 +1,138 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Términos y Condiciones - Tu Aventura{% endblock %}
+
+{% block content %}
+<div class="container mt-5 p-4 bg-white rounded shadow-lg" style="border: 1px solid #dee2e6; max-width: 900px; margin-left: auto; margin-right: auto;">
+    <h1 class="display-4 fw-bold text-primary text-center mb-5 position-relative" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.15); border-bottom: 3px dashed #0d6efd; padding-bottom: 15px;">
+        Términos y Condiciones
+        <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary text-white px-3 py-1-rounded small" style="font-size: 0.8rem; transform: translate(-50%, 50%);">Última actualización: Octubre 2025</span>
+    </h1>
+    
+    <div class="accordion" id="accordionTerminos">  <!-- Removí accordion-flush para bordes visibles por defecto -->
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    1. Introducción
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #496684 !important; min-height: 100px;">
+                    Bienvenido a Tu Aventura. Al acceder y utilizar nuestro sitio web y servicios, aceptas estos Términos y Condiciones en su totalidad. Si no estás de acuerdo, no utilices nuestros servicios. Estos términos regulan la reserva de paquetes turísticos, transportes y extras.
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    2. Uso del Sitio
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #dee2e6 !important; min-height: 100px;">
+                    Debes ser mayor de 18 años para reservar. No puedes usar el sitio para fines ilegales o no autorizados. Nos reservamos el derecho de modificar o suspender el servicio sin previo aviso.
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    3. Reservas y Pagos
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #dee2e6 !important; min-height: 100px;">
+                    Las reservas se confirman al recibir el pago completo. Los precios están en USD y pueden variar. Aceptamos tarjetas de crédito y otros métodos seguros. No hay reembolsos por cancelaciones dentro de 48 horas antes del viaje.
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    4. Cancelaciones y Cambios
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #dee2e6 !important; min-height: 100px;">
+                    Puedes cancelar con al menos 7 días de antelación para un reembolso del 50%. Cambios están sujetos a disponibilidad y cargos adicionales. En casos de fuerza mayor (clima, etc.), ofrecemos créditos.
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    5. Responsabilidades
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #dee2e6 !important; min-height: 100px;">
+                    No somos responsables por pérdidas, lesiones o daños durante las aventuras. Recomendamos seguro de viaje. Tú eres responsable de proporcionar información precisa.
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingSix">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                    6. Propiedad Intelectual
+                </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #dee2e6 !important; min-height: 100px;">
+                    Todo el contenido del sitio es propiedad nuestra. No puedes copiar o distribuir sin permiso.
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingSeven">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    7. Ley Aplicable
+                </button>
+            </h2>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionTerminos">
+                <div class="accordion-body text-dark bg-white p-4 border rounded" style="line-height: 1.8; border: 1px solid #dee2e6 !important; min-height: 100px;">
+                    Estos términos se rigen por las leyes de [País/Jurisdicción]. Cualquier disputa se resolverá en tribunales competentes.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-5 text-center">
+        <a href="{% url 'home' %}" class="btn btn-secondary btn-lg px-5 py-3 shadow-sm">Volver al Inicio</a>
+    </div>
+</div>
+
+<style>
+    .accordion-button:not(.collapsed) {
+        background-color: #0d6efd !important;
+        color: white !important;
+    }
+    .accordion-button {
+        background-color: #f8f9fa !important;
+        color: #212529 !important;
+    }
+    .accordion-body {
+        background-color: #ffffff !important;
+        color: #212 inhe #212529 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+    .accordion-item {
+        border: 1px solid #1a5896 !important;
+        border-radius: 0.375rem !important;
+    }
+    .collapseSeven {
+        min-height: 120px;
+         }
+    @media (max-width: 768px) {
+        .display-4 {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+{% endblock %}
