@@ -1,0 +1,216 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+{% block title %}Medios de Pago - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-20">
+  <div class="container mx-auto px-6 max-w-5xl">
+
+    <header class="text-center mb-16">
+      <h1 class="text-5xl font-bold text-gray-800 mb-4">Soporte de Pagos en Línea: Guía Completa para Ailes du Monde</h1>
+      <p class="text-xl text-gray-600">¡Bienvenido! Esta guía te ayudará a entender e integrar pagos seguros en nuestra agencia de viajes personalizados. Actualizada para 2025. Proyecto educativo del IPET 57 Comodoro Martín Rivadavia, Córdoba Capital, Argentina.</p>
+    </header>
+
+    <section id="introduccion" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">1. Introducción: Soporte de Pagos en Ailes du Monde</h2>
+      <p class="text-lg text-gray-700 mb-6">En <strong>Ailes du Monde </strong>, el soporte de pagos en línea permite reservar circuitos personalizados, tours globales y vueltas al mundo de manera segura. Procesamos transacciones para experiencias únicas, desde Europa hasta América Latina. En 2025, el e-commerce de viajes representa más del 20% de las reservas globales.</p>
+      <h3 class="text-2xl font-medium text-gray-800 mb-3">Beneficios clave para tus reservas:</h3>
+      <ul class="space-y-3 text-gray-700">
+        <li class="flex items-start"><span class="font-bold mr-2">• Aumento de conversiones:</span> Reserva simple reduce abandonos en carritos de viajes (hasta 70%).</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• Seguridad:</span> Cumplimiento PCI DSS para proteger datos de tarjetas en pagos de paquetes turísticos.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• Flexibilidad:</span> Múltiples métodos para pagos de vuelos, hoteles y excursiones.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• Escalabilidad:</span> Ideal para viajeros individuales, familias o grupos globales.</li>
+      </ul>
+      <p class="text-lg text-gray-700 mt-6">Tendencias 2025 en viajes: IA para detección de fraude en reservas, cripto para pagos internacionales y wallets como Apple Pay para bookings móviles.</p>
+    </section>
+
+    <section id="metodos" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">2. Métodos de Pago Aceptados en Ailes du Monde</h2>
+      <p class="text-lg text-gray-700 mb-6">Ofrecemos variedad para facilitar reservas de viajes. Tabla comparativa adaptada a nuestra agencia (comisiones aproximadas; verifica con proveedores):</p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border-collapse">
+          <thead class="bg-blue-50">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-bold text-gray-800 border-b">Método de Pago</th>
+              <th class="px-6 py-4 text-left text-sm font-bold text-gray-800 border-b">Descripción</th>
+              <th class="px-6 py-4 text-left text-sm font-bold text-gray-800 border-b">Pros para Viajes</th>
+              <th class="px-6 py-4 text-left text-sm font-bold text-gray-800 border-b">Contras</th>
+              <th class="px-6 py-4 text-left text-sm font-bold text-gray-800 border-b">Comisión Aproximada</th>
+              <th class="px-6 py-4 text-left text-sm font-bold text-gray-800 border-b">Popular en Viajes</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">Tarjetas de Crédito/Débito (Visa, Mastercard)</td>
+              <td class="px-6 py-4 text-gray-700">Pago directo para reservas de circuitos.</td>
+              <td class="px-6 py-4 text-gray-700">Universal, rápido para bookings inmediatos.</td>
+              <td class="px-6 py-4 text-gray-700">Requiere PCI.</td>
+              <td class="px-6 py-4 text-gray-700">1.5-3% + $0.20 ARS equiv.</td>
+              <td class="px-6 py-4 text-gray-700">Global/Argentina</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">PayPal</td>
+              <td class="px-6 py-4 text-gray-700">Wallet para pagos internacionales de tours.</td>
+              <td class="px-6 py-4 text-gray-700">Protección al comprador en cancelaciones de viajes.</td>
+              <td class="px-6 py-4 text-gray-700">Comisiones altas; redirección.</td>
+              <td class="px-6 py-4 text-gray-700">2.9-4.4% + $0.35</td>
+              <td class="px-6 py-4 text-gray-700">Europa/EEUU/LATAM</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">Stripe</td>
+              <td class="px-6 py-4 text-gray-700">API para personalizar pagos de paquetes a medida.</td>
+              <td class="px-6 py-4 text-gray-700">Soporte global, ideal para suscripciones a newsletters de viajes.</td>
+              <td class="px-6 py-4 text-gray-700">Requiere dev.</td>
+              <td class="px-6 py-4 text-gray-700">1.4% + $0.25</td>
+              <td class="px-6 py-4 text-gray-700">Agencias online</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">Mercado Pago</td>
+              <td class="px-6 py-4 text-gray-700">TPV local para Argentina y LATAM.</td>
+              <td class="px-6 py-4 text-gray-700">Integración con bancos argentinos, cuotas sin interés para viajes.</td>
+              <td class="px-6 py-4 text-gray-700">Proceso de alta; comisiones variables.</td>
+              <td class="px-6 py-4 text-gray-700">2-6% (con cuotas)</td>
+              <td class="px-6 py-4 text-gray-700">Argentina/Brasil</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">Transferencias Bancarias</td>
+              <td class="px-6 py-4 text-gray-700">Pago manual para reservas grandes.</td>
+              <td class="px-6 py-4 text-gray-700">Bajos costos para grupos familiares.</td>
+              <td class="px-6 py-4 text-gray-700">Lento; manual.</td>
+              <td class="px-6 py-4 text-gray-700">0-1%</td>
+              <td class="px-6 py-4 text-gray-700">Locales</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">Apple Pay/Google Pay</td>
+              <td class="px-6 py-4 text-gray-700">Pagos biométricos en app móvil.</td>
+              <td class="px-6 py-4 text-gray-700">Rápido para reservas en tránsito.</td>
+              <td class="px-6 py-4 text-gray-700">Solo móviles compatibles.</td>
+              <td class="px-6 py-4 text-gray-700">Incluido en pasarela</td>
+              <td class="px-6 py-4 text-gray-700">Viajeros móviles</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-gray-700">Criptomonedas (Bitcoin, etc.)</td>
+              <td class="px-6 py-4 text-gray-700">Pagos descentralizados para tours internacionales.</td>
+              <td class="px-6 py-4 text-gray-700">Bajos costos transfronterizos para vueltas al mundo.</td>
+              <td class="px-6 py-4 text-gray-700">Volatilidad.</td>
+              <td class="px-6 py-4 text-gray-700">0.5-2%</td>
+              <td class="px-6 py-4 text-gray-700">Viajeros tech</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-lg font-medium text-gray-700 mt-6"><strong>Consejo:</strong> Para Argentina, usa Mercado Pago para cuotas en reservas de Machu Picchu o Disney.</p>
+    </section>
+
+    <section id="integracion" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">3. Cómo Integrar Pagos en Nuestro Sitio de Viajes</h2>
+      <p class="text-lg text-gray-700 mb-6">Paso a paso para reservar viajes en Ailes du Monde (adapta a WordPress o custom site).</p>
+      <ol class="space-y-4 text-lg text-gray-700">
+        <li class="flex items-start"><span class="font-bold mr-2">1.</span> <strong>Elige proveedor:</strong> Mercado Pago para locales, Stripe para global.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">2.</span> <strong>Regístrate:</strong> Verifica con docs de agencia (CUIT en Argentina).</li>
+        <li class="flex items-start"><span class="font-bold mr-2">3.</span> <strong>Instala:</strong> Plugins como WooCommerce para bookings de tours.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">4.</span> <strong>Webhook:</strong> Notificaciones para confirmaciones de vuelos/pagos.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">5.</span> <strong>Pruebas:</strong> Tarjetas test para simular reservas.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">6.</span> <strong>Live:</strong> Cumple regulaciones AFIP para facturación de viajes.</li>
+      </ol>
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mt-6">
+        <strong class="text-blue-800">Ejemplo Stripe para checkout de viaje:</strong>
+        <pre class="bg-gray-100 p-4 rounded mt-3 overflow-x-auto text-sm"><code>var stripe = Stripe('pk_test_...');
+stripe.redirectToCheckout({ sessionId: 'cs_test_...' }); // Para paquete Europa</code></pre>
+      </div>
+    </section>
+
+    <section id="seguridad" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">4. Medidas de Seguridad en Pagos de Viajes</h2>
+      <p class="text-lg text-gray-700 mb-6">Prioridad para evitar fraudes en reservas (pérdidas >$50B global en turismo 2025).</p>
+      <ul class="space-y-3 text-gray-700">
+        <li class="flex items-start"><span class="font-bold mr-2">• PCI DSS:</span> Tokenización para datos de tarjetas en bookings.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• SSL/TLS:</span> HTTPS para sitio de viajes.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• 3D Secure:</span> Autenticación en pagos de alto valor (vueltas al mundo).</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• IA Antifraude:</span> Detecta reservas sospechosas.</li>
+        <li class="flex items-start"><span class="font-bold mr-2">• Normativas locales:</span> Protección datos en Argentina (Ley 25.326).</li>
+      </ul>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mt-6 text-yellow-800">Nunca almacenes datos sensibles. Usa pasarelas para seguros de viaje incluidos.</div>
+    </section>
+
+    <section id="optimizacion" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">5. Optimización de Pagos en Reservas</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h4 class="text-2xl font-medium text-gray-800 mb-3">Mejora UX en Bookings:</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>Pago en 1 clic para repetidos.</li>
+            <li>Móvil-first para apps de viajes.</li>
+            <li>Monedas locales (ARS, USD, EUR).</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-2xl font-medium text-gray-800 mb-3">Analítica:</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>Track abandonos en selección de destinos.</li>
+            <li>A/B test formularios de reserva.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="text-lg text-gray-700 mt-6">Tasa conversión ideal en viajes: >2%. Reduce campos para rápidos bookings.</p>
+    </section>
+
+    <section id="troubleshooting" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">6. Solución de Problemas en Pagos de Viajes</h2>
+      <div class="space-y-4">
+        <details class="border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+          <summary class="font-semibold text-lg text-gray-800">Pago rechazado en reserva</summary>
+          <p class="text-gray-700 mt-2">Verifica fondos, 3DS o límites de tarjeta para viajes internacionales.</p>
+        </details>
+        <details class="border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+          <summary class="font-semibold text-lg text-gray-800">Webhook no recibido</summary>
+          <p class="text-gray-700 mt-2">Chequea URL para confirmaciones de tours.</p>
+        </details>
+        <details class="border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+          <summary class="font-semibold text-lg text-gray-800">Fraude en booking</summary>
+          <p class="text-gray-700 mt-2">Revisa IP de viajero, usa reglas para destinos de alto riesgo.</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="faq" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">7. Preguntas Frecuentes sobre Pagos</h2>
+      <div class="space-y-4">
+        <details class="border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+          <summary class="font-semibold text-lg text-gray-800">¿Puedo pagar en cuotas mi viaje?</summary>
+          <p class="text-gray-700 mt-2">Sí, con Mercado Pago hasta 12 cuotas sin interés para reservas en Argentina.</p>
+        </details>
+        <details class="border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+          <summary class="font-semibold text-lg text-gray-800">¿Soporta reembolsos en cancelaciones?</summary>
+          <p class="text-gray-700 mt-2">Sí, procesados en 5-10 días vía pasarela original, según política de viajes.</p>
+        </details>
+        <details class="border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+          <summary class="font-semibold text-lg text-gray-800">¿Es seguro pagar por cripto un tour?</summary>
+          <p class="text-gray-700 mt-2">Sí, con wallets seguras; ideal para pagos globales sin conversión.</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="contacto" class="bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-4">8. Contacta Soporte de Pagos</h2>
+      <p class="text-lg text-gray-700 mb-6">Desde Córdoba, Argentina, resolvemos dudas sobre reservas y pagos.</p>
+      <form class="space-y-6">
+        <div>
+          <label for="nombre" class="block text-gray-700 font-semibold mb-2">Nombre</label>
+          <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="nombre" placeholder="Tu nombre">
+        </div>
+        <div>
+          <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+          <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="email" placeholder="tu@email.com">
+        </div>
+        <div>
+          <label for="mensaje" class="block text-gray-700 font-semibold mb-2">Mensaje</label>
+          <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="mensaje" rows="5" placeholder="Describe tu duda en pagos o reservas"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">Enviar</button>
+      </form>
+    </section>
+
+  </div>
+</div>
+{% endblock %}

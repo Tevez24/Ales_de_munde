@@ -1,0 +1,311 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+{% block title %}Inicio - Ailes du Monde{% endblock %}
+{% block content %}
+
+  <!-- Hero Section with Background Image and Overlay -->
+  <div class="relative h-screen bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1501785882288-1e2a1b0b2b2e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-70"></div>
+    <div class="relative container mx-auto px-6 h-full flex flex-col justify-center items-center text-white text-center z-10">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight animate-fadeIn">Descubre el Mundo con Ailes du Monde</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl font-light">Paquetes de viaje únicos, personalizados y sostenibles para aventureros como tú. Explora destinos inolvidables con expertos que convierten sueños en realidades.</p>
+      <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+        <a href="{% url 'paquetes' %}" class="bg-white text-blue-700 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">Explora Ofertas</a>
+        <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition-all">Contáctanos</a>
+      </div>
+      <div class="mt-12 flex space-x-8 text-sm">
+        <div class="flex items-center"><i data-lucide="check-circle" class="h-6 w-6 mr-2 text-green-300"></i> Sostenible</div>
+        <div class="flex items-center"><i data-lucide="check-circle" class="h-6 w-6 mr-2 text-green-300"></i> Seguro</div>
+        <div class="flex items-center"><i data-lucide="check-circle" class="h-6 w-6 mr-2 text-green-300"></i> Personalizado</div>
+      </div>
+    </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+    </div>
+  </div>
+
+  <!-- Combos Especiales -->
+  <div class="container mx-auto px-6 py-20">
+    <section>
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Ofertas Especiales del Momento</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Descubre nuestros paquetes destacados con descuentos exclusivos. ¡Reserva ahora y ahorra hasta un 20%!</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Combo 1 -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1519671482746-4b7d7a3b9a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-56 object-cover" alt="Combo Europa Clásica">
+            <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">-13%</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Combo Europa Clásica</h3>
+            <p class="text-gray-600 mb-3">Destinos: París, Roma, Madrid | Duración: 10 días</p>
+            <ul class="text-sm text-gray-500 mb-4 space-y-1">
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Vuelos ida/vuelta</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Hoteles 4★ + Desayunos</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Tours guiados y traslados</li>
+            </ul>
+            <p class="text-3xl font-bold text-blue-600 mb-2">$3500 <span class="text-lg text-gray-500 line-through ml-2">$4000</span></p>
+            <div class="flex space-x-3">
+              <a href="{% url 'paquetes' %}" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-center font-semibold transition">Ver Detalles</a>
+              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition" onclick="addToCart('Combo Europa Clásica', 3500)">Añadir</button>
+            </div>
+          </div>
+        </div>
+        <!-- Combo 2 -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1506973032180-822c5e5e7b99?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-56 object-cover" alt="Combo Sudamérica Aventura">
+            <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">-13%</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Combo Sudamérica Aventura</h3>
+            <p class="text-gray-600 mb-3">Destinos: Buenos Aires, Machu Picchu, Río | Duración: 12 días</p>
+            <ul class="text-sm text-gray-500 mb-4 space-y-1">
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Vuelos internos</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Hoteles ecológicos</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Aventuras y guías locales</li>
+            </ul>
+            <p class="text-3xl font-bold text-blue-600 mb-2">$2800 <span class="text-lg text-gray-500 line-through ml-2">$3200</span></p>
+            <div class="flex space-x-3">
+              <a href="{% url 'paquetes' %}" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-center font-semibold transition">Ver Detalles</a>
+              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition" onclick="addToCart('Combo Sudamérica Aventura', 2800)">Añadir</button>
+            </div>
+          </div>
+        </div>
+        <!-- Combo 3 -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1506926037886-3c3e9d0d3a3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-56 object-cover" alt="Combo Playas del Caribe">
+            <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">-14%</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Combo Playas del Caribe</h3>
+            <p class="text-gray-600 mb-3">Destinos: Cancún, Punta Cana | Duración: 7 días</p>
+            <ul class="text-sm text-gray-500 mb-4 space-y-1">
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Vuelos directos</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Resort All-Inclusive 5★</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Actividades acuáticas</li>
+            </ul>
+            <p class="text-3xl font-bold text-blue-600 mb-2">$2500 <span class="text-lg text-gray-500 line-through ml-2">$2900</span></p>
+            <div class="flex space-x-3">
+              <a href="{% url 'paquetes' %}" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-center font-semibold transition">Ver Detalles</a>
+              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition" onclick="addToCart('Combo Playas del Caribe', 2500)">Añadir</button>
+            </div>
+          </div>
+        </div>
+        <!-- Combo 4 -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1493976040374-85c8e5d0d0b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-56 object-cover" alt="Combo Asia Exótica">
+            <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">-13%</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Combo Asia Exótica</h3>
+            <p class="text-gray-600 mb-3">Destinos: Tokio, Kioto, Bangkok | Duración: 14 días</p>
+            <ul class="text-sm text-gray-500 mb-4 space-y-1">
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Vuelos internacionales</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Tren bala y Hoteles 4★</li>
+              <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-green-500 mr-2"></i> Tours culturales</li>
+            </ul>
+            <p class="text-3xl font-bold text-blue-600 mb-2">$4200 <span class="text-lg text-gray-500 line-through ml-2">$4800</span></p>
+            <div class="flex space-x-3">
+              <a href="{% url 'paquetes' %}" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-center font-semibold transition">Ver Detalles</a>
+              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition" onclick="addToCart('Combo Asia Exótica', 4200)">Añadir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <a href="{% url 'paquetes' %}" class="text-blue-600 hover:text-blue-800 font-semibold text-lg">Ver Todos los Paquetes <i data-lucide="arrow-right" class="inline h-5 w-5 ml-1"></i></a>
+      </div>
+    </section>
+
+    <!-- Servicios Destacados -->
+    <section class="mt-24">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Nuestros Servicios Integrales</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Desde vuelos hasta experiencias únicas, todo en un solo lugar para tu viaje perfecto.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <a href="{% url 'vuelos' %}" class="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+          <i data-lucide="plane-takeoff" class="h-16 w-16 text-blue-600 mb-6 mx-auto group-hover:rotate-12 transition-transform"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Vuelos Globales</h3>
+          <p class="text-gray-600 mb-4">Accede a +30 aerolíneas con tarifas exclusivas y tracking en tiempo real.</p>
+          <span class="text-blue-600 font-semibold group-hover:underline">Explorar <i data-lucide="arrow-right" class="inline h-4 w-4"></i></span>
+        </a>
+        <a href="{% url 'alojamiento' %}" class="group bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+          <i data-lucide="building-2" class="h-16 w-16 text-green-600 mb-6 mx-auto group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Alojamientos</h3>
+          <p class="text-gray-600 mb-4">Hoteles, resorts y eco-lodges verificados con reseñas reales.</p>
+          <span class="text-green-600 font-semibold group-hover:underline">Explorar <i data-lucide="arrow-right" class="inline h-4 w-4"></i></span>
+        </a>
+        <a href="{% url 'paquetes' %}" class="group bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+          <i data-lucide="map-pin" class="h-16 w-16 text-purple-600 mb-6 mx-auto group-hover:rotate-6 transition-transform"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Paquetes Personalizados</h3>
+          <p class="text-gray-600 mb-4">Combos todo-incluido con actividades y seguros integrados.</p>
+          <span class="text-purple-600 font-semibold group-hover:underline">Explorar <i data-lucide="arrow-right" class="inline h-4 w-4"></i></span>
+        </a>
+        <a href="{% url 'alquileres' %}" class="group bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+          <i data-lucide="car" class="h-16 w-16 text-yellow-600 mb-6 mx-auto group-hover:translate-x-2 transition-transform"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Alquileres de Vehículos</h3>
+          <p class="text-gray-600 mb-4">Autos, vans y scooters en +85 destinos con seguro completo.</p>
+          <span class="text-yellow-600 font-semibold group-hover:underline">Explorar <i data-lucide="arrow-right" class="inline h-4 w-4"></i></span>
+        </a>
+        <a href="{% url 'transporte' %}" class="group bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+          <i data-lucide="bus" class="h-16 w-16 text-red-600 mb-6 mx-auto group-hover:translate-y-1 transition-transform"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Transporte Local</h3>
+          <p class="text-gray-600 mb-4">Traslados, trenes y shuttles para movilidad sin preocupaciones.</p>
+          <span class="text-red-600 font-semibold group-hover:underline">Explorar <i data-lucide="arrow-right" class="inline h-4 w-4"></i></span>
+        </a>
+        <a href="{% url 'actividades' %}" class="group bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+          <i data-lucide="mountain" class="h-16 w-16 text-indigo-600 mb-6 mx-auto group-hover:rotate-12 transition-transform"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Actividades y Excursiones</h3>
+          <p class="text-gray-600 mb-4">Aventuras, tours culturales y experiencias únicas reservadas.</p>
+          <span class="text-indigo-600 font-semibold group-hover:underline">Explorar <i data-lucide="arrow-right" class="inline h-4 w-4"></i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Por Qué Elegirnos con Stats Animados -->
+    <section class="mt-24 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl py-16 px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">¿Por Qué Elegir Ailes du Monde?</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Con 14 años de excelencia, hemos transformado viajes en memorias eternas para miles.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+          <i data-lucide="award" class="h-14 w-14 text-blue-600 mb-4 mx-auto"></i>
+          <h3 class="text-3xl font-bold text-gray-800">14+</h3>
+          <p class="text-gray-600 mt-2">Años de Experiencia</p>
+          <p class="text-sm text-gray-500 mt-3">Líderes en turismo sostenible desde 2010</p>
+        </div>
+        <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+          <i data-lucide="users" class="h-14 w-14 text-green-600 mb-4 mx-auto"></i>
+          <h3 class="text-3xl font-bold text-gray-800">50K+</h3>
+          <p class="text-gray-600 mt-2">Clientes Satisfechos</p>
+          <p class="text-sm text-gray-500 mt-3">Rating promedio 4.9/5 en reseñas</p>
+        </div>
+        <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+          <i data-lucide="globe" class="h-14 w-14 text-purple-600 mb-4 mx-auto"></i>
+          <h3 class="text-3xl font-bold text-gray-800">85+</h3>
+          <p class="text-gray-600 mt-2">Destinos Globales</p>
+          <p class="text-sm text-gray-500 mt-3">Cobertura en 5 continentes</p>
+        </div>
+        <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+          <i data-lucide="shield-check" class="h-14 w-14 text-red-600 mb-4 mx-auto"></i>
+          <h3 class="text-3xl font-bold text-gray-800">100%</h3>
+          <p class="text-gray-600 mt-2">Viajes Seguros</p>
+          <p class="text-sm text-gray-500 mt-3">Seguros incluidos y soporte 24/7</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="mt-24">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Lo Que Dicen Nuestros Viajeros</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Historias reales de aventuras inolvidables.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+          <div class="flex mb-4">
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+          </div>
+          <p class="text-gray-600 italic mb-4">"Un viaje perfecto a Europa! Todo organizado impecablemente."</p>
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Cliente" class="w-12 h-12 rounded-full mr-3">
+            <div>
+              <p class="font-semibold">Maria Gonzalez</p>
+              <p class="text-sm text-gray-500">Viajero de Argentina</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+          <div class="flex mb-4">
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-400 fill-current"></i>
+          </div>
+          <p class="text-gray-600 italic mb-4">"Aventura en Patagonia inolvidable. Recomendado 100%."</p>
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Cliente" class="w-12 h-12 rounded-full mr-3">
+            <div>
+              <p class="font-semibold">Juan Perez</p>
+              <p class="text-sm text-gray-500">Viajero de Chile</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+          <div class="flex mb-4">
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+            <i data-lucide="star" class="h-5 w-5 text-yellow-500 fill-current"></i>
+          </div>
+          <p class="text-gray-600 italic mb-4">"Playas del Caribe: relax total con servicio premium."</p>
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Cliente" class="w-12 h-12 rounded-full mr-3">
+            <div>
+              <p class="font-semibold">Ana Lopez</p>
+              <p class="text-sm text-gray-500">Viajero de México</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Subscription -->
+    <section class="mt-24 bg-blue-600 text-white rounded-3xl py-16 px-8 text-center">
+      <h2 class="text-4xl font-bold mb-4">Suscríbete a Nuestro Boletín</h2>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">Recibe ofertas exclusivas, tips de viaje y novedades directamente en tu inbox.</p>
+      <form class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4 max-w-md mx-auto">
+        <input type="email" placeholder="Tu email" class="w-full px-6 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-white">
+        <button type="submit" class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Suscribirse</button>
+      </form>
+      <p class="text-sm mt-4">No spam, prometido. Desuscríbete cuando quieras.</p>
+    </section>
+
+    <!-- Arrepentimiento -->
+    <section class="mt-24 bg-yellow-50 border-t-4 border-yellow-400 rounded-2xl py-12 px-8">
+      <div class="container mx-auto text-center">
+        <i data-lucide="info" class="h-12 w-12 text-yellow-600 mb-4 mx-auto"></i>
+        <h3 class="text-3xl font-bold text-yellow-800 mb-4">Derecho de Arrepentimiento</h3>
+        <p class="text-yellow-800 mb-6 max-w-3xl mx-auto">Según la normativa argentina, puedes cancelar tu reserva dentro de los 10 días sin penalidades. Estamos aquí para ayudarte.</p>
+        <a href="{% url 'arrepentimiento' %}" class="bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded-full inline-flex items-center font-semibold transition shadow-md">
+          <i data-lucide="alert-triangle" class="h-5 w-5 mr-2"></i> Solicitar Arrepentimiento
+        </a>
+      </div>
+    </section>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+  function addToCart(packageName, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name: packageName, price: price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${packageName} ha sido agregado al carrito!`);
+  }
+</script>
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
