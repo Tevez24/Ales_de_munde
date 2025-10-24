@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django import forms
+from django import forms  # ✅ Agrega esta importación
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -14,16 +14,59 @@ from django.core.paginator import Paginator
 import io
 from reportlab.pdfgen import canvas
 from django.views.generic import TemplateView
+from django.core.mail import send_mail
+from django.conf import settings
+from datetime import datetime
 
-# --- Páginas estáticas ---
+# Vista para la página principal
+def inicio(request):
+    return render(request, 'Carrito_app/inicio.html')
+
+# Vista para el login
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # Enviar correo de confirmación
+                try:
+                    if user.email:
+                        send_mail(
+                            subject='Inicio de sesión exitoso - Ailes du Monde',
+                            message=f'Hola {user.username},\n\nIniciaste sesión el {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}.\nGracias por usar Ailes du Monde!',
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[user.email],
+                            fail_silently=True,
+                        )
+                        messages.success(request, "Inicio de sesión exitoso. Revisa tu correo para la confirmación.")
+                    else:
+                        messages.warning(request, "Inicio de sesión exitoso, pero no tienes un correo asociado.")
+                except Exception as e:
+                    print(f'Error al enviar correo: {e}')
+                    messages.warning(request, "Inicio de sesión exitoso, pero no se pudo enviar el correo.")
+                return redirect("home")
+            else:
+                messages.error(request, "Usuario o contraseña incorrectos.")
+        else:
+            messages.error(request, "Por favor, corrige los errores en el formulario.")
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, "Carrito_app/login.html", {"form": form})
+
+# Resto de las vistas (sin cambios)
 def support(request):
     return render(request, 'Carrito_app/support.html')
 
 def pago(request):
     return render(request, 'Carrito_app/pago.html')
-
-def inicio(request):
-    return render(request, 'Carrito_app/inicio.html')
 
 @login_required
 def home(request):
@@ -56,8 +99,6 @@ def soporte_pago(request):
 def preguntas_frecuentes(request):
     return render(request, 'Carrito_app/preguntas_frecuentes.html')
 
-
-# --- Actividades ---
 def actividades(request):
     actividades = Actividad.objects.all()
     destinos = Destino.objects.filter(actividades__isnull=False).distinct()
@@ -69,8 +110,6 @@ def actividades(request):
         'destinos': destinos
     })
 
-
-# --- Transporte ---
 def transporte(request):
     transportes = Transporte.objects.all()
     return render(request, 'Carrito_app/transporte.html', {'transportes': transportes})
@@ -79,52 +118,38 @@ def transporte_detalle(request, transporte_id):
     transporte = get_object_or_404(Transporte, id=transporte_id)
     return render(request, 'Carrito_app/transporte_detalle.html', {'transporte': transporte})
 
-
-# --- Paquetes ---
 def paquetes(request):
     destinos = Destino.objects.all()
     paquetes_list = Paquete.objects.all().select_related('destino').order_by('nombre')
-
-    # --- FILTROS ---
     destino_id = request.GET.get('destino')
     if destino_id:
         paquetes_list = paquetes_list.filter(destino_id=destino_id)
-
     precio_max = request.GET.get('precio_max')
     if precio_max:
         try:
             paquetes_list = paquetes_list.filter(precio__lte=float(precio_max))
         except (ValueError, TypeError):
             pass
-
-    # --- PAGINACIÓN ---
-    paginator = Paginator(paquetes_list, 6)  # 6 paquetes por página
+    paginator = Paginator(paquetes_list, 6)
     page_number = request.GET.get('page')
     paquetes_page = paginator.get_page(page_number)
-
     context = {
         'paquetes': paquetes_page,
         'destinos': destinos,
         'destino_id': destino_id,
         'precio_max': precio_max,
     }
-
     return render(request, 'Carrito_app/paquetes.html', context)
-
 
 def paquete_detalle(request, paquete_id):
     paquete = get_object_or_404(Paquete, id=paquete_id)
     return render(request, 'Carrito_app/paquete_detalle.html', {'paquete': paquete})
-
-
-
 
 @login_required
 def update_cart(request, paquete_id):
     if request.method == 'POST':
         accion = request.POST.get('accion')
         carrito = request.session.get('carrito', {})
-
         if str(paquete_id) in carrito:
             if accion == 'increment':
                 carrito[str(paquete_id)] += 1
@@ -132,22 +157,10 @@ def update_cart(request, paquete_id):
                 carrito[str(paquete_id)] -= 1
                 if carrito[str(paquete_id)] <= 0:
                     del carrito[str(paquete_id)]
-
         request.session['carrito'] = carrito
         request.session.modified = True
-
     return redirect('carrito')
 
-
-
-
-
-
-
-
-
-
-# --- Carrito basado en sesión ---
 @login_required
 def carrito(request):
     carrito_sesion = request.session.get('carrito', {})
@@ -159,29 +172,23 @@ def carrito(request):
         paquete.subtotal = paquete.precio * cantidad
         total += paquete.subtotal
         paquetes.append(paquete)
-
     context = {
         'paquetes': paquetes,
         'total': total
     }
     return render(request, 'Carrito_app/carrito.html', context)
 
-
 @login_required
 @require_POST
 def add_to_cart(request, paquete_id):
     carrito_sesion = request.session.get('carrito', {})
-
     if str(paquete_id) in carrito_sesion:
         carrito_sesion[str(paquete_id)] += 1
     else:
         carrito_sesion[str(paquete_id)] = 1
-
     request.session['carrito'] = carrito_sesion
     request.session.modified = True
-
     return JsonResponse({'status': 'success', 'message': 'Paquete añadido al carrito.'})
-
 
 @login_required
 def remove_from_cart(request, item_id):
@@ -194,16 +201,12 @@ def remove_from_cart(request, item_id):
         messages.success(request, "El producto fue eliminado de tu carrito.")
     return redirect('carrito')
 
-
-# --- Checkout con pago y comprobante PDF ---
 @login_required
 def checkout(request):
     carrito_sesion = request.session.get('carrito', {})
-
     if not carrito_sesion:
         messages.error(request, "Tu carrito está vacío.")
         return redirect('carrito')
-
     paquetes = []
     total = 0
     for paquete_id, cantidad in carrito_sesion.items():
@@ -212,9 +215,7 @@ def checkout(request):
         paquete.subtotal = paquete.precio * cantidad
         total += paquete.subtotal
         paquetes.append(paquete)
-
     if request.method == 'POST':
-        # --- Simulación de pago ---
         buffer = io.BytesIO()
         p = canvas.Canvas(buffer)
         p.setFont("Helvetica", 14)
@@ -227,34 +228,26 @@ def checkout(request):
         p.showPage()
         p.save()
         buffer.seek(0)
-
-        # Vaciar carrito
         request.session['carrito'] = {}
         request.session.modified = True
         messages.success(request, "¡Compra realizada con éxito! Se descargará tu comprobante.")
-
         return FileResponse(buffer, as_attachment=True, filename='comprobante.pdf')
-
     return render(request, 'Carrito_app/checkout.html', {
         'paquetes': paquetes,
         'total': total
     })
 
-
-# --- Perfil ---
 class EditProfileForm(forms.ModelForm):
     email = forms.EmailField(required=True)
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
 
-
 class TerminosView(TemplateView):
     template_name = 'Carrito_app/termino_condiciones.html'
 
 class PrivacidadView(TemplateView):
     template_name = 'Carrito_app/politica_privacidad.html'
-
 
 @login_required
 def edit_profile(request):
@@ -267,31 +260,9 @@ def edit_profile(request):
         return redirect('home')
     return render(request, 'registration/edit_profile.html')
 
-
-# --- Autenticación ---
-def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("home") 
-            else:
-                messages.error(request, "Usuario o contraseña incorrectos.")
-    else:
-        form = AuthenticationForm()
-    return render(request, "Carrito_app/login.html", {"form": form})
-
-
 def logout_view(request):
     logout(request)
     return redirect('login')
-
 
 def register_view(request):
     if request.method == 'POST':
@@ -303,8 +274,6 @@ def register_view(request):
         form = CustomUser_CreationForm()
     return render(request, "Carrito_app/register.html", {"form": form})
 
-
-# --- Historial de órdenes ---
 @login_required
 def order_history(request):
     orders = []

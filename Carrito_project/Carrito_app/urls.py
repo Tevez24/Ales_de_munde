@@ -4,10 +4,12 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 
+
 urlpatterns = [
     # Página de inicio principal del sitio
     path('', views.inicio, name='inicio'), 
     path('home/', views.home, name='home'),
+    path('login/', views.login_view, name='login'),
 
     # Páginas de contenido y productos
     path('paquetes/', views.paquetes, name='paquetes'),
