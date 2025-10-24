@@ -138,5 +138,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ailesdumunde1@gmail.com'  # Reemplaza con tu correo de Gmail
 EMAIL_HOST_PASSWORD = 'xomj imua wfld zzfq'  # Reemplaza con tu App Password de Gmail
-from decouple import config
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
