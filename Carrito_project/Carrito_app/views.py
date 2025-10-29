@@ -138,7 +138,7 @@ def pago(request):
 
 @login_required
 def home(request):
-    return render(request, 'registration/home.html')
+    return render(request, 'Carrito_app/inicio.html')
 
 def acerca(request):
     return render(request, 'Carrito_app/acerca.html')
