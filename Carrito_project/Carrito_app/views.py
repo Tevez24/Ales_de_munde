@@ -57,7 +57,7 @@ def login_view(request):
                             fail_silently=False,
                         )
                         messages.success(request, "Te hemos enviado un código de verificación a tu correo.")
-                        return redirect('verify_code')
+                        return redirect('verify')  # Redirección corregida
                     else:
                         messages.error(request, "No tienes un correo electrónico asociado a tu cuenta para la verificación.")
                 except Exception as e:
