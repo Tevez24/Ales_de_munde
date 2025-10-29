@@ -30,6 +30,7 @@ def inicio(request):
 
 # Vista para el login basado en formularios (HTML)
 def login_view(request):
+    messages.add_message(request, messages.DEBUG, "DEBUG: Accediendo a la vista de login personalizada.")
     if request.user.is_authenticated:
         return redirect('home')
     
