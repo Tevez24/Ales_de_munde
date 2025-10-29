@@ -1,0 +1,24 @@
+{
+  "name": "ales_de_munde",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tevez24/Ales_de_munde.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tevez24/Ales_de_munde/issues"
+  },
+  "homepage": "https://github.com/Tevez24/Ales_de_munde#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.9"
+  }
+}
