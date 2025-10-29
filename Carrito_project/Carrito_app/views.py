@@ -46,18 +46,19 @@ def login_view(request):
                 # Store user ID and verification code in the session
                 request.session['user_id_for_verification'] = user.id
                 request.session['verification_code'] = verification_code
-                
+                request.session.set_expiry(300)  # Set session expiry to 5 minutes
+
                 try:
                     if user.email:
                         send_mail(
                             subject='Tu código de verificación - Ailes du Monde',
-                            message=f'Hola {user.username},\n\nTu código de verificación es: {verification_code}\n\nGracias por usar Ailes du Monde!',
+                            message=f'Hola {user.username},\n\nTu código de verificación es: {verification_code}\n\nEste código expirará en 5 minutos.\n\nGracias por usar Ailes du Monde!',
                             from_email=settings.EMAIL_HOST_USER,
                             recipient_list=[user.email],
                             fail_silently=False,
                         )
                         messages.success(request, "Te hemos enviado un código de verificación a tu correo.")
-                        return redirect('verify')  # Redirección corregida
+                        return redirect('verify')
                     else:
                         messages.error(request, "No tienes un correo electrónico asociado a tu cuenta para la verificación.")
                 except Exception as e:
@@ -74,27 +75,28 @@ def login_view(request):
 
 def verify_code(request):
     if 'user_id_for_verification' not in request.session:
+        messages.error(request, "Tu sesión de verificación ha expirado o es inválida. Por favor, inicia sesión de nuevo.")
         return redirect('login')
 
     if request.method == 'POST':
         entered_code = request.POST.get('code')
         verification_code = request.session.get('verification_code')
 
-        if entered_code == verification_code:
-            user_id = request.session.get('user_id_for_verification')
+        if entered_code and entered_code == verification_code:
+            user_id = request.session.pop('user_id_for_verification')
             user = User.objects.get(id=user_id)
             login(request, user)
-            
-            # Clean up session
-            del request.session['user_id_for_verification']
-            del request.session['verification_code']
 
-            messages.success(request, "Inicio de sesión exitoso.")
+            if 'verification_code' in request.session:
+                del request.session['verification_code']
+
+            messages.success(request, "¡Verificación exitosa! Has iniciado sesión.")
             return redirect('home')
         else:
-            messages.error(request, "Código de verificación incorrecto.")
+            messages.error(request, "El código de verificación es incorrecto. Por favor, inténtalo de nuevo.")
     
     return render(request, 'Carrito_app/verify_code.html')
+
 # Vista API para login con JWT
 @api_view(['POST'])
 def login_api_view(request):
