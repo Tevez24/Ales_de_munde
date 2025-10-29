@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django import forms  # ✅ Agrega esta importación
-from django.contrib import messages
+from django import forms
+from django import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -17,12 +17,18 @@ from django.views.generic import TemplateView
 from django.core.mail import send_mail
 from django.conf import settings
 from datetime import datetime
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+import random
+import string
 
 # Vista para la página principal
 def inicio(request):
     return render(request, 'Carrito_app/inicio.html')
 
-# Vista para el login
+# Vista para el login basado en formularios (HTML)
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -34,24 +40,29 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                # Enviar correo de confirmación
+                # Generate a 6-digit verification code
+                verification_code = ''.join(random.choices(string.digits, k=6))
+                
+                # Store user ID and verification code in the session
+                request.session['user_id_for_verification'] = user.id
+                request.session['verification_code'] = verification_code
+                
                 try:
                     if user.email:
                         send_mail(
-                            subject='Inicio de sesión exitoso - Ailes du Monde',
-                            message=f'Hola {user.username},\n\nIniciaste sesión el {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}.\nGracias por usar Ailes du Monde!',
+                            subject='Tu código de verificación - Ailes du Monde',
+                            message=f'Hola {user.username},\n\nTu código de verificación es: {verification_code}\n\nGracias por usar Ailes du Monde!',
                             from_email=settings.EMAIL_HOST_USER,
                             recipient_list=[user.email],
-                            fail_silently=True,
+                            fail_silently=False,
                         )
-                        messages.success(request, "Inicio de sesión exitoso. Revisa tu correo para la confirmación.")
+                        messages.success(request, "Te hemos enviado un código de verificación a tu correo.")
+                        return redirect('verify_code')
                     else:
-                        messages.warning(request, "Inicio de sesión exitoso, pero no tienes un correo asociado.")
+                        messages.error(request, "No tienes un correo electrónico asociado a tu cuenta para la verificación.")
                 except Exception as e:
                     print(f'Error al enviar correo: {e}')
-                    messages.warning(request, "Inicio de sesión exitoso, pero no se pudo enviar el correo.")
-                return redirect("home")
+                    messages.error(request, "No se pudo enviar el correo de verificación. Inténtalo de nuevo.")
             else:
                 messages.error(request, "Usuario o contraseña incorrectos.")
         else:
@@ -60,6 +71,61 @@ def login_view(request):
         form = AuthenticationForm()
     
     return render(request, "Carrito_app/login.html", {"form": form})
+
+def verify_code(request):
+    if 'user_id_for_verification' not in request.session:
+        return redirect('login')
+
+    if request.method == 'POST':
+        entered_code = request.POST.get('code')
+        verification_code = request.session.get('verification_code')
+
+        if entered_code == verification_code:
+            user_id = request.session.get('user_id_for_verification')
+            user = User.objects.get(id=user_id)
+            login(request, user)
+            
+            # Clean up session
+            del request.session['user_id_for_verification']
+            del request.session['verification_code']
+
+            messages.success(request, "Inicio de sesión exitoso.")
+            return redirect('home')
+        else:
+            messages.error(request, "Código de verificación incorrecto.")
+    
+    return render(request, 'Carrito_app/verify_code.html')
+# Vista API para login con JWT
+@api_view(['POST'])
+def login_api_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    if not username or not password:
+        return Response({'error': 'Faltan credenciales'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        # Generar tokens JWT
+        refresh = RefreshToken.for_user(user)
+        # Enviar correo de confirmación
+        try:
+            if user.email:
+                send_mail(
+                    subject='Inicio de sesión exitoso - Ailes du Monde',
+                    message=f'Hola {user.username},\n\nIniciaste sesión el {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}.\nGracias por usar Ailes du Monde!',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[user.email],
+                    fail_silently=True,
+                )
+        except Exception as e:
+            print(f'Error al enviar correo: {e}')
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'message': 'Inicio de sesión exitoso. Revisa tu correo para la confirmación.'
+        }, status=status.HTTP_200_OK)
+    return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
 
 # Resto de las vistas (sin cambios)
 def support(request):
