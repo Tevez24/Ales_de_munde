@@ -1,0 +1,236 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ actividad.nombre }} - Ailes Du Monde{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- Hero Section -->
+  <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="relative h-96">
+      {% if actividad.imagen %}
+        <img src="{{ actividad.imagen.url }}" alt="{{ actividad.nombre }}" class="w-full h-full object-cover">
+      {% else %}
+        <img src="{% static 'Carrito_app/img/default-activity.jpg' %}" alt="{{ actividad.nombre }}" class="w-full h-full object-cover">
+      {% endif %}
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 p-8 text-white">
+        <div class="flex items-center space-x-2 mb-3">
+          <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">{{ actividad.categoria }}</span>
+          <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">{{ actividad.duracion }}</span>
+        </div>
+        <h1 class="text-4xl font-bold mb-2">{{ actividad.nombre }}</h1>
+        <p class="text-xl opacity-90 flex items-center">
+          <i data-lucide="map-pin" class="h-5 w-5 mr-2"></i>
+          {{ actividad.destino.nombre }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Detalles principales -->
+    <div class="p-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Información principal -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">Descripción de la Actividad</h2>
+          <div class="prose max-w-none text-gray-600">
+            {{ actividad.descripcion|linebreaks }}
+          </div>
+
+          <!-- Lo que incluye -->
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">¿Qué incluye?</h3>
+            <div class="grid gap-4">
+              <div class="space-y-3">
+                <h4 class="font-medium text-green-600 flex items-center">
+                  <i data-lucide="check-circle" class="h-5 w-5 mr-2"></i>
+                  Incluido
+                </h4>
+                <ul class="space-y-2">
+                  {% for item in actividad.incluido %}
+                  <li class="flex items-start">
+                    <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2 mt-0.5"></i>
+                    <span>{{ item }}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <div class="space-y-3">
+                <h4 class="font-medium text-red-600 flex items-center">
+                  <i data-lucide="x-circle" class="h-5 w-5 mr-2"></i>
+                  No incluido
+                </h4>
+                <ul class="space-y-2">
+                  {% for item in actividad.no_incluido %}
+                  <li class="flex items-start">
+                    <i data-lucide="x" class="h-5 w-5 text-red-500 mr-2 mt-0.5"></i>
+                    <span>{{ item }}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Punto de encuentro -->
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Punto de Encuentro</h3>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="flex items-start">
+                <i data-lucide="map-pin" class="h-5 w-5 text-blue-600 mr-2 mt-1"></i>
+                <div>
+                  <p class="font-medium">{{ actividad.punto_encuentro.nombre }}</p>
+                  <p class="text-gray-600 text-sm mt-1">{{ actividad.punto_encuentro.direccion }}</p>
+                  <p class="text-sm text-blue-600 mt-2">
+                    Horario: {{ actividad.punto_encuentro.horario }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reserva y Detalles -->
+        <div>
+          <!-- Tarjeta de Reserva -->
+          <div class="bg-gray-50 p-6 rounded-xl mb-8">
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold text-green-600">${{ actividad.precio }} <span class="text-sm text-gray-500">por persona</span></h3>
+              <div class="flex items-center mt-2 text-gray-600">
+                <i data-lucide="users" class="h-5 w-5 mr-2"></i>
+                <span>Grupo mínimo: {{ actividad.min_personas }} personas</span>
+              </div>
+            </div>
+
+            <!-- Formulario de Reserva -->
+            <form class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                <input type="date" class="w-full rounded-lg border-gray-300">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Número de personas</label>
+                <select class="w-full rounded-lg border-gray-300">
+                  {% for i in "x"|rjust:10 %}
+                    <option value="{{ forloop.counter }}">{{ forloop.counter }} persona{{ forloop.counter|pluralize }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Reservar Ahora
+              </button>
+            </form>
+          </div>
+
+          <!-- Información Importante -->
+          <div class="space-y-6">
+            <div>
+              <h3 class="font-semibold mb-3">Detalles de la Actividad</h3>
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <i data-lucide="clock" class="h-5 w-5 text-blue-600 mr-3"></i>
+                  <div>
+                    <p class="font-medium">Duración</p>
+                    <p class="text-gray-600">{{ actividad.duracion }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <i data-lucide="users" class="h-5 w-5 text-blue-600 mr-3"></i>
+                  <div>
+                    <p class="font-medium">Tamaño del grupo</p>
+                    <p class="text-gray-600">{{ actividad.min_personas }} - {{ actividad.max_personas }} personas</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <i data-lucide="speech" class="h-5 w-5 text-blue-600 mr-3"></i>
+                  <div>
+                    <p class="font-medium">Idiomas</p>
+                    <p class="text-gray-600">{{ actividad.idiomas }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-3">Qué debes traer</h3>
+              <ul class="space-y-2">
+                {% for item in actividad.que_traer %}
+                <li class="flex items-start">
+                  <i data-lucide="backpack" class="h-5 w-5 text-blue-600 mr-2 mt-0.5"></i>
+                  <span>{{ item }}</span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-3">Política de Cancelación</h3>
+              <p class="text-gray-600">{{ actividad.politica_cancelacion }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Itinerario -->
+      {% if actividad.itinerario %}
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Itinerario</h2>
+        <div class="space-y-6">
+          {% for paso in actividad.itinerario %}
+          <div class="flex">
+            <div class="flex-shrink-0 w-12 flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                <span class="text-blue-600 font-semibold">{{ forloop.counter }}</span>
+              </div>
+              {% if not forloop.last %}
+                <div class="h-full w-0.5 bg-blue-100 my-2"></div>
+              {% endif %}
+            </div>
+            <div class="ml-4">
+              <h3 class="font-semibold">{{ paso.titulo }}</h3>
+              <p class="text-gray-600 mt-1">{{ paso.descripcion }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Reseñas -->
+      {% if actividad.resenas %}
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Reseñas</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for resena in actividad.resenas %}
+          <div class="bg-gray-50 p-6 rounded-xl">
+            <div class="flex items-center mb-4">
+              <img src="{{ resena.avatar }}" alt="{{ resena.nombre }}" class="w-12 h-12 rounded-full">
+              <div class="ml-3">
+                <h4 class="font-semibold">{{ resena.nombre }}</h4>
+                <p class="text-sm text-gray-500">{{ resena.fecha }}</p>
+              </div>
+            </div>
+            <div class="flex mb-3">
+              {% for i in "x"|rjust:5 %}
+                <i data-lucide="star" class="h-5 w-5 {% if forloop.counter <= resena.puntuacion %}text-yellow-400{% else %}text-gray-300{% endif %} fill-current"></i>
+              {% endfor %}
+            </div>
+            <p class="text-gray-600">{{ resena.comentario }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+</script>
+{% endblock %}
+{% endblock %}

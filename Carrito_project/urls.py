@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     path('', include('Carrito_app.urls')),  # ✅ tu app principal
 ]
 

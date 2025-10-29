@@ -7,57 +7,136 @@
     <h1 class="text-4xl font-bold mb-10 text-center text-blue-700">Tu Carrito</h1>
 
     {% if paquetes %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {% for paquete in paquetes %}
-                <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 overflow-hidden">
-                    <div class="flex flex-col md:flex-row items-center p-6 space-y-4 md:space-y-0 md:space-x-6">
-                        {% if paquete.imagen %}
-                            <img src="{{ paquete.imagen.url }}" alt="{{ paquete.nombre }}" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-xl">
-                        {% else %}
-                            <img src="https://via.placeholder.com/150" alt="{{ paquete.nombre }}" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-xl">
-                        {% endif %}
-                        <div class="flex-1">
-                            <h2 class="text-2xl font-bold text-gray-800">{{ paquete.nombre }}</h2>
-                            <p class="text-gray-500 mt-1">{{ paquete.destino.nombre }} • {{ paquete.categoria }}</p>
-                            <div class="flex items-center space-x-3 mt-3">
-                                <form action="{% url 'update_cart' paquete.id %}" method="post" class="flex items-center space-x-2">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Columna de productos -->
+            <div class="lg:col-span-2 space-y-6">
+                {% for paquete in paquetes %}
+                    <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 overflow-hidden">
+                        <div class="flex flex-col md:flex-row items-center p-6 space-y-4 md:space-y-0 md:space-x-6">
+                            {% if paquete.imagen %}
+                                <img src="{{ paquete.imagen.url }}" alt="{{ paquete.nombre }}" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-xl">
+                            {% else %}
+                                <img src="https://via.placeholder.com/150" alt="{{ paquete.nombre }}" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-xl">
+                            {% endif %}
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-bold text-gray-800">{{ paquete.nombre }}</h2>
+                                <p class="text-gray-500 mt-1">{{ paquete.destino.nombre }} • {{ paquete.categoria }}</p>
+                                <div class="flex items-center space-x-3 mt-3">
+                                    <form action="{% url 'update_cart' paquete.id %}" method="post" class="flex items-center space-x-2">
+                                        {% csrf_token %}
+                                        <button type="submit" name="accion" value="decrement" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-lg font-semibold transition">-</button>
+                                        <span class="px-3 font-medium bg-gray-100 rounded-lg">{{ paquete.cantidad }}</span>
+                                        <button type="submit" name="accion" value="increment" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-lg font-semibold transition">+</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end space-y-3">
+                                <p class="text-xl font-bold text-blue-600">${{ paquete.subtotal|floatformat:2 }}</p>
+                                <form action="{% url 'remove_from_cart' paquete.id %}" method="post">
                                     {% csrf_token %}
-                                    <button type="submit" name="accion" value="decrement" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-lg font-semibold transition">-</button>
-                                    <span class="px-3 font-medium bg-gray-100 rounded-lg">{{ paquete.cantidad }}</span>
-                                    <button type="submit" name="accion" value="increment" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-lg font-semibold transition">+</button>
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition-all">
+                                        Eliminar
+                                    </button>
                                 </form>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end space-y-3">
-                            <p class="text-xl font-bold text-blue-600">${{ paquete.subtotal|floatformat:2 }}</p>
-                            <form action="{% url 'remove_from_cart' paquete.id %}" method="post">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Columna de pago -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 sticky top-24">
+                    <div class="mb-6">
+                        <div class="text-3xl font-bold text-gray-800 text-center">
+                            Total: <span class="text-blue-600">${{ total|floatformat:2 }}</span>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN DE PAGO INTEGRADA -->
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800 text-center">Elige tu forma de pago</h3>
+                        
+                        <div class="mb-5">
+                            <label for="payment-method" class="sr-only">Método de Pago</label>
+                            <select id="payment-method" class="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-2 focus:ring-blue-500 transition-all">
+                                <option value="">Selecciona una opción</option>
+                                <option value="debito">Tarjetas de Débito</option>
+                                <option value="credito">Tarjetas de Crédito</option>
+                                <option value="billetera">Billeteras Digitales</option>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="transferencia">Transferencia Bancaria</option>
+                            </select>
+                        </div>
+
+                        <!-- Contenedores para sub-opciones -->
+                        <div id="payment-details-container" class="space-y-4">
+                            <div id="debito-details" class="payment-details hidden space-y-3">
+                                <button class="payment-sub-option-btn" data-payment-type="visa-debito"><span><i class="fab fa-cc-visa mr-2 text-blue-700"></i>Visa Débito</span></button>
+                                <button class="payment-sub-option-btn" data-payment-type="mastercard-debito"><span><i class="fab fa-cc-mastercard mr-2 text-red-600"></i>Mastercard</span></button>
+                                <button class="payment-sub-option-btn" data-payment-type="maestro"><span><i class="fas fa-credit-card mr-2 text-yellow-500"></i>Maestro</span></button>
+                            </div>
+                            <div id="credito-details" class="payment-details hidden space-y-3">
+                                <button class="payment-sub-option-btn" data-payment-type="visa-credito"><span><i class="fab fa-cc-visa mr-2 text-blue-700"></i>Visa</span></button>
+                                <button class="payment-sub-option-btn" data-payment-type="mastercard-credito"><span><i class="fab fa-cc-mastercard mr-2 text-red-600"></i>Mastercard</span></button>
+                                <button class="payment-sub-option-btn" data-payment-type="amex"><span><i class="fab fa-cc-amex mr-2 text-blue-500"></i>American Express</span></button>
+                            </div>
+                             <div id="billetera-details" class="payment-details hidden space-y-3">
+                                <button class="payment-sub-option-btn" data-payment-type="mercadopago"><span>Mercado Pago</span></button>
+                                <button class="payment-sub-option-btn" data-payment-type="uala"><span>Ualá</span></button>
+                            </div>
+                            <div id="efectivo-details" class="payment-details hidden space-y-3">
+                                <button class="payment-sub-option-btn" data-payment-type="pagofacil"><span>PagoFácil</span></button>
+                                <button class="payment-sub-option-btn" data-payment-type="rapipago"><span>Rapipago</span></button>
+                            </div>
+                            <div id="transferencia-details" class="payment-details hidden space-y-3">
+                                <button class="payment-sub-option-btn" data-payment-type="cbu"><span>Transferencia CBU</span></button>
+                            </div>
+                        </div>
+
+                        <!-- Formulario de Tarjeta (oculto por defecto) -->
+                        <div id="card-form" class="hidden mt-6">
+                            <form action="{% url 'checkout' %}" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition-all">
-                                    Eliminar
+                                <input type="hidden" name="payment_method_type" id="payment_method_type">
+                                <div class="mb-4">
+                                    <label for="cardholder-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Titular</label>
+                                    <input type="text" id="cardholder-name" name="cardholder_name" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="card-number" class="block text-sm font-medium text-gray-700 mb-1">Número de Tarjeta</label>
+                                    <input type="text" id="card-number" name="card_number" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3" required>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="expiry-date" class="block text-sm font-medium text-gray-700 mb-1">Vencimiento</label>
+                                        <input type="text" id="expiry-date" name="expiry_date" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3" placeholder="MM/AA" required>
+                                    </div>
+                                    <div>
+                                        <label for="cvv" class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                                        <input type="text" id="cvv" name="cvv" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all mt-6">
+                                    Pagar Ahora
+                                </button>
+                            </form>
+                        </div>
+
+                         <!-- Botón de pago para opciones sin formulario de tarjeta -->
+                        <div id="other-payment-form" class="hidden mt-6">
+                            <form action="{% url 'checkout' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="payment_method_type" id="other_payment_method_type">
+                                 <p id="selected-payment-text" class="text-center text-gray-700 mb-4"></p>
+                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all">
+                                    Proceder al Pago
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-
-        <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-2xl font-bold text-gray-800">
-                Total: <span class="text-blue-600">${{ total|floatformat:2 }}</span>
             </div>
-            <form action="{% url 'checkout' %}" method="post" class="w-full md:w-auto bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
-                {% csrf_token %}
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">Forma de Pago</h3>
-                <select name="metodo_pago" class="w-full mb-4 border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500">
-                    <option value="tarjeta">Tarjeta de Crédito/Débito</option>
-                    <option value="transferencia">Transferencia Bancaria</option>
-                    <option value="efectivo">Efectivo</option>
-                </select>
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold transition-all">
-                    Finalizar Compra
-                </button>
-            </form>
         </div>
     {% else %}
         <div class="text-center py-20 bg-white rounded-3xl shadow-lg">
@@ -70,4 +149,78 @@
         </div>
     {% endif %}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethodSelect = document.getElementById('payment-method');
+    const allDetailsDivs = document.querySelectorAll('.payment-details');
+    const cardForm = document.getElementById('card-form');
+    const otherPaymentForm = document.getElementById('other-payment-form');
+    const cardPaymentTypes = ['visa-debito', 'mastercard-debito', 'maestro', 'visa-credito', 'mastercard-credito', 'amex'];
+
+    paymentMethodSelect.addEventListener('change', function() {
+        const selectedValue = this.value;
+        allDetailsDivs.forEach(div => div.classList.add('hidden'));
+        cardForm.classList.add('hidden');
+        otherPaymentForm.classList.add('hidden');
+
+        if (selectedValue) {
+            const detailDiv = document.getElementById(selectedValue + '-details');
+            if (detailDiv) {
+                detailDiv.classList.remove('hidden');
+            }
+        }
+    });
+
+    document.querySelectorAll('.payment-sub-option-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const paymentType = this.dataset.paymentType;
+            const paymentTypeText = this.querySelector('span').textContent;
+
+            // Ocultar ambos formularios antes de mostrar el correcto
+            cardForm.classList.add('hidden');
+            otherPaymentForm.classList.add('hidden');
+
+            if (cardPaymentTypes.includes(paymentType)) {
+                document.getElementById('payment_method_type').value = paymentType;
+                cardForm.classList.remove('hidden');
+            } else {
+                document.getElementById('other_payment_method_type').value = paymentType;
+                document.getElementById('selected-payment-text').textContent = `Has seleccionado: ${paymentTypeText}`;
+                otherPaymentForm.classList.remove('hidden');
+            }
+
+            // Marcar el botón como activo
+            document.querySelectorAll('.payment-sub-option-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
+</script>
+
+<style>
+    .hidden { display: none; }
+    .payment-sub-option-btn {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f9fafb;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s ease-in-out;
+        border: 2px solid transparent;
+        cursor: pointer;
+        text-align: left;
+    }
+    .payment-sub-option-btn.active {
+        border-color: #2563eb; /* blue-600 */
+        background-color: #eff6ff; /* blue-50 */
+    }
+    .payment-sub-option-btn:hover {
+        border-color: #3b82f6; /* blue-500 */
+    }
+</style>
 {% endblock %}

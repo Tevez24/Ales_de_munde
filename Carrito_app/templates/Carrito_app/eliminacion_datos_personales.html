@@ -1,0 +1,107 @@
+{% extends 'Carrito_app/base.html' %}
+{% block title %}Mi Cuenta - Ailes du Monde{% endblock %}
+{% block content %}
+<!-- Eliminación de Datos Personales -->
+    <section class="mb-5">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center section-title">Eliminación de Datos Personales</h2>
+      <div class="grid-terms">
+        <!-- Derecho al Olvido -->
+        <div class="hover-shadow-lg transition-shadow bg-white rounded-lg p-6 deletion-card">
+          <h3 class="text-red-600 font-semibold mb-2">Derecho al Olvido</h3>
+          <p class="text-gray-600 text-sm mb-2">
+            Todos los usuarios de Ailes Du Monde tienen el derecho de solicitar la eliminación de sus datos personales en cualquier momento, garantizando que la información almacenada en nuestros sistemas sea retirada de manera segura y definitiva.
+          </p>
+          <p class="text-gray-600 text-sm mb-2">
+            Este derecho incluye la eliminación de datos de contacto, reservas, historial de pagos, preferencias de usuario y cualquier otro tipo de información proporcionada por el usuario, excepto aquella que deba conservarse por obligaciones legales.
+          </p>
+          <p class="text-gray-600 text-sm">
+            Ailes Du Monde asegura que este proceso se realice respetando las normativas locales e internacionales de protección de datos personales.
+          </p>
+        </div>
+
+        <!-- Proceso de Eliminación -->
+        <div class="hover-shadow-lg transition-shadow bg-white rounded-lg p-6 deletion-card">
+          <h3 class="text-red-600 font-semibold mb-2">Proceso de Eliminación</h3>
+          <p class="text-gray-600 text-sm mb-2">
+            Para iniciar la eliminación de datos, el usuario debe completar el formulario de solicitud disponible en nuestro sitio web o enviarlo por correo electrónico a <a href="mailto:privacidad@ailesdumonde.com" class="text-blue-600 hover:underline">privacidad@ailesdumonde.com</a>.
+          </p>
+          <p class="text-gray-600 text-sm mb-2">
+            Una vez recibida la solicitud, Ailes Du Monde verificará la identidad del solicitante para garantizar que la eliminación se realice de manera segura y responsable.
+          </p>
+          <p class="text-gray-600 text-sm mb-2">
+            Tras la verificación, se procesará la eliminación de los datos en un plazo máximo de 30 días hábiles. El usuario recibirá una confirmación cuando sus datos hayan sido eliminados satisfactoriamente.
+          </p>
+          <p class="text-gray-600 text-sm">
+            Este proceso incluye tanto la eliminación de datos activos como la desindexación de información en respaldos o sistemas de almacenamiento temporal, siempre respetando la integridad de la información legalmente requerida.
+          </p>
+        </div>
+
+        <!-- Excepciones Legales -->
+        <div class="hover-shadow-lg transition-shadow bg-white rounded-lg p-6 deletion-card md:col-span-2">
+          <h3 class="text-red-600 font-semibold mb-2">Excepciones Legales</h3>
+          <p class="text-gray-600 text-sm mb-2">
+            Algunos datos personales no pueden ser eliminados inmediatamente debido a obligaciones legales, normativas fiscales o requerimientos de auditoría. Estos datos incluyen:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 text-sm mb-2">
+            <li>Registros contables y financieros.</li>
+            <li>Información de transacciones de pago.</li>
+            <li>Datos relacionados con reclamaciones legales o litigios pendientes.</li>
+            <li>Información que deba conservarse según leyes de protección al consumidor y normativa vigente.</li>
+          </ul>
+          <p class="text-gray-600 text-sm">
+            Todos los datos sujetos a estas excepciones se almacenarán de manera segura y solo se utilizarán para los fines legales necesarios.
+          </p>
+        </div>
+
+        <!-- Conservación Temporal y Seguridad -->
+        <div class="hover-shadow-lg transition-shadow bg-white rounded-lg p-6 deletion-card md:col-span-2">
+          <h3 class="text-red-600 font-semibold mb-2">Conservación Temporal y Seguridad</h3>
+          <p class="text-gray-600 text-sm mb-2">
+            Aunque se eliminen los datos, Ailes Du Monde puede conservar información temporalmente en backups cifrados para fines de seguridad, recuperación de sistemas o cumplimiento legal.
+          </p>
+          <p class="text-gray-600 text-sm mb-2">
+            Todos los datos almacenados temporalmente están protegidos mediante protocolos de seguridad avanzados, incluyendo cifrado de extremo a extremo, autenticación multifactor y control de acceso restringido.
+          </p>
+          <p class="text-gray-600 text-sm">
+            Esto garantiza que, incluso en situaciones excepcionales, la información personal del usuario no pueda ser accedida por personas no autorizadas.
+          </p>
+        </div>
+
+        <!-- Solicitud y Requisitos -->
+        <div class="hover-shadow-lg transition-shadow bg-white rounded-lg p-6 deletion-card md:col-span-2">
+          <h3 class="text-red-600 font-semibold mb-2">Solicitud y Requisitos</h3>
+          <p class="text-gray-600 text-sm mb-2">
+            Para enviar una solicitud de eliminación de datos, el usuario debe proporcionar información suficiente que permita verificar su identidad y los datos que desea eliminar.
+          </p>
+          <ul class="list-disc list-inside text-gray-600 text-sm mb-2">
+            <li>Nombre completo y documento de identidad (DNI, pasaporte, etc.).</li>
+            <li>Correo electrónico registrado en Ailes Du Monde.</li>
+            <li>Especificación de los datos que desea eliminar (por ejemplo: historial de reservas, datos de contacto, preferencias, etc.).</li>
+            <li>Motivo de la solicitud (opcional pero recomendable para agilizar el proceso).</li>
+          </ul>
+          <p class="text-gray-600 text-sm mb-2">
+            Las solicitudes incompletas o incorrectas podrán retrasar el proceso hasta que se reciba la información necesaria.
+          </p>
+          <p class="text-gray-600 text-sm">
+            Una vez procesada la solicitud, el usuario recibirá una confirmación de que sus datos han sido eliminados y un resumen de cualquier información que deba conservarse por obligaciones legales.
+          </p>
+        </div>
+
+        <!-- Contacto para Dudas -->
+        <div class="hover-shadow-lg transition-shadow bg-white rounded-lg p-6 deletion-card md:col-span-2">
+          <h3 class="text-red-600 font-semibold mb-2">Contacto para Dudas</h3>
+          <p class="text-gray-600 text-sm mb-2">
+            Para consultas relacionadas con la eliminación de datos personales, los usuarios pueden comunicarse directamente con nuestro departamento de privacidad mediante:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 text-sm mb-2">
+            <li>Correo electrónico: <a href="mailto:privacidad@ailesdumonde.com" class="text-blue-600 hover:underline">privacidad@ailesdumonde.com</a></li>
+            <li>Teléfono: +54 11 4000-0002 (horario de atención 9:00 a 18:00)</li>
+            <li>Dirección: Calle Ejemplo 123, Ciudad, País</li>
+          </ul>
+          <p class="text-gray-600 text-sm">
+            Nuestro equipo responderá a todas las consultas en un plazo máximo de 5 días hábiles, proporcionando asistencia completa para la eliminación de datos y resolviendo cualquier duda sobre el proceso.
+          </p>
+        </div>
+      </div>
+    </section>
+{% endblock %}

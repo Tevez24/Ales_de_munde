@@ -1,133 +1,172 @@
 {% extends 'Carrito_app/base.html' %}
 {% load static %}
 
-{% block title %}{{ paquete.nombre }} - Tu Aventura{% endblock %}
+{% block title %}{{ paquete.nombre }} - Ailes Du Monde{% endblock %}
 
 {% block content %}
-
-<div class="container mt-5 p-4 bg-white  CENTERrounded shadow-lg" style="border: 1px solid #dee2e6; animation: slideIn 0.7s ease-out;">
-    <div class="row align-items-center">
-        <div class="col-md-6 position-relative overflow-hidden rounded">
-            <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}{% static 'Carrito_app/img/default_package.jpg' %}{% endif %}" class="img-fluid rounded shadow-lg w-100" alt="{{ paquete.nombre }}" style="transition: transform 0.5s ease, box-shadow 0.3s ease; border: 3px solid #007bff; object-fit: cover; height: 400px;">
-            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 transition-opacity" style="transition: opacity 0.3s ease;"></div>
-            <style>
-                .col-md-6 img:hover {
-                    transform: scale(1.1) rotate(2deg);
-                    box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
-                }
-                .col-md-6:hover .bg-dark {
-                    opacity: 0.1;
-                }
-            </style>
-        </div>
-        <div class="col-md-6 ps-md-4">
-            <h2 class="display-4 font-weight-bold text-primary mb-3 position-relative" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.15); border-bottom: 3px dashed #007bff; padding-bottom: 10px;">
-                {{ paquete.nombre }}
-                <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary text-white px-3 py-1 rounded small" style="font-size: 0.8rem; transform: translate(-50%, 50%);">Paquete Exclusivo</span>
-            </h2>
-            <p class="text-muted lead fw-semibold"><i class="fas fa-map-marker-alt text-danger me-2"></i>Destino: {{ paquete.destino.nombre }}</p>
-            <p class="fs-5 text-justify text-dark" style="line-height: 1.8; background: linear-gradient(to right, #f8f9fa, #ffffff); padding: 15px; border-left: 5px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">{{ paquete.descripcion }}</p>
-            <h3 class="mt-3 text-success fw-bold display-5" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.1);">Precio: ${{ paquete.precio|floatformat:2 }}</h3>
-            
-            <div class="mt-4 Narc d-flex flex-wrap gap-3">
-                <a href="{% url 'add_to_cart' paquete.id %}" class="btn btn-primary btn-lg px-5 py-3 shadow-sm position-relative overflow-hidden" style="transition: all 0.4s ease; background-color: #007bff; border-radius: 50px; border: none;">
-                    <span class="position-relative z-index-1">Agregar al Carrito</span>
-                    <span class="position-absolute top-0 start-0 w-100 h-100 bg-white opacity-0 transition-opacity" style="transition: opacity 0.3s ease;"></span>
-                </a>
-                <a href="{% url 'paquetes' %}" class="btn btn-secondary btn-lg px-5 py-3 shadow-sm ms-3 position-relative overflow-hidden" style="transition: all 0.4s ease; border-radius: 50px; border: none;">
-                    <span class="position-relative z-index-1">Volver a Paquetes</span>
-                    <span class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 transition-opacity" style="transition: opacity 0.3s ease;"></span>
-                </a>
-                <style>
-                    .btn-primary:hover {
-                        background-color: #0056b3 !important;
-                        transform: translateY(-3px);
-                        box-shadow: 0 5px 15px rgba(0,123,255,0.4) !!important;
-                    }
-                    .btn-primary:hover span:last-child {
-                        opacity: 0.1;
-                    }
-                    .btn-secondary:hover {
-                        background-color: #5a6268 !important;
-                        transform: translateY(-3px);
-                        box-shadow: 0 5px 15px rgba(90,98,104,0.4) !important;
-                    }
-                    .btn-secondary:hover span:last-child {
-                        opacity: 0.1;
-                    }
-                </style>
-            </div>
-
-            <div class="mt-5 p-4 bg-gradient rounded shadow-sm border border-info" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); transition: transform 0.3s ease;">
-                <h4 class="text-info border-bottom pb-2 mb-3 position-relative" style="border-color: #17a2b8 !important;">
-                    Extras (Simulación)
-                    <span class="position-absolute start-100 translate-middle-y bg-info text-white px-2 py-1 rounded small" style="font-size: 0.7rem; transform: translateX(-50%);">Opcionales</span>
-                </h4>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center py-3 border-bottom" style="transition: all 0.3s ease; border-color: #dee2e6 !important;">
-                        <span class="fw-medium">Seguro de Viaje <i class="fas fa-shield-alt text-success ms-2"></i></span> <span class="badge bg-primary rounded-pill fs-6">$50.00</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center py-3 border-bottom" style="transition: all 0.3s ease; border-color: #dee2e6 !important;">
-                        <span class="fw-medium">Tour Adicional <i class="fas fa-binoculars text-warning ms-2"></i></span> <span class="badge bg-primary rounded-pill fs-6">$120.00</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center py-3" style="transition: all 0.3s ease;">
-                        <span class="fw-medium">Alquiler de equipo <i class="fas fa-hiking text-info ms-2"></i></span> <span class="badge bg-primary rounded-pill fs-6">$75.00</span>
-                    </li>
-                </ul>
-                <style>
-                    .list-group-item:hover {
-                        background-color: #e9ecef !important;
-                        transform: translateX(5px);
-                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                    }
-                    .badge {
-                        transition: transform 0.2s ease;
-                    }
-                    .list-group-item:hover .badge {
-                        transform: scale(1.1);
-                    }
-                </style>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Agregando algo de estilo global para mejorar la responsividad y animaciones sutiles -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-    @media (max-width: 768px) {
-        .btn-lg {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .ms-3 {
-            margin-left: 0 !important;
-        }
-        .display-4 {
-            font-size: 2.5rem;
-        }
-        .col-md-6 img {
-            height: 300px !important;
-        }
-        .row {
-            flex-direction: column;
-        }
-    }
-    .container {
-        animation: fadeIn 0.5s ease-in;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideIn {
-        from { transform: translateX(-50px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    .bg-gradient:hover {
-        transform: scale(1.02);
-    }
-    /* Asumiendo Font Awesome para iconos */
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+  .package-detail-container {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .package-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .package-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+
+  .package-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: #007bff;
+  }
+
+  .package-destination {
+    font-size: 1.3rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+  }
+
+  .package-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #495057;
+    margin-bottom: 2rem;
+  }
+
+  .package-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #28a745;
+    margin-bottom: 0.5rem;
+  }
+
+  .sale-badge {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #dc3545;
+    padding: 0.4em 0.8em;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+
+  .add-to-cart-btn {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .details-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .details-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 1rem;
+  }
+
+  .details-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .details-list li {
+    font-size: 1.1rem;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .details-list i {
+    color: #007bff;
+    margin-right: 10px;
+  }
 </style>
 
+<div class="container my-5">
+  <div class="package-detail-container">
+    <div class="row">
+      <div class="col-lg-6">
+        <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}{% static 'Carrito_app/img/default_package.jpg' %}{% endif %}" class="package-image" alt="{{ paquete.nombre }}">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="package-title">{{ paquete.nombre }}</h1>
+        <p class="package-destination">
+          <i class="fas fa-map-marker-alt"></i> {{ paquete.destino.nombre }}
+        </p>
+        <p class="package-description">{{ paquete.descripcion }}</p>
+
+        <div class="d-flex align-items-center mb-4">
+          <p class="package-price">${{ paquete.precio|floatformat:2 }}</p>
+          {% if paquete.oferta %}
+            <span class="sale-badge">Oferta</span>
+          {% endif %}
+        </div>
+
+        <form action="{% url 'add_to_cart' paquete.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-lg add-to-cart-btn">
+            <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="details-card">
+      <h3 class="details-title">Detalles del Paquete</h3>
+      <ul class="details-list">
+        <li><i class="fas fa-clock"></i> <strong>Duración:</strong> {{ paquete.duracion }} días</li>
+        <li><i class="fas fa-calendar-alt"></i> <strong>Disponibilidad:</strong> {{ paquete.fecha_salida|date:"d/m/Y" }} - {{ paquete.fecha_regreso|date:"d/m/Y" }}</li>
+        <li><i class="fas fa-users"></i> <strong>Capacidad:</strong> {{ paquete.capacidad }} personas</li>
+        <li>
+          <i class="fas fa-concierge-bell"></i> 
+          <strong>Servicios Incluidos:</strong>
+          <ul>
+            {% for servicio in paquete.servicios.all %}
+              <li>{{ servicio.nombre }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li>
+          <i class="fas fa-hiking"></i>
+          <strong>Actividades:</strong>
+          <ul>
+            {% for actividad in paquete.actividades.all %}
+              <li>{{ actividad.nombre }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}

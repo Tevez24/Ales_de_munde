@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}{{ title }} | Ailes du Monde{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="/static/img/logo.png" alt="Logo" height="40" style="margin-right: 10px;">
+        Ailes du Monde
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+    :root {
+        --primary: #1a5d8c;
+        --secondary: #f4a261;
+        --accent: #e76f51;
+    }
+    #header {
+        background: linear-gradient(135deg, var(--primary), #0f3a5e);
+        color: white;
+    }
+    .module h2, .module caption {
+        background: var(--primary);
+    }
+    a:link, a:visited {
+        color: var(--accent);
+    }
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: var(--primary);
+        color: white;
+    }
+</style>
+{% endblock %}

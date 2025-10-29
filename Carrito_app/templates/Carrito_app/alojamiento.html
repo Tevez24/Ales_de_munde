@@ -6,8 +6,9 @@
 {% block content %}
 <div class="bg-gray-50 min-h-screen">
   <!-- Hero Section -->
-  <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
-    <div class="absolute inset-0 bg-gradient-to-r from-indigo-800 to-blue-800 opacity-70"></div>
+  <div class="relative h-screen bg-cover bg-center" style="background-image: url('{% static 'Carrito_app/media/img/INICIO1.jpg' %}');">
+    <!-- Overlay oscuro para que el texto se lea bien -->
+    <div class="absolute inset-0 bg-gradient-to-r from-pink-80 to-indigo-80"></div>
     <div class="relative container mx-auto px-6 text-center text-white z-10">
       <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Encuentra tu Estancia Perfecta</h1>
       <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Hoteles, resorts, apartamentos y alquileres vacacionales en los mejores destinos del mundo. Comodidad, lujo y sostenibilidad en cada opción.</p>

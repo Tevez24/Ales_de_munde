@@ -9,10 +9,10 @@
   <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1520637836862-4d197d17c35a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
     <div class="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-80"></div>
     <div class="relative container mx-auto px-6 text-center text-white z-10">
-      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Alquila tu Hogar Temporal</h1>
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Alquila tu Hogar</h1>
       <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Casas, departamentos, cabañas y villas para toda la familia. Comodidad, privacidad y experiencias únicas en destinos inolvidables.</p>
       <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
-        <a href="#buscador" class="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">Buscar Alquileres</a>
+        <a href="{% url 'alquiler' id.alquiler }" class="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">Buscar Alquileres</a>
         <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-purple-700 transition-all">Publicar Propiedad</a>
       </div>
     </div>

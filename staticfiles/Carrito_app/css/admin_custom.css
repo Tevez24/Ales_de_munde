@@ -1,0 +1,13 @@
+/* admin_custom.css */
+body {
+    background-color: #f0f4f8;
+}
+
+#header {
+    background-color: #004aad;
+    color: white;
+}
+
+.module h2 {
+    color: #004aad;
+}

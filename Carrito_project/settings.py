@@ -51,8 +51,8 @@ ROOT_URLCONF = 'Carrito_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # carpeta global templates
-        'APP_DIRS': True,  
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -101,11 +101,9 @@ USE_TZ = True
 # Archivos estáticos (CSS, JS, imágenes de templates)
 # ----------------------------
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     BASE_DIR / 'Carrito_app' / 'static',
 ]
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ----------------------------
@@ -117,9 +115,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # ----------------------------
 # Login y logout
 # ----------------------------
-LOGIN_URL = '/login/'  # 👈 usuarios no autenticados serán redirigidos aquí
-LOGIN_REDIRECT_URL = '/home/'  # 👈 después de login
-LOGOUT_REDIRECT_URL = '/login/'  # 👈 después de logout
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/home/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 # ----------------------------
 # Mensajes

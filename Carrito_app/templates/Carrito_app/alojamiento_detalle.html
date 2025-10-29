@@ -1,0 +1,166 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ alojamiento.nombre }} - Ailes Du Monde{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- Hero Section -->
+  <div class="bg-white rounded-2xl shadow-lg overflow-hidden background-image: url('{% static 'Carrito_app/img/hotel-bg.jpg' %}');">
+    <div class="relative h-96">
+      {% if alojamiento.imagen %}
+        <img src="{{ alojamiento.imagen.url }}" alt="{{ alojamiento.nombre }}" class="w-full h-full object-cover">
+      {% else %}
+        <img src="{% static 'Carrito_app/img/default-hotel.jpg' %}" alt="{{ alojamiento.nombre }}" class="w-full h-full object-cover">
+      {% endif %}
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 p-8 text-white">
+        <div class="flex items-center mb-2">
+          {% for i in alojamiento.estrellas|ljust:5 %}
+            <i data-lucide="star" class="h-5 w-5 {% if forloop.counter <= alojamiento.estrellas %}text-yellow-400{% else %}text-gray-400{% endif %} fill-current"></i>
+          {% endfor %}
+        </div>
+        <h1 class="text-4xl font-bold mb-2">{{ alojamiento.nombre }}</h1>
+        <p class="text-xl opacity-90 flex items-center">
+          <i data-lucide="map-pin" class="h-5 w-5 mr-2"></i>
+          {{ alojamiento.ubicacion }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Detalles principales -->
+    <div class="p-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Información principal -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">Acerca del Alojamiento</h2>
+          <div class="prose max-w-none text-gray-600">
+            {{ alojamiento.descripcion|linebreaks }}
+          </div>
+
+          <!-- Servicios -->
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Servicios Destacados</h3>
+            <div class="grid grid-cols-2 gap-4">
+              {% for servicio in alojamiento.servicios %}
+              <div class="flex items-center">
+                <i data-lucide="{{ servicio.icono }}" class="h-5 w-5 text-blue-600 mr-2"></i>
+                <span>{{ servicio.nombre }}</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Tipos de Habitaciones -->
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Tipos de Habitaciones</h3>
+            <div class="space-y-4">
+              {% for habitacion in alojamiento.habitaciones %}
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-semibold">{{ habitacion.tipo }}</h4>
+                  <span class="text-green-600 font-bold">${{ habitacion.precio }}/noche</span>
+                </div>
+                <p class="text-sm text-gray-600">{{ habitacion.descripcion }}</p>
+                <div class="mt-2 flex items-center text-sm text-gray-500">
+                  <i data-lucide="users" class="h-4 w-4 mr-1"></i>
+                  <span>Max. {{ habitacion.capacidad }} personas</span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Reserva y Políticas -->
+        <div>
+          <!-- Formulario de Reserva -->
+          <div class="bg-gray-50 p-6 rounded-xl mb-8">
+            <h3 class="text-xl font-semibold mb-4">Reservar Ahora</h3>
+            <form class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Check-in</label>
+                <input type="date" class="w-full rounded-lg border-gray-300">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Check-out</label>
+                <input type="date" class="w-full rounded-lg border-gray-300">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Habitación</label>
+                <select class="w-full rounded-lg border-gray-300">
+                  {% for habitacion in alojamiento.habitaciones %}
+                    <option value="{{ habitacion.id }}">{{ habitacion.tipo }} - ${{ habitacion.precio }}/noche</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Verificar Disponibilidad
+              </button>
+            </form>
+          </div>
+
+          <!-- Políticas -->
+          <div class="space-y-6">
+            <div>
+              <h3 class="font-semibold mb-3">Horarios</h3>
+              <div class="space-y-2 text-gray-600">
+                <div class="flex items-center">
+                  <i data-lucide="log-in" class="h-5 w-5 text-green-600 mr-2"></i>
+                  <span>Check-in: {{ alojamiento.check_in }}</span>
+                </div>
+                <div class="flex items-center">
+                  <i data-lucide="log-out" class="h-5 w-5 text-red-600 mr-2"></i>
+                  <span>Check-out: {{ alojamiento.check_out }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-3">Políticas de Cancelación</h3>
+              <p class="text-gray-600">{{ alojamiento.politica_cancelacion }}</p>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-3">Información Importante</h3>
+              <ul class="space-y-2 text-gray-600">
+                {% for info in alojamiento.info_importante %}
+                <li class="flex items-start">
+                  <i data-lucide="info" class="h-5 w-5 text-blue-600 mr-2 mt-0.5"></i>
+                  <span>{{ info }}</span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ubicación -->
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Ubicación</h2>
+        <div class="bg-gray-100 rounded-xl p-6">
+          <div class="mb-4">
+            <h3 class="font-semibold mb-2">Dirección</h3>
+            <p class="text-gray-600">{{ alojamiento.direccion_completa }}</p>
+          </div>
+          <div class="aspect-[16/9] bg-gray-200 rounded-lg">
+            <!-- Aquí iría el mapa -->
+            <div class="w-full h-full flex items-center justify-center text-gray-500">
+              Mapa de ubicación
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+</script>
+{% endblock %}
+{% endblock %}
