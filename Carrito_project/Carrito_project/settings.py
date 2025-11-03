@@ -103,6 +103,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'Carrito_app.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 # ----------------------------
 # Idioma y zona horaria
 # ----------------------------
@@ -152,4 +157,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ailesdumunde1@gmail.com'  # Reemplaza con tu correo de Gmail
 EMAIL_HOST_PASSWORD = 'xomj imua wfld zzfq'  # Reemplaza con tu App Password de Gmail
-
