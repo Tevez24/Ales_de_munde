@@ -41,30 +41,9 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                # Generate a 6-digit verification code
-                verification_code = ''.join(random.choices(string.digits, k=6))
-                
-                # Store user ID and verification code in the session
-                request.session['user_id_for_verification'] = user.id
-                request.session['verification_code'] = verification_code
-                request.session.set_expiry(300)  # Set session expiry to 5 minutes
-
-                try:
-                    if user.email:
-                        send_mail(
-                            subject='Tu código de verificación - Ailes du Monde',
-                            message=f'Hola {user.username},\n\nTu código de verificación es: {verification_code}\n\nEste código expirará en 5 minutos.\n\nGracias por usar Ailes du Monde!',
-                            from_email=settings.EMAIL_HOST_USER,
-                            recipient_list=[user.email],
-                            fail_silently=False,
-                        )
-                        messages.success(request, "Te hemos enviado un código de verificación a tu correo.")
-                        return redirect('verify')
-                    else:
-                        messages.error(request, "No tienes un correo electrónico asociado a tu cuenta para la verificación.")
-                except Exception as e:
-                    print(f'Error al enviar correo: {e}')
-                    messages.error(request, "No se pudo enviar el correo de verificación. Inténtalo de nuevo.")
+                login(request, user)
+                messages.success(request, f"Bienvenido de nuevo, {username}!")
+                return redirect('home')
             else:
                 messages.error(request, "Usuario o contraseña incorrectos.")
         else:
@@ -74,10 +53,11 @@ def login_view(request):
     
     return render(request, "Carrito_app/login.html", {"form": form})
 
+
 def verify_code(request):
     if 'user_id_for_verification' not in request.session:
-        messages.error(request, "Tu sesión de verificación ha expirado o es inválida. Por favor, inicia sesión de nuevo.")
-        return redirect('login')
+        messages.error(request, "Tu sesión de verificación ha expirado o es inválida. Por favor, regístrate o inicia sesión de nuevo.")
+        return redirect('register')
 
     if request.method == 'POST':
         entered_code = request.POST.get('code')
@@ -86,6 +66,12 @@ def verify_code(request):
         if entered_code and entered_code == verification_code:
             user_id = request.session.pop('user_id_for_verification')
             user = User.objects.get(id=user_id)
+            
+            # Activa el usuario si no lo está
+            if not user.is_active:
+                user.is_active = True
+                user.save()
+
             login(request, user)
 
             if 'verification_code' in request.session:
@@ -97,6 +83,46 @@ def verify_code(request):
             messages.error(request, "El código de verificación es incorrecto. Por favor, inténtalo de nuevo.")
     
     return render(request, 'Carrito_app/verify_code.html')
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = CustomUser_CreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False  # Desactiva el usuario hasta la verificación
+            user.save()
+
+            # Generar código de verificación
+            verification_code = ''.join(random.choices(string.digits, k=6))
+            
+            # Almacenar ID de usuario y código en la sesión
+            request.session['user_id_for_verification'] = user.id
+            request.session['verification_code'] = verification_code
+            request.session.set_expiry(300)  # Expiración de 5 minutos
+
+            try:
+                send_mail(
+                    subject='Tu código de verificación - Ailes du Monde',
+                    message=f'Hola {user.username},\n\nTu código de verificación es: {verification_code}\n\nGracias por registrarte en Ailes du Monde!',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+                messages.success(request, "¡Registro exitoso! Te hemos enviado un código de verificación a tu correo.")
+                return redirect('verify')
+            except Exception as e:
+                print(f'Error al enviar correo: {e}')
+                messages.error(request, "No se pudo enviar el correo de verificación. Contacta a soporte.")
+                # Opcional: eliminar usuario si el correo falla
+                # user.delete()
+                return redirect('register')
+        else:
+            messages.error(request, "Por favor, corrige los errores en el formulario.")
+    else:
+        form = CustomUser_CreationForm()
+    return render(request, "Carrito_app/register.html", {"form": form})
+
 
 # Vista API para login con JWT
 @api_view(['POST'])
@@ -332,16 +358,6 @@ def edit_profile(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-
-def register_view(request):
-    if request.method == 'POST':
-        form = CustomUser_CreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = CustomUser_CreationForm()
-    return render(request, "Carrito_app/register.html", {"form": form})
 
 @login_required
 def order_history(request):
