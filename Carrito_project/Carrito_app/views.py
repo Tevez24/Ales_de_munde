@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -72,6 +73,8 @@ def verify_code(request):
                 user.is_active = True
                 user.save()
 
+            # Especifica el backend de autenticación antes del login
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
 
             if 'verification_code' in request.session:
