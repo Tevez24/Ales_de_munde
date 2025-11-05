@@ -30,3 +30,4 @@ package-lock.json
 
 # Media
 /media/
+node_modules
