@@ -1,67 +1,32 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
+*.pyc
+*.pyo
+*.pyd
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-_build/
-_steps/
-_downloads/
-
-# Django stuff:
-*.log
-db.sqlite3
-db.sqlite3-journal
-
-# Virtualenv
-.env
 env/
 venv/
 ENV/
-
-# mkdocs documentation
-/site
-
-# MyPy
-.mypy_cache/
-
-# pytest
-.pytest_cache/
-
-# VS Code
+VENV/
+*.egg-info/
+.installed.cfg
+*.egg
+.idea/
 .vscode/
 
-# JetBrains
-.idea/
-
-# Local settings
+# Django
+*.log
 local_settings.py
-.env
+db.sqlite3
+db.sqlite3-journal
+
+# Entorno virtual
+Carrito_entorno/
+
+# Node
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Media
+/media/
