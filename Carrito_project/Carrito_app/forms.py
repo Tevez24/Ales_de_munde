@@ -1,14 +1,24 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-# Formulario personalizado para la creación de usuarios con email obligatorio
+# Formulario personalizado para la creación de usuarios con email obligatorio y validación de username
 class CustomUser_CreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(
+        required=True,
+        help_text='Required. Provide a valid email address for verification.'
+    )
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ('username', 'email')
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Este nombre de usuario ya está en uso. Por favor, elige otro.")
+        return username
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -16,14 +26,6 @@ class CustomUser_CreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-# Formulario de registro de usuario
-class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
 
 # Formulario para editar perfil
 class EditProfileForm(forms.ModelForm):

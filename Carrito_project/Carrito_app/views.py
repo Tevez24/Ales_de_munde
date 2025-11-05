@@ -129,9 +129,10 @@ def register_view(request):
             except Exception as e:
                 print(f'Error al enviar correo: {e}')
                 messages.error(request, "No se pudo enviar el correo de verificación. Contacta a soporte.")
-                return redirect('register')
+                # No redirigir aquí, para que el formulario con errores se vuelva a renderizar
         else:
-            messages.error(request, "Por favor, corrige los errores en el formulario.")
+            # Si el formulario no es válido, los errores se pasarán automáticamente al template
+            pass
     else:
         form = CustomUser_CreationForm()
     return render(request, "Carrito_app/register.html", {"form": form})
