@@ -141,13 +141,20 @@ def register_view(request):
 def login_api_view(request):
     username = request.data.get('username')
     password = request.data.get('password')
-    
+
     if not username or not password:
         return Response({'error': 'Faltan credenciales'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
+    # Autenticar al usuario
     user = authenticate(request, username=username, password=password)
+
+    # Verificar si el usuario está autenticado y activo
     if user is not None:
+        if not user.is_active:
+            return Response({'error': 'La cuenta no ha sido activada'}, status=status.HTTP_401_UNAUTHORIZED)
+        
         refresh = RefreshToken.for_user(user)
+        
         try:
             if user.email:
                 send_mail(
@@ -159,11 +166,14 @@ def login_api_view(request):
                 )
         except Exception as e:
             print(f'Error al enviar correo: {e}')
+            
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'message': 'Inicio de sesión exitoso. Revisa tu correo para la confirmación.'
         }, status=status.HTTP_200_OK)
+
+    # Si la autenticación falla, devolver un error genérico
     return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
 
 def support(request):
