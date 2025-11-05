@@ -29,26 +29,42 @@ import string
 def inicio(request):
     return render(request, 'Carrito_app/inicio.html')
 
-# Vista para el login basado en formularios (HTML)
+# Vista para el login basado en formularios (HTML) con mensajes de error mejorados
 def login_view(request):
-    messages.add_message(request, messages.DEBUG, "DEBUG: Accediendo a la vista de login personalizada.")
     if request.user.is_authenticated:
         return redirect('home')
-    
+
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f"Bienvenido de nuevo, {username}!")
-                return redirect('home')
-            else:
-                messages.error(request, "Usuario o contraseña incorrectos.")
+            
+            # Intentamos encontrar al usuario para dar mensajes más claros
+            try:
+                user = User.objects.get(username=username)
+                
+                # 1. Comprobamos si la cuenta del usuario está inactiva
+                if not user.is_active:
+                    messages.error(request, "Tu cuenta no ha sido activada. Por favor, revisa tu correo electrónico y completa el proceso de verificación.")
+                    return render(request, "Carrito_app/login.html", {"form": form})
+
+                # 2. Si la cuenta está activa, intentamos autenticar (esto comprueba la contraseña)
+                user_auth = authenticate(request, username=username, password=password)
+                if user_auth is not None:
+                    login(request, user_auth)
+                    messages.success(request, f"¡Bienvenido de nuevo, {username}!")
+                    return redirect('home')
+                else:
+                    # Si la autenticación falla, pero el usuario existe y está activo, la contraseña es incorrecta.
+                    messages.error(request, "La contraseña es incorrecta. Por favor, inténtalo de nuevo.")
+
+            except User.DoesNotExist:
+                # 3. Si el usuario no existe en la base de datos
+                messages.error(request, "No se encontró ninguna cuenta con ese nombre de usuario. Por favor, verifica tus datos o regístrate.")
         else:
-            messages.error(request, "Por favor, corrige los errores en el formulario.")
+            # Errores de validación del formulario (ej. campos vacíos)
+            messages.error(request, "Por favor, introduce un nombre de usuario y contraseña válidos.")
     else:
         form = AuthenticationForm()
     
@@ -68,12 +84,10 @@ def verify_code(request):
             user_id = request.session.pop('user_id_for_verification')
             user = User.objects.get(id=user_id)
             
-            # Activa el usuario si no lo está
             if not user.is_active:
                 user.is_active = True
                 user.save()
 
-            # Especifica el backend de autenticación antes del login
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
 
@@ -93,16 +107,14 @@ def register_view(request):
         form = CustomUser_CreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # Desactiva el usuario hasta la verificación
+            user.is_active = False
             user.save()
 
-            # Generar código de verificación
             verification_code = ''.join(random.choices(string.digits, k=6))
             
-            # Almacenar ID de usuario y código en la sesión
             request.session['user_id_for_verification'] = user.id
             request.session['verification_code'] = verification_code
-            request.session.set_expiry(300)  # Expiración de 5 minutos
+            request.session.set_expiry(300)
 
             try:
                 send_mail(
@@ -117,8 +129,6 @@ def register_view(request):
             except Exception as e:
                 print(f'Error al enviar correo: {e}')
                 messages.error(request, "No se pudo enviar el correo de verificación. Contacta a soporte.")
-                # Opcional: eliminar usuario si el correo falla
-                # user.delete()
                 return redirect('register')
         else:
             messages.error(request, "Por favor, corrige los errores en el formulario.")
@@ -127,7 +137,6 @@ def register_view(request):
     return render(request, "Carrito_app/register.html", {"form": form})
 
 
-# Vista API para login con JWT
 @api_view(['POST'])
 def login_api_view(request):
     username = request.data.get('username')
@@ -138,9 +147,7 @@ def login_api_view(request):
     
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        # Generar tokens JWT
         refresh = RefreshToken.for_user(user)
-        # Enviar correo de confirmación
         try:
             if user.email:
                 send_mail(
@@ -159,7 +166,6 @@ def login_api_view(request):
         }, status=status.HTTP_200_OK)
     return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# Resto de las vistas (sin cambios)
 def support(request):
     return render(request, 'Carrito_app/support.html')
 
