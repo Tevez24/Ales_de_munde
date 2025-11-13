@@ -1,137 +1,111 @@
 {% extends 'Carrito_app/base.html' %}
 {% load static %}
 
-{% block title %}{{ alquiler.nombre }} - Ailes Du Monde{% endblock %}
+{% block title %}{{ alquiler.nombre }} - Ailes du Monde{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-  <!-- Hero Section -->
-  <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-    <div class="relative h-96">
+<div class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-teal-50 py-20">
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="container mx-auto px-6 lg:px-12">
+
+    <!-- HERO -->
+    <div class="relative h-[480px] rounded-3xl overflow-hidden shadow-2xl mb-12">
       {% if alquiler.imagen %}
-        <img src="{{ alquiler.imagen.url }}" alt="{{ alquiler.nombre }}" class="w-full h-full object-cover">
+      <img src="{{ alquiler.imagen.url }}" alt="{{ alquiler.nombre }}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
       {% else %}
-        <img src="{% static 'Carrito_app/img/default-rental.jpg' %}" alt="{{ alquiler.nombre }}" class="w-full h-full object-cover">
+      <img src="{% static 'Carrito_app/img/default-rental.jpg' %}" alt="{{ alquiler.nombre }}" class="w-full h-full object-cover">
       {% endif %}
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-      <div class="absolute bottom-0 left-0 p-8 text-white">
-        <h1 class="text-4xl font-bold mb-2">{{ alquiler.nombre }}</h1>
-        <p class="text-xl opacity-90">{{ alquiler.tipo }}</p>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+      <div class="absolute bottom-8 left-10 text-white">
+        <h1 class="text-5xl font-extrabold drop-shadow-lg">{{ alquiler.nombre }}</h1>
+        <p class="text-xl opacity-90 mt-1">{{ alquiler.tipo }}</p>
       </div>
     </div>
 
-    <!-- Detalles principales -->
-    <div class="p-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Información principal -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="grid md:grid-cols-3 gap-10 items-start">
+      
+      <!-- INFORMACIÓN DEL VEHÍCULO -->
+      <div class="md:col-span-2 bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-10">
+        <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b pb-3">🚘 Detalles del Vehículo</h2>
+
+        <div class="grid sm:grid-cols-2 gap-6 mb-6 text-gray-700">
+          <div class="flex items-center"><i data-lucide="calendar" class="h-5 w-5 text-teal-600 mr-2"></i> Año: {{ alquiler.anio }}</div>
+          <div class="flex items-center"><i data-lucide="users" class="h-5 w-5 text-teal-600 mr-2"></i> Capacidad: {{ alquiler.capacidad }} personas</div>
+          <div class="flex items-center"><i data-lucide="fuel" class="h-5 w-5 text-teal-600 mr-2"></i> Combustible: {{ alquiler.combustible }}</div>
+          <div class="flex items-center"><i data-lucide="settings" class="h-5 w-5 text-teal-600 mr-2"></i> Transmisión: {{ alquiler.transmision }}</div>
+        </div>
+
         <div>
-          <h2 class="text-2xl font-bold mb-4">Detalles del Vehículo</h2>
-          <div class="space-y-4">
-            <div class="flex items-center">
-              <i data-lucide="calendar" class="h-5 w-5 text-blue-600 mr-3"></i>
-              <span>Año: {{ alquiler.anio }}</span>
-            </div>
-            <div class="flex items-center">
-              <i data-lucide="users" class="h-5 w-5 text-blue-600 mr-3"></i>
-              <span>Capacidad: {{ alquiler.capacidad }} personas</span>
-            </div>
-            <div class="flex items-center">
-              <i data-lucide="fuel" class="h-5 w-5 text-blue-600 mr-3"></i>
-              <span>Combustible: {{ alquiler.combustible }}</span>
-            </div>
-            <div class="flex items-center">
-              <i data-lucide="settings" class="h-5 w-5 text-blue-600 mr-3"></i>
-              <span>Transmisión: {{ alquiler.transmision }}</span>
-            </div>
-          </div>
+          <h3 class="text-2xl font-semibold text-slate-800 mb-2">📝 Descripción</h3>
+          <p class="text-gray-600 leading-relaxed">{{ alquiler.descripcion|linebreaks }}</p>
+        </div>
 
-          <div class="mt-6">
-            <h3 class="text-xl font-semibold mb-3">Descripción</h3>
-            <p class="text-gray-600">{{ alquiler.descripcion|linebreaks }}</p>
+        <!-- CARACTERÍSTICAS -->
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-slate-800 mb-4">⭐ Características Destacadas</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+            {% for caracteristica in alquiler.caracteristicas %}
+            <div class="bg-teal-50 p-4 rounded-xl shadow-sm text-center hover:bg-teal-100 transition-colors">
+              <i data-lucide="{{ caracteristica.icono }}" class="h-6 w-6 text-teal-700 mb-2"></i>
+              <p class="font-medium text-gray-700">{{ caracteristica.nombre }}</p>
+            </div>
+            {% empty %}
+            <p class="col-span-4 text-gray-500 text-center">No se registraron características específicas.</p>
+            {% endfor %}
           </div>
         </div>
 
-        <!-- Precio y reserva -->
-        <div class="bg-gray-50 p-6 rounded-xl">
-          <div class="mb-6">
-            <h3 class="text-2xl font-bold text-green-600">${{ alquiler.precio_dia }} /día</h3>
-            <p class="text-gray-500">Incluye seguro básico</p>
-          </div>
-
-          <div class="space-y-4 mb-6">
-            <h4 class="font-semibold">El precio incluye:</h4>
-            <ul class="space-y-2">
-              <li class="flex items-center">
-                <i data-lucide="check-circle" class="h-5 w-5 text-green-500 mr-2"></i>
-                <span>Seguro contra daños</span>
-              </li>
-              <li class="flex items-center">
-                <i data-lucide="check-circle" class="h-5 w-5 text-green-500 mr-2"></i>
-                <span>Asistencia 24/7</span>
-              </li>
-              <li class="flex items-center">
-                <i data-lucide="check-circle" class="h-5 w-5 text-green-500 mr-2"></i>
-                <span>Kilometraje ilimitado</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Formulario de reserva -->
-          <form class="space-y-4">
+        <!-- POLÍTICAS -->
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-slate-800 mb-4">📋 Políticas de Alquiler</h2>
+          <div class="grid md:grid-cols-2 gap-8 text-gray-700">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de retiro</label>
-              <input type="date" class="w-full rounded-lg border-gray-300">
+              <h3 class="font-semibold mb-3">Requisitos</h3>
+              <ul class="space-y-2">
+                <li class="flex items-center"><i data-lucide="check" class="h-5 w-5 text-green-600 mr-2"></i> Mayor de 21 años</li>
+                <li class="flex items-center"><i data-lucide="check" class="h-5 w-5 text-green-600 mr-2"></i> Licencia vigente</li>
+                <li class="flex items-center"><i data-lucide="check" class="h-5 w-5 text-green-600 mr-2"></i> Tarjeta de crédito a nombre del conductor</li>
+              </ul>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de devolución</label>
-              <input type="date" class="w-full rounded-lg border-gray-300">
+              <h3 class="font-semibold mb-3">Política de Combustible</h3>
+              <p class="text-gray-600">El vehículo se entrega con el tanque lleno y debe devolverse en las mismas condiciones.</p>
             </div>
-            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-              Reservar Ahora
-            </button>
-          </form>
+          </div>
         </div>
       </div>
 
-      <!-- Características -->
-      <div class="mt-12">
-        <h2 class="text-2xl font-bold mb-6">Características</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {% for caracteristica in alquiler.caracteristicas %}
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <i data-lucide="{{ caracteristica.icono }}" class="h-6 w-6 text-blue-600 mb-2"></i>
-            <p class="font-medium">{{ caracteristica.nombre }}</p>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
+      <!-- TARJETA DE RESERVA -->
+      <div class="bg-white rounded-3xl shadow-xl p-8 sticky top-24 hover:shadow-2xl transition-shadow">
+        <h3 class="text-3xl font-extrabold text-emerald-600 mb-1">${{ alquiler.precio_dia }} / día</h3>
+        <p class="text-gray-500 mb-6">Incluye seguro básico y asistencia 24/7</p>
 
-      <!-- Políticas -->
-      <div class="mt-12">
-        <h2 class="text-2xl font-bold mb-6">Políticas de Alquiler</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 class="font-semibold mb-3">Requisitos</h3>
-            <ul class="space-y-2">
-              <li class="flex items-center">
-                <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2"></i>
-                <span>Mayor de 21 años</span>
-              </li>
-              <li class="flex items-center">
-                <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2"></i>
-                <span>Licencia de conducir vigente</span>
-              </li>
-              <li class="flex items-center">
-                <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2"></i>
-                <span>Tarjeta de crédito a nombre del conductor</span>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-semibold mb-3">Política de Combustible</h3>
-            <p class="text-gray-600">Se entrega con tanque lleno y debe devolverse con tanque lleno.</p>
-          </div>
+        <div class="bg-emerald-50 rounded-xl p-4 mb-6">
+          <h4 class="font-semibold text-emerald-700 mb-2">Incluye:</h4>
+          <ul class="space-y-1 text-gray-700">
+            <li><i data-lucide="check-circle" class="inline h-5 w-5 text-emerald-500 mr-1"></i>Seguro contra daños</li>
+            <li><i data-lucide="check-circle" class="inline h-5 w-5 text-emerald-500 mr-1"></i>Asistencia 24/7</li>
+            <li><i data-lucide="check-circle" class="inline h-5 w-5 text-emerald-500 mr-1"></i>Kilometraje ilimitado</li>
+          </ul>
         </div>
+
+        <!-- FORMULARIO -->
+        <form class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Fecha de Retiro</label>
+            <input type="date" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-teal-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Fecha de Devolución</label>
+            <input type="date" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-teal-500 outline-none">
+          </div>
+          <button type="submit" class="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white py-3 rounded-xl font-semibold hover:scale-105 shadow-md hover:shadow-lg transition-all duration-300">
+            Reservar Ahora
+          </button>
+          <a href="{% url 'alquileres' %}" class="block text-center text-gray-600 mt-3 hover:text-teal-600 transition">← Volver</a>
+        </form>
       </div>
     </div>
   </div>

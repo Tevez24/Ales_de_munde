@@ -1,269 +1,141 @@
-/* ==================== Estilos de Inicio ==================== */
 
-/* Contenedor principal */
-#root {
-  background-image: url(INICIO.jpg);
-  max-width: 1280px;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #1f2937; }
+
+/* Contenedor general */
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
+}
+
+/* HERO con imagen de fondo (si usas inline style en template, esta clase solo controla contenido) */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
   text-align: center;
-}
-
-/* Logo */
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-/* Efectos hover para logos */
-.logo:hover {
-  filter: drop-shadow(0 0 2em #0911b864);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-/* Animación de giro */
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Aplicar animación si no se prefiere reducir movimiento */
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-/* Estilos de tarjeta */
-.card {
-  padding: 2em;
-}
-
-/* Enlaces "read the docs" */
-.read-the-docs {
-  color: #888;
-}
-
-/* ==================== Base Styles ==================== */
-
-:root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(222.2, 84%, 4.9%);
-
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(222.2, 84%, 4.9%);
-
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(222.2, 84%, 4.9%);
-
-  --primary: hsl(199, 89%, 48%);
-  --primary-foreground: hsl(210, 40%, 98%);
-
-  --secondary: hsl(210, 40%, 96.1%);
-  --secondary-foreground: hsl(222.2, 47.4%, 11.2%);
-
-  --muted: hsl(210, 40%, 96.1%);
-  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
-
-  --accent: hsl(210, 40%, 96.1%);
-  --accent-foreground: hsl(222.2, 47.4%, 11.2%);
-
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-
-  --border: hsl(214.3, 31.8%, 91.4%);
-  --input: hsl(214.3, 31.8%, 91.4%);
-  --ring: hsl(199, 89%, 48%);
-
-  --radius: 0.5rem;
-
-  --sidebar-background: hsl(0, 0%, 98%);
-  --sidebar-foreground: hsl(240, 5.3%, 26.1%);
-  --sidebar-primary: hsl(240, 5.9%, 10%);
-  --sidebar-primary-foreground: hsl(0, 0%, 98%);
-  --sidebar-accent: hsl(240, 4.8%, 95.9%);
-  --sidebar-accent-foreground: hsl(240, 5.9%, 10%);
-  --sidebar-border: hsl(220, 13%, 91%);
-  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
-
-  /* Custom travel theme colors */
-  --ocean-blue: hsl(199, 89%, 48%);
-  --sunset-orange: hsla(25, 97%, 46%, 0.822);
-  --tropical-green: hsl(142, 71%, 45%);
-  --sand-beige: hsl(43, 74%, 66%);
-}
-
-/* Dark mode */
-.dark {
-  --background: hsl(222.2, 84%, 4.9%);
-  --foreground: hsl(210, 40%, 98%);
-
-  --card: hsl(222.2, 84%, 4.9%);
-  --card-foreground: hsl(210, 40%, 98%);
-
-  --popover: hsl(222.2, 84%, 4.9%);
-  --popover-foreground: hsl(210, 40%, 98%);
-
-  --primary: hsl(199, 89%, 48%);
-  --primary-foreground: hsl(222.2, 47.4%, 11.2%);
-
-  --secondary: hsl(217.2, 32.6%, 17.5%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-
-  --muted: hsl(217.2, 32.6%, 17.5%);
-  --muted-foreground: hsl(215, 20.2%, 65.1%);
-
-  --accent: hsl(217.2, 32.6%, 17.5%);
-  --accent-foreground: hsl(210, 40%, 98%);
-
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-
-  --border: hsl(217.2, 32.6%, 17.5%);
-  --input: hsl(217.2, 32.6%, 17.5%);
-  --ring: hsl(212.7, 26.8%, 83.9%);
-  --sidebar-background: hsl(240, 5.9%, 10%);
-  --sidebar-foreground: hsl(240, 4.8%, 95.9%);
-  --sidebar-primary: hsl(224.3, 76.3%, 48%);
-  --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-accent: hsl(240, 3.7%, 15.9%);
-  --sidebar-accent-foreground: hsl(240, 4.8%, 95.9%);
-  --sidebar-border: hsl(240, 3.7%, 15.9%);
-  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
-}
-
-/* Global styles */
-* {
-  border-color: hsl(var(--border));
-}
-
-body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-}
-
-/* Utilities */
-.travel-gradient {
-  background: linear-gradient(135deg, hsl(var(--ocean-blue)) 0%, hsl(var(--tropical-green)) 100%);
-}
-
-.sunset-gradient {
-  background: linear-gradient(135deg, hsl(var(--sunset-orange)) 0%, hsl(var(--sand-beige)) 100%);
-}
-
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-
-
-/* Paquetes Personalizados */
-.custom-package-builder {
-    background: #fdf6ff;
-    border-radius: 1rem;
-    padding: 2rem;
-}
-
-.card {
-    border: 1px solid #e0e0e0;
-    border-radius: 1rem;
-    background: #fff;
-    transition: all 0.3s ease;
-    margin-bottom: 1.5rem;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-    font-weight: 600;
-    font-size: 1.1rem;
-    background: #f7f5ff;
-    border-bottom: 1px solid #e0e0e0;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-}
-
-.card-content {
-    padding: 1rem 1.5rem;
-}
-
-.input {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    margin-top: 0.25rem;
-}
-
-.alojamiento-option, .actividad-option, .servicio-option {
-    transition: all 0.3s ease;
-}
-
-.alojamiento-option:hover, .actividad-option:hover, .servicio-option:hover {
-    background-color: #f0e8ff;
-    border-color: #d3bfff;
-}
-
-#solicitar-cotizacion {
-    background-color: #6b46c1;
-    border: none;
-    border-radius: 0.5rem;
-}
-
-#solicitar-cotizacion:hover {
-    background-color: #553c9a;
-}
-
-#resumen-destino, #resumen-alojamiento, #resumen-actividades, #resumen-servicios {
-    font-size: 0.95rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
-}
-
-@media (max-width: 992px) {
-    .custom-package-builder .grid {
-        display: block;
-    }
-    .lg\:col-span-2, .lg\:col-span-1 {
-        width: 100%;
-    }
-    .card.sticky {
-        position: relative;
-        top: auto;
-    }
-}
-
-.btn-volver {
-  background-color: #4CAF50; /* Verde */
-  color: white;
-  padding: 10px 20px;
-  border: none;
+  overflow: hidden;
   border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.15);
+}
+.hero::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3,7,18,0.25), rgba(3,7,18,0.45));
+  pointer-events: none;
 }
 
-.btn-volver:hover {
-  background-color: #45a049;
+/* Contenido dentro del hero */
+.hero .hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
 }
-.alert-fade {
-    transition: opacity 0.5s ease-out;
+.hero h1 { font-size: 2.4rem; margin-bottom: .5rem; letter-spacing: -0.02em; }
+.hero p { font-size: 1.05rem; opacity: .95; }
+
+/* GRID de cartas - paquetes: 3 columnas responsivas */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  align-items: stretch;
 }
+
+/* Tarjeta individual */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+  transition: transform .22s ease, box-shadow .22s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(15,23,42,0.12);
+}
+
+/* Imagen de la carta */
+.card .card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Contenido de la carta */
+.card .card-body {
+  padding: 1rem;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.card .card-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: .4rem;
+}
+.card .card-text {
+  font-size: .95rem;
+  color: #475569;
+  margin-bottom: .75rem;
+  flex: 1 1 auto;
+}
+
+/* Pie de la carta (precio / botones) */
+.card .card-footer {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn {
+  display: inline-block;
+  padding: .55rem .9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: #0ea5a4;
+  color: #fff;
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+/* Etiqueta de descuento o destacado */
+.badge {
+  background: linear-gradient(90deg,#f97316,#f43f5e);
+  color: #fff;
+  font-weight: 700;
+  padding: .3rem .5rem;
+  border-radius: 999px;
+  font-size: .8rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 2rem; }
+}
+@media (max-width: 640px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .card .card-img { height: 180px; }
+  .hero { min-height: 40vh; }
+}
+
+/* Accesibilidad y utilidades */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }

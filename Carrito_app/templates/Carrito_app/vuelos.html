@@ -4,359 +4,223 @@
 {% block title %}Vuelos - Ailes du Monde{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vuelos</title>
-<script src="https://unpkg.com/feather-icons"></script>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
-<style>
-  /* Más filtros desplegable */
-  #filtrosExtra {
-    display: none;
-    opacity: 0;
-    max-height: 0;
-    transition: all 0.3s ease;
-    overflow: hidden;
-  }
-  #filtrosExtra.show {
-    display: block;
-    opacity: 1;
-    max-height: 500px;
-  }
 
-  /* Tarjetas de vuelo */
-  .vuelo-card {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .vuelo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  }
+<!-- HERO SECTION -->
+<div class="relative h-screen bg-cover bg-center" style="background-image: url('{% static 'Carrito_app/media/img/vuelo1.jpg' %}');">
+  <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-orange-700 opacity-30"></div>
 
-  /* Botones */
-  .btn {
-    transition: all 0.2s ease;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  /* Inputs y selects */
-  input:focus, select:focus {
-    outline: none;
-    border-color: #2563eb; /* azul */
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-  }
-</style>
-</head>
-<body class="min-h-screen bg-gray-50">
-
-
-<!-- Hero Section -->
-<div class="relative h-screen bg-cover bg-center" style="background-image: url('{% static 'Carrito_app/media/img/INICIO1.jpg' %}');">
-   
-    <div class="absolute inset-0 bg-gradient-to-r from-80 to-indigo-80"></div>
-  
-    <h1 class="text-4xl md:text-6xl font-bold mb-4">Encuentra tu Vuelo Ideal</h1>
-    <p class="text-xl mb-8">Los mejores precios en vuelos nacionales e internacionales</p>
-  </div>
-</div>
-
-<div class="container mx-auto px-4 py-12">
-
-  <!-- Buscador de Vuelos -->
-  <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 -mt-20 relative z-10 mb-16">
-    <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center">
-      <i data-feather="airplane" class="mr-3 h-6 w-6"></i>
-      Buscar Vuelos
-    </h2>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
-      <input type="text" id="origen" placeholder="Origen" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <input type="text" id="destino" placeholder="Destino" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <input type="date" id="fechaIda" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <input type="date" id="fechaRegreso" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <select id="pasajeros" class="border border-gray-300 rounded px-3 py-2 w-full">
-        <option value="1">1 Pasajero</option>
-        <option value="2">2 Pasajeros</option>
-        <option value="3">3 Pasajeros</option>
-        <option value="4">4 Pasajeros</option>
-        <option value="5">5+ Pasajeros</option>
-      </select>
-      <button id="buscarBtn" class="btn bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded flex items-center justify-center w-full">
-        <i data-feather="airplane" class="mr-2 h-4 w-4"></i> Buscar
-      </button>
-    </div>
-
-    <!-- Filtros adicionales -->
-    <div class="flex flex-wrap items-center justify-center mt-6 gap-4">
-      <select id="clase" class="w-full sm:w-48 border border-gray-300 rounded px-3 py-2">
-        <option value="">Clase de vuelo</option>
-        <option value="economica">Económica</option>
-        <option value="premium">Premium Economy</option>
-        <option value="business">Business</option>
-        <option value="primera">Primera Clase</option>
-      </select>
-
-      <select id="regionFiltro" class="w-full sm:w-48 border border-gray-300 rounded px-3 py-2">
-        <option value="Todas las Regiones">Todas las Regiones</option>
-        <option value="América">América</option>
-        <option value="Europa">Europa</option>
-        <option value="Asia">Asia</option>
-      </select>
-
-      <select id="aerolineaFiltro" class="w-full sm:w-48 border border-gray-300 rounded px-3 py-2">
-        <option value="Todas las Aerolíneas">Todas las Aerolíneas</option>
-        <option value="LATAM Airlines">LATAM Airlines</option>
-        <option value="American Airlines">American Airlines</option>
-        <option value="Iberia">Iberia</option>
-      </select>
-
-      <button id="masFiltros" class="btn flex items-center gap-2 border border-gray-300 rounded px-3 py-2 w-full sm:w-auto justify-center">
-        <i data-feather="filter" class="h-4 w-4"></i> Más Filtros
-      </button>
-    </div>
-
-    <!-- Contenido Más Filtros -->
-    <div id="filtrosExtra" class="mt-4 space-y-4">
-      <label class="block">
-        <span class="text-gray-700">Filtro extra 1</span>
-        <input type="text" class="border border-gray-300 rounded px-3 py-2 w-full">
-      </label>
-      <label class="block">
-        <span class="text-gray-700">Filtro extra 2</span>
-        <input type="text" class="border border-gray-300 rounded px-3 py-2 w-full">
-      </label>
+  <div class="relative container mx-auto px-6 text-center text-white z-10 flex flex-col justify-center h-full">
+    <h1 class="text-5xl md:text-6xl font-extrabold mb-2 tracking-tight animate-fadeIn">VUELA POR EL MUNDO</h1>
+    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">
+      Descubre destinos increíbles con las mejores aerolíneas y tarifas exclusivas.
+    </p>
+    <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
+      <a href="#buscador" class="bg-white text-orange-700 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+        Buscar Vuelos
+      </a>
+      <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-orange-700 transition-all">
+        Consultar Destinos
+      </a>
     </div>
   </div>
 
-  <!-- Resultados -->
-  <section>
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
-      <h2 class="text-3xl font-bold text-gray-800">Vuelos Disponibles</h2>
-      <span id="totalVuelos" class="border border-gray-300 px-3 py-1 rounded text-lg">0 vuelos encontrados</span>
-    </div>
-
-    <div id="vuelosContainer" class="space-y-6"></div>
-  </section>
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+  </div>
 </div>
 
-<script>
-  feather.replace();
+<!-- BUSCADOR + FILTROS -->
+<div class="container mx-auto px-6 -mt-20 relative z-10 mb-20" id="buscador">
+  <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
+    <form method="GET" action="{% url 'vuelos' %}" class="grid grid-cols-1 md:grid-cols-6 gap-4 items-end mb-6">
+      <div>
+        <label class="text-xs text-gray-600">Origen</label>
+        <input type="text" name="origen" value="{{ request.GET.origen }}" placeholder="Ciudad de origen"
+               class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="text-xs text-gray-600">Destino</label>
+        <input type="text" name="destino" value="{{ request.GET.destino }}" placeholder="Ciudad de destino"
+               class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="text-xs text-gray-600">Ida</label>
+        <input type="date" name="fecha_salida" value="{{ request.GET.fecha_salida }}"
+               class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="text-xs text-gray-600">Regreso</label>
+        <input type="date" name="fecha_regreso" value="{{ request.GET.fecha_regreso }}"
+               class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="text-xs text-gray-600">Pasajeros</label>
+        <select name="pasajeros" class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+          <option value="1" {% if request.GET.pasajeros == '1' %}selected{% endif %}>1</option>
+          <option value="2" {% if request.GET.pasajeros == '2' %}selected{% endif %}>2</option>
+          <option value="3" {% if request.GET.pasajeros == '3' %}selected{% endif %}>3</option>
+          <option value="4" {% if request.GET.pasajeros == '4' %}selected{% endif %}>4+</option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 text-sm font-medium transition-all transform hover:scale-105 flex items-center justify-center gap-1">
+          <i data-lucide="search" class="h-4 w-4"></i> Buscar
+        </button>
+      </div>
+    </form>
 
-  const vuelosDisponibles = [
-    { id:1, aerolinea:"LATAM Airlines", origen:"Córdoba (COR)", destino:"Madrid (MAD)", fechaIda:"2024-10-28", fechaRegreso:"2024-11-05", horaIda:"08:00", horaRegreso:"20:00", precio:48000, duracion:"13h 45m", clase:"economica", escalas:1, region:"Europa" },
-    { id:2, aerolinea:"American Airlines", origen:"Buenos Aires (EZE)", destino:"Miami (MIA)", fechaIda:"2024-10-28", fechaRegreso:"2024-11-05", horaIda:"09:30", horaRegreso:"22:00", precio:52000, duracion:"10h 30m", clase:"business", escalas:1, region:"América" },
-    { id:3, aerolinea:"Iberia", origen:"Buenos Aires (EZE)", destino:"Barcelona (BCN)", fechaIda:"2024-10-28", fechaRegreso:"2024-11-05", horaIda:"10:00", horaRegreso:"23:00", precio:48000, duracion:"13h 30m", clase:"economica", escalas:0, region:"Europa" },
-    { id:4, aerolinea:"Air France", origen:"Buenos Aires (EZE)", destino:"París (CDG)", fechaIda:"2024-10-29", fechaRegreso:"2024-11-06", horaIda:"14:30", horaRegreso:"21:45", precio:51000, duracion:"12h 45m", clase:"premium", escalas:0, region:"Europa" },
-    { id:5, aerolinea:"Emirates", origen:"Buenos Aires (EZE)", destino:"Dubai (DXB)", fechaIda:"2024-10-30", fechaRegreso:"2024-11-07", horaIda:"22:15", horaRegreso:"19:30", precio:75000, duracion:"16h 30m", clase:"business", escalas:1, region:"Asia" },
-    { id:6, aerolinea:"Aerolíneas Argentinas", origen:"Buenos Aires (EZE)", destino:"Lima (LIM)", fechaIda:"2024-10-28", fechaRegreso:"2024-11-04", horaIda:"11:20", horaRegreso:"15:45", precio:32000, duracion:"4h 25m", clase:"economica", escalas:0, region:"América" },
-    { id:7, aerolinea:"KLM", origen:"Buenos Aires (EZE)", destino:"Ámsterdam (AMS)", fechaIda:"2024-10-31", fechaRegreso:"2024-11-08", horaIda:"16:45", horaRegreso:"18:30", precio:49000, duracion:"14h 15m", clase:"premium", escalas:1, region:"Europa" },
-    { id:8, aerolinea:"Qatar Airways", origen:"Buenos Aires (EZE)", destino:"Doha (DOH)", fechaIda:"2024-11-01", fechaRegreso:"2024-11-09", horaIda:"21:30", horaRegreso:"20:15", precio:72000, duracion:"15h 45m", clase:"business", escalas:1, region:"Asia" },
-    { id:9, aerolinea:"Lufthansa", origen:"Buenos Aires (EZE)", destino:"Frankfurt (FRA)", fechaIda:"2024-10-29", fechaRegreso:"2024-11-06", horaIda:"15:20", horaRegreso:"22:10", precio:54000, duracion:"13h 40m", clase:"premium", escalas:0, region:"Europa" },
-    { id:10, aerolinea:"British Airways", origen:"Buenos Aires (EZE)", destino:"Londres (LHR)", fechaIda:"2024-10-30", fechaRegreso:"2024-11-07", horaIda:"23:05", horaRegreso:"18:15", precio:56000, duracion:"14h 10m", clase:"business", escalas:0, region:"Europa" },
-    { id:11, aerolinea:"Turkish Airlines", origen:"Buenos Aires (EZE)", destino:"Estambul (IST)", fechaIda:"2024-10-31", fechaRegreso:"2024-11-08", horaIda:"13:45", horaRegreso:"20:30", precio:62000, duracion:"17h 25m", clase:"business", escalas:1, region:"Europa" },
-    { id:12, aerolinea:"Air Canada", origen:"Buenos Aires (EZE)", destino:"Toronto (YYZ)", fechaIda:"2024-11-01", fechaRegreso:"2024-11-09", horaIda:"08:15", horaRegreso:"19:45", precio:48000, duracion:"12h 30m", clase:"economica", escalas:1, region:"América" },
-    { id:13, aerolinea:"Japan Airlines", origen:"Buenos Aires (EZE)", destino:"Tokio (NRT)", fechaIda:"2024-11-02", fechaRegreso:"2024-11-10", horaIda:"10:30", horaRegreso:"21:15", precio:85000, duracion:"28h 45m", clase:"business", escalas:2, region:"Asia" },
-    { id:14, aerolinea:"Korean Air", origen:"Buenos Aires (EZE)", destino:"Seúl (ICN)", fechaIda:"2024-11-03", fechaRegreso:"2024-11-11", horaIda:"11:45", horaRegreso:"22:30", precio:79000, duracion:"27h 15m", clase:"premium", escalas:2, region:"Asia" },
-    { id:15, aerolinea:"Avianca", origen:"Buenos Aires (EZE)", destino:"Bogotá (BOG)", fechaIda:"2024-10-29", fechaRegreso:"2024-11-06", horaIda:"07:30", horaRegreso:"16:20", precio:35000, duracion:"6h 50m", clase:"economica", escalas:0, region:"América" },
-    { id:16, aerolinea:"Ethiopian Airlines", origen:"Buenos Aires (EZE)", destino:"Addis Abeba (ADD)", fechaIda:"2024-10-30", fechaRegreso:"2024-11-07", horaIda:"21:15", horaRegreso:"18:45", precio:68000, duracion:"19h 30m", clase:"business", escalas:1, region:"África" },
-    { id:17, aerolinea:"Cathay Pacific", origen:"Buenos Aires (EZE)", destino:"Hong Kong (HKG)", fechaIda:"2024-10-31", fechaRegreso:"2024-11-08", horaIda:"22:45", horaRegreso:"19:30", precio:82000, duracion:"26h 15m", clase:"business", escalas:2, region:"Asia" },
-    { id:18, aerolinea:"Alitalia", origen:"Buenos Aires (EZE)", destino:"Roma (FCO)", fechaIda:"2024-11-01", fechaRegreso:"2024-11-09", horaIda:"13:20", horaRegreso:"20:10", precio:53000, duracion:"13h 50m", clase:"premium", escalas:0, region:"Europa" },
-    { id:19, aerolinea:"Singapore Airlines", origen:"Buenos Aires (EZE)", destino:"Singapur (SIN)", fechaIda:"2024-11-02", fechaRegreso:"2024-11-10", horaIda:"23:55", horaRegreso:"20:40", precio:88000, duracion:"25h 45m", clase:"business", escalas:1, region:"Asia" },
-    { id:20, aerolinea:"Air New Zealand", origen:"Buenos Aires (EZE)", destino:"Auckland (AKL)", fechaIda:"2024-11-03", fechaRegreso:"2024-11-11", horaIda:"19:30", horaRegreso:"16:15", precio:92000, duracion:"15h 45m", clase:"premium", escalas:1, region:"Oceanía" },
-    { id:21, aerolinea:"TAP Air Portugal", origen:"Buenos Aires (EZE)", destino:"Lisboa (LIS)", fechaIda:"2024-10-29", fechaRegreso:"2024-11-06", horaIda:"14:15", horaRegreso:"21:05", precio:47000, duracion:"12h 50m", clase:"economica", escalas:0, region:"Europa" },
-    { id:22, aerolinea:"Swiss Air", origen:"Buenos Aires (EZE)", destino:"Zúrich (ZRH)", fechaIda:"2024-10-30", fechaRegreso:"2024-11-07", horaIda:"16:40", horaRegreso:"23:30", precio:58000, duracion:"14h 50m", clase:"business", escalas:1, region:"Europa" },
-    { id:23, aerolinea:"United Airlines", origen:"Buenos Aires (EZE)", destino:"Los Ángeles (LAX)", fechaIda:"2024-10-31", fechaRegreso:"2024-11-08", horaIda:"09:25", horaRegreso:"20:15", precio:65000, duracion:"13h 50m", clase:"premium", escalas:1, region:"América" },
-    { id:24, aerolinea:"Air China", origen:"Buenos Aires (EZE)", destino:"Pekín (PEK)", fechaIda:"2024-11-01", fechaRegreso:"2024-11-09", horaIda:"22:35", horaRegreso:"19:25", precio:76000, duracion:"29h 50m", clase:"business", escalas:2, region:"Asia" },
-    { id:25, aerolinea:"South African Airways", origen:"Buenos Aires (EZE)", destino:"Johannesburgo (JNB)", fechaIda:"2024-11-02", fechaRegreso:"2024-11-10", horaIda:"20:10", horaRegreso:"17:55", precio:71000, duracion:"18h 45m", clase:"premium", escalas:1, region:"África" },
-    { id:26, aerolinea:"Qantas", origen:"Buenos Aires (EZE)", destino:"Sídney (SYD)", fechaIda:"2024-11-03", fechaRegreso:"2024-11-11", horaIda:"21:45", horaRegreso:"18:30", precio:95000, duracion:"16h 45m", clase:"business", escalas:1, region:"Oceanía" },
-    { id:27, aerolinea:"Air India", origen:"Mendoza (MDZ)", destino:"Nueva Delhi (DEL)", fechaIda:"2024-10-29", fechaRegreso:"2024-11-06", horaIda:"23:15", horaRegreso:"20:05", precio:76000, duracion:"25h 20m", clase:"premium", escalas:2, region:"Asia" },
-    { id:28, aerolinea:"Gulf Air", origen:"Rosario (ROS)", destino:"Baréin (BAH)", fechaIda:"2024-10-30", fechaRegreso:"2024-11-07", horaIda:"21:55", horaRegreso:"18:40", precio:71000, duracion:"21h 15m", clase:"business", escalas:2, region:"Asia" },
-    { id:29, aerolinea:"Aeroméxico", origen:"Salta (SLA)", destino:"Ciudad de México (MEX)", fechaIda:"2024-10-31", fechaRegreso:"2024-11-08", horaIda:"12:35", horaRegreso:"19:25", precio:45000, duracion:"10h 20m", clase:"economica", escalas:1, region:"América" },
-    { id:30, aerolinea:"Royal Air Maroc", origen:"Mar del Plata (MDQ)", destino:"Casablanca (CMN)", fechaIda:"2024-11-01", fechaRegreso:"2024-11-09", horaIda:"19:45", horaRegreso:"16:35", precio:67000, duracion:"17h 20m", clase:"premium", escalas:2, region:"África" },
-    { id:31, aerolinea:"Austrian Airlines", origen:"San Carlos de Bariloche (BRC)", destino:"Viena (VIE)", fechaIda:"2024-11-02", fechaRegreso:"2024-11-10", horaIda:"15:25", horaRegreso:"22:15", precio:58000, duracion:"16h 20m", clase:"business", escalas:1, region:"Europa" },
-    { id:32, aerolinea:"Air Baltic", origen:"Tucumán (TUC)", destino:"Riga (RIX)", fechaIda:"2024-11-03", fechaRegreso:"2024-11-11", horaIda:"17:15", horaRegreso:"00:05", precio:52000, duracion:"18h 20m", clase:"premium", escalas:2, region:"Europa" },
-    { id:33, aerolinea:"LOT Polish Airlines", origen:"Ushuaia (USH)", destino:"Varsovia (WAW)", fechaIda:"2024-10-29", fechaRegreso:"2024-11-06", horaIda:"18:40", horaRegreso:"01:30", precio:54000, duracion:"17h 20m", clase:"economica", escalas:2, region:"Europa" },
-    { id:34, aerolinea:"Thai Airways", origen:"San Juan (UAQ)", destino:"Bangkok (BKK)", fechaIda:"2024-10-30", fechaRegreso:"2024-11-07", horaIda:"20:55", horaRegreso:"17:45", precio:81000, duracion:"24h 20m", clase:"business", escalas:2, region:"Asia" },
-    { id:35, aerolinea:"Finnair", origen:"Neuquén (NQN)", destino:"Helsinki (HEL)", fechaIda:"2024-10-31", fechaRegreso:"2024-11-08", horaIda:"16:30", horaRegreso:"23:20", precio:56000, duracion:"17h 20m", clase:"premium", escalas:2, region:"Europa" },
-    { id:36, aerolinea:"LATAM Airlines", origen:"Santiago (SCL)", destino:"Sao Paulo (GRU)", fechaIda:"2024-11-01", fechaRegreso:"2024-11-09", horaIda:"08:15", horaRegreso:"11:45", precio:28000, duracion:"3h 30m", clase:"economica", escalas:0, region:"América" },
-    { id:37, aerolinea:"Copa Airlines", origen:"Lima (LIM)", destino:"Ciudad de Panamá (PTY)", fechaIda:"2024-11-02", fechaRegreso:"2024-11-10", horaIda:"10:20", horaRegreso:"14:50", precio:32000, duracion:"4h 30m", clase:"economica", escalas:0, region:"América" },
-    { id:38, aerolinea:"Avianca", origen:"Bogotá (BOG)", destino:"San José (SJO)", fechaIda:"2024-11-03", fechaRegreso:"2024-11-11", horaIda:"09:30", horaRegreso:"13:15", precio:29000, duracion:"3h 45m", clase:"economica", escalas:0, region:"América" },
-    { id:39, aerolinea:"United Airlines", origen:"Ciudad de México (MEX)", destino:"Chicago (ORD)", fechaIda:"2024-11-04", fechaRegreso:"2024-11-12", horaIda:"11:45", horaRegreso:"16:30", precio:42000, duracion:"4h 45m", clase:"premium", escalas:0, region:"América" },
-    { id:40, aerolinea:"Air France", origen:"San Pablo (GRU)", destino:"París (CDG)", fechaIda:"2024-11-05", fechaRegreso:"2024-11-13", horaIda:"23:30", horaRegreso:"16:15", precio:58000, duracion:"11h 45m", clase:"business", escalas:0, region:"Europa" },
-    { id:41, aerolinea:"Emirates", origen:"Rio de Janeiro (GIG)", destino:"Dubai (DXB)", fechaIda:"2024-11-06", fechaRegreso:"2024-11-14", horaIda:"22:15", horaRegreso:"15:45", precio:82000, duracion:"14h 30m", clase:"business", escalas:1, region:"Asia" },
-    { id:42, aerolinea:"Aerolíneas Argentinas", origen:"Montevideo (MVD)", destino:"Buenos Aires (AEP)", fechaIda:"2024-11-07", fechaRegreso:"2024-11-15", horaIda:"15:30", horaRegreso:"16:30", precio:15000, duracion:"1h", clase:"economica", escalas:0, region:"América" },
-    { id:43, aerolinea:"Gol", origen:"Porto Alegre (POA)", destino:"Rio de Janeiro (GIG)", fechaIda:"2024-11-08", fechaRegreso:"2024-11-16", horaIda:"07:45", horaRegreso:"09:30", precio:22000, duracion:"1h 45m", clase:"economica", escalas:0, region:"América" },
-    { id:44, aerolinea:"Sky Airline", origen:"Santiago (SCL)", destino:"Lima (LIM)", fechaIda:"2024-11-09", fechaRegreso:"2024-11-17", horaIda:"13:20", horaRegreso:"15:50", precio:26000, duracion:"2h 30m", clase:"economica", escalas:0, region:"América" },
-    { id:45, aerolinea:"JetSMART", origen:"Mendoza (MDZ)", destino:"Santiago (SCL)", fechaIda:"2024-11-10", fechaRegreso:"2024-11-18", horaIda:"16:15", horaRegreso:"17:15", precio:18000, duracion:"1h", clase:"economica", escalas:0, region:"América" }
-  ];
+    <!-- FILTROS: CLASE, REGIÓN, AEROLÍNEA -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+      <!-- CLASE -->
+      <div>
+        <p class="font-semibold text-gray-700 mb-2">Clase de vuelo</p>
+        <select name="clase" class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+          <option value="">Todas</option>
+          {% for clase in clases_distintas %}
+            <option value="{{ clase }}" {% if request.GET.clase == clase %}selected{% endif %}>{{ clase }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-  const vuelosContainer = document.getElementById("vuelosContainer");
-  const totalVuelos = document.getElementById("totalVuelos");
-  const buscarBtn = document.getElementById("buscarBtn");
-  const masFiltrosBtn = document.getElementById("masFiltros");
-  const filtrosExtra = document.getElementById("filtrosExtra");
+      <!-- REGIÓN -->
+      <div>
+        <p class="font-semibold text-gray-700 mb-2">Región</p>
+        <select name="region" class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+          <option value="">Todas</option>
+          {% for region in regiones_distintas %}
+            <option value="{{ region }}" {% if request.GET.region == region %}selected{% endif %}>{{ region }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-  function renderVuelos(vuelos){
-    vuelosContainer.innerHTML = "";
-    totalVuelos.textContent = `${vuelos.length} vuelos encontrados`;
+      <!-- AEROLÍNEA -->
+      <div>
+        <p class="font-semibold text-gray-700 mb-2">Aerolínea</p>
+        <select name="aerolinea" class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+          <option value="">Todas</option>
+          {% for aerolinea in aerolineas_distintas %}
+            <option value="{{ aerolinea }}" {% if request.GET.aerolinea == aerolinea %}selected{% endif %}>{{ aerolinea }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
 
-    vuelos.forEach(vuelo=>{
-      const vueloHTML = `
-        <div class="vuelo-card bg-white rounded-lg shadow p-6">
-          <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-4">
-            <div class="flex items-center space-x-4">
-              <div class="bg-blue-100 p-3 rounded-full">
-                <i data-feather="airplane" class="h-6 w-6 text-blue-600"></i>
-              </div>
-              <div>
-                <h3 class="font-bold text-lg">${vuelo.aerolinea}</h3>
-                <span class="border border-gray-300 px-2 py-1 text-sm rounded">${vuelo.clase.charAt(0).toUpperCase()+vuelo.clase.slice(1)}</span>
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="text-2xl font-bold text-green-600">$${vuelo.precio.toLocaleString()}</div>
-              <div class="text-sm text-gray-500">por persona</div>
-            </div>
-          </div>
+<!-- RESULTADOS -->
+<div class="container mx-auto px-6 mb-20">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Vuelos Disponibles</h2>
+    <p class="text-gray-600">{{ vuelos|length }} vuelos encontrados</p>
+  </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-            <div>
-              <h4 class="font-semibold mb-2 text-blue-600">Vuelo de Ida</h4>
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="font-bold">${vuelo.horaIda}</div>
-                  <div class="text-sm text-gray-500">${vuelo.origen}</div>
-                </div>
-                <i data-feather="arrow-right" class="h-4 w-4 text-gray-400"></i>
-                <div class="text-right">
-                  <div class="font-bold">${vuelo.horaIda}</div>
-                  <div class="text-sm text-gray-500">${vuelo.destino}</div>
-                </div>
-              </div>
-              <div class="text-sm text-gray-500 mt-1">${vuelo.fechaIda} • ${vuelo.duracion}</div>
-            </div>
-
-            <div>
-              <h4 class="font-semibold mb-2 text-purple-600">Vuelo de Regreso</h4>
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="font-bold">${vuelo.horaRegreso}</div>
-                  <div class="text-sm text-gray-500">${vuelo.destino}</div>
-                </div>
-                <i data-feather="arrow-right" class="h-4 w-4 text-gray-400"></i>
-                <div class="text-right">
-                  <div class="font-bold">${vuelo.horaRegreso}</div>
-                  <div class="text-sm text-gray-500">${vuelo.origen}</div>
-                </div>
-              </div>
-              <div class="text-sm text-gray-500 mt-1">${vuelo.fechaRegreso} • ${vuelo.duracion}</div>
-            </div>
-
-            <div>
-              <h4 class="font-semibold mb-2">Detalles</h4>
-              <div class="space-y-1 text-sm">
-                <div>Escalas: ${vuelo.escalas===0?"Directo":vuelo.escalas+" escala(s)"}</div>
-                <div>Duración: ${vuelo.duracion}</div>
-                <div>Clase: ${vuelo.clase.charAt(0).toUpperCase()+vuelo.clase.slice(1)}</div>
-                <div>Región: ${vuelo.region}</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex justify-end">
-            <button onclick="seleccionarVuelo(${vuelo.id})" class="btn bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded flex items-center gap-2">
-              <i data-feather="check-circle" class="h-5 w-5"></i>
-              Seleccionar Vuelo
-            </button>
-          </div>
+  {% for vuelo in vuelos %}
+  <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-6 hover:shadow-xl transition-shadow">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 flex items-center justify-center">
+          {% if 'Aerolíneas' in vuelo.aerolinea %}
+            <img src="{% static 'Carrito_app/media/img/aerolineas.png' %}" alt="AR" class="h-10">
+          {% elif 'LATAM' in vuelo.aerolinea %}
+            <img src="{% static 'Carrito_app/media/img/latam.png' %}" alt="LA" class="h-10">
+          {% else %}
+            <i data-lucide="plane" class="h-8 w-8 text-gray-400"></i>
+          {% endif %}
         </div>
-      `;
-      vuelosContainer.insertAdjacentHTML("beforeend", vueloHTML);
-    });
-    feather.replace();
-  }
-
-  renderVuelos(vuelosDisponibles);
-
-  buscarBtn.addEventListener("click", ()=>{
-    const origen = document.getElementById("origen").value.toLowerCase();
-    const destino = document.getElementById("destino").value.toLowerCase();
-    const fechaIda = document.getElementById("fechaIda").value;
-    const fechaRegreso = document.getElementById("fechaRegreso").value;
-    const clase = document.getElementById("clase").value;
-    const region = document.getElementById("regionFiltro").value;
-    const aerolinea = document.getElementById("aerolineaFiltro").value;
-
-    const filtrados = vuelosDisponibles.filter(vuelo=>{
-      return (
-        (!origen || vuelo.origen.toLowerCase().includes(origen)) &&
-        (!destino || vuelo.destino.toLowerCase().includes(destino)) &&
-        (!fechaIda || vuelo.fechaIda===fechaIda) &&
-        (!fechaRegreso || vuelo.fechaRegreso===fechaRegreso) &&
-        (!clase || vuelo.clase===clase) &&
-        (region==="Todas las Regiones" || vuelo.region===region) &&
-        (aerolinea==="Todas las Aerolíneas" || vuelo.aerolinea===aerolinea)
-      );
-    });
-
-    renderVuelos(filtrados);
-  });
-
-  masFiltrosBtn.addEventListener("click", ()=>{
-    filtrosExtra.classList.toggle("show");
-  });
-
-  function seleccionarVuelo(id) {
-    const vuelo = vuelosDisponibles.find(v => v.id === id);
-    if (!vuelo) return;
-
-    const pasajeros = document.getElementById("pasajeros").value;
-    const precioTotal = vuelo.precio * parseInt(pasajeros);
-    
-    // Crear y mostrar modal de confirmación
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
-    modal.innerHTML = `
-      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <h3 class="text-2xl font-bold mb-4">Confirmar Selección de Vuelo</h3>
-        <div class="space-y-4 mb-6">
-          <p><span class="font-semibold">Vuelo:</span> ${vuelo.origen} → ${vuelo.destino}</p>
-          <p><span class="font-semibold">Aerolínea:</span> ${vuelo.aerolinea}</p>
-          <p><span class="font-semibold">Fecha Ida:</span> ${vuelo.fechaIda}</p>
-          <p><span class="font-semibold">Fecha Regreso:</span> ${vuelo.fechaRegreso}</p>
-          <p><span class="font-semibold">Pasajeros:</span> ${pasajeros}</p>
-          <p><span class="font-semibold">Clase:</span> ${vuelo.clase.charAt(0).toUpperCase() + vuelo.clase.slice(1)}</p>
-          <p class="text-xl font-bold text-green-600">Precio Total: $${precioTotal.toLocaleString()}</p>
-        </div>
-        <div class="flex gap-4 justify-end">
-          <button onclick="this.closest('.fixed').remove()" class="btn px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            Cancelar
-          </button>
-          <button onclick="confirmarSeleccion(${id})" class="btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-            <i data-feather="check" class="h-5 w-5"></i>
-            Confirmar
-          </button>
+        <div>
+          <p class="font-bold text-gray-800">{{ vuelo.aerolinea }}</p>
+          <p class="text-xs text-gray-500">{{ vuelo.clase }}</p>
         </div>
       </div>
-    `;
-    document.body.appendChild(modal);
-    feather.replace();
-  }
 
-  function confirmarSeleccion(id) {
-    const vuelo = vuelosDisponibles.find(v => v.id === id);
-    alert('¡Vuelo seleccionado con éxito!\nProcesando reserva para: ' + vuelo.origen + ' → ' + vuelo.destino);
-    // Aquí puedes agregar la lógica para procesar la reserva
-    // Por ejemplo, redirigir a una página de pago o agregar al carrito
-    location.href = '/carrito/'; // Redirige al carrito o a donde necesites
-  }
+      <div class="flex-1 flex items-center justify-center gap-6">
+        <div class="text-center">
+          <p class="text-2xl font-bold text-gray-800">{{ vuelo.horario_salida|time:"H:i" }}</p>
+          <p class="text-sm text-gray-600">{{ vuelo.origen }}</p>
+        </div>
+        <div class="flex-1 relative">
+          <div class="border-t-2 border-gray-300 absolute top-1/2 left-0 right-0 transform -translate-y-1/2"></div>
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2">
+            <i data-lucide="plane" class="h-5 w-5 text-gray-500"></i>
+          </div>
+        </div>
+        <div class="text-center">
+          <p class="text-2xl font-bold text-gray-800">{{ vuelo.horario_llegada|time:"H:i"|default:vuelo.horario_salida|time:"H:i" }}</p>
+          <p class="text-sm text-gray-600">{{ vuelo.destino }}</p>
+        </div>
+      </div>
+
+      <div class="text-center text-xs text-gray-600 space-y-1">
+        <p>{{ vuelo.duracion }}</p>
+        <p>Escala: {{ vuelo.escala|default:"Directo" }}</p>
+      </div>
+
+      <div class="text-right">
+        <p class="text-3xl font-bold text-orange-600">${{ vuelo.precio_por_persona|floatformat:0 }}</p>
+        <p class="text-sm text-gray-500">por persona</p>
+        <a href="{% url 'add_to_cart' 'vuelo' vuelo.id %}"
+           class="inline-block mt-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold text-sm transition-all transform hover:scale-105">
+          Seleccionar Vuelo
+        </a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="text-center py-16">
+    <i data-lucide="plane" class="h-20 w-20 text-gray-300 mx-auto mb-4"></i>
+    <p class="text-xl text-gray-600">No se encontraron vuelos</p>
+    <p class="text-gray-500 mt-2">Prueba con otros filtros</p>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- BENEFICIOS -->
+<div class="container mx-auto px-6 py-20 bg-gray-50 rounded-3xl">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Por Qué Elegirnos</h2>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">
+      Más de 10.000 viajeros confían en nosotros cada mes
+    </p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard">
+      <i data-lucide="plane-takeoff" class="h-16 w-16 text-orange-600 mb-6 mx-auto"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-3">Vuelos Directos</h3>
+      <p class="text-gray-600">Rutas sin escalas a los destinos más populares</p>
+    </div>
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard">
+      <i data-lucide="shield-check" class="h-16 w-16 text-green-600 mb-6 mx-auto"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-3">Seguro de Viaje</h3>
+      <p class="text-gray-600">Cobertura completa incluida</p>
+    </div>
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard">
+      <i data-lucide="headphones" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-3">Soporte 24/7</h3>
+      <p class="text-gray-600">Atención personalizada en español</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+  document.querySelectorAll('.animate-fadeInCard').forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.2}s`;
+  });
 </script>
-</body>
-</html>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeIn { animation: fadeIn 1.5s ease-out; }
+  .animate-fadeInCard { animation: fadeInCard 0.8s ease-out forwards; opacity: 0; }
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
 {% endblock %}

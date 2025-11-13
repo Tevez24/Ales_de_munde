@@ -1,0 +1,37 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">Ailes du Monde</a></h1>
+{% endblock %}
+{% block nav-global %}
+  <div class="nav-global">
+    <a href="{% url 'admin:logout' %}">Cerrar sesión</a>
+  </div>
+{% endblock %}
+{% block content %}
+  <div class="dashboard-widgets">
+    <div class="module">
+      <h2>Resumen del Carrito de Compras</h2>
+      <div class="module-content">
+        <p>Total de Compras: {{ total_compras }}</p>
+        <p>Total Ingresos: ${{ total_ingresos }}</p>
+        <h3>Compras Recientes</h3>
+        <ul>
+          {% for compra in compras_recientes %}
+            <li>
+              Compra #{{ compra.id }} - Usuario: {{ compra.usuario.username }} - Total: ${{ compra.total }} - Fecha: {{ compra.fecha_compra }}
+            </li>
+          {% empty %}
+            <li>No hay compras recientes.</li>
+          {% endfor %}
+        </ul> 
+      </div>
+    </div>
+  </div>
+{% endblock %}

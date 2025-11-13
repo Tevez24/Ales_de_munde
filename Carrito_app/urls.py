@@ -4,6 +4,9 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    
+
+    
     # ==================== PÁGINA PRINCIPAL ====================
     path('', views.inicio, name='inicio'),
     path('home/', views.home, name='home'),
@@ -14,16 +17,37 @@ urlpatterns = [
     path('paquete/<int:paquete_id>/', views.paquete_detalle, name='paquete_detalle'),
     path('vuelos/', views.vuelos, name='vuelos'),
     path('actividades/', views.actividades, name='actividades'),
-    path('alojamiento/', views.alojamiento, name='alojamiento'),
+    path('alojamiento/', views.alojamiento, name='alojamiento'),  # listado
+    path('alojamiento/<int:id>/', views.alojamiento_detalle, name='alojamiento_detalle'),  # detalle
     path('alquileres/', views.alquileres, name='alquileres'),
+    path('alquileres/<int:id>/', views.alquileres_detalle, name='alquileres_detalle'),
     path('transporte/', views.transporte, name='transporte'),
+    path('transporte/<int:id>/', views.transporte_detalle, name='transporte_detalle'),
+    path('actividad/<int:pk>/', views.actividad_detalle, name='actividad_detalle'),
+    path('vuelos/<int:vuelo_id>/', views.vuelo_detalle, name='vuelo_detalle'),
 
     # ==================== CARRITO ====================
     path('carrito/', views.carrito, name='carrito'),
-    path('add_to_cart/<int:paquete_id>/', views.add_to_cart, name='add_to_cart'),
+    path('update_cart/<int:item_id>/', views.update_cart, name='update_cart'),
     path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('clear_cart/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
+    # urls.py
+    path("add_to_cart/<str:tipo>/<int:id>/", views.add_to_cart, name="add_to_cart"),
+    path('compra_exitosa/', views.compra_exitosa, name='compra_exitosa'),
+    path('finalizar_compra/', views.finalizar_compra, name='finalizar_compra'),
+    path('descargar_comprobante/', views.descargar_comprobante, name='descargar_comprobante'),
+    #----------------------------------- COMPRAS -------------------
+    
+    path('detalle_compra/<int:order_id>/', views.detalle_compra, name='detalle_compra'),
+
+    
+    #----------------------------------- COMPRAS -------------------
+
+
+
+
+
 
     # ==================== PAGOS ====================
     path('pago/', views.pago, name='pago'),

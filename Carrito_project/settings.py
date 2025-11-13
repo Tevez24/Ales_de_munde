@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from datetime import timedelta
 
 # ----------------------------
 # Base directory
@@ -25,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Carrito_app',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 # ----------------------------
@@ -46,12 +49,29 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'Carrito_project.urls'
 
 # ----------------------------
+# REST Framework + JWT
+# ----------------------------
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+# ----------------------------
 # Templates
 # ----------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],  # <-- GLOBAL TEMPLATES
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +90,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Carrito_project.wsgi.application'
 
 # ----------------------------
-# Database (SQLite)
+# Database
 # ----------------------------
 DATABASES = {
     'default': {
@@ -98,22 +118,23 @@ USE_I18N = True
 USE_TZ = True
 
 # ----------------------------
-# Archivos estáticos (CSS, JS, imágenes de templates)
+# Archivos estáticos
 # ----------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'Carrito_app' / 'static',
+    BASE_DIR / 'static',  # <-- CARPETA GLOBAL static/
+    BASE_DIR / 'Carrito_app' / 'static',  # <-- static de la app
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ----------------------------
-# Archivos subidos por usuarios (imágenes, documentos)
+# Media (imágenes subidas)
 # ----------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ----------------------------
-# Login y logout
+# Login / Logout
 # ----------------------------
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
@@ -129,3 +150,13 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+# ----------------------------
+# Email (Gmail)
+# ----------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ailesdumunde1@gmail.com'
+EMAIL_HOST_PASSWORD = 'xomj imua wfld zzfq'  # App Password

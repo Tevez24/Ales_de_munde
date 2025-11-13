@@ -1,8 +1,12 @@
 {% extends 'Carrito_app/base.html' %}
 {% load static %}
+
 {% block title %}Medios de Pago - Ailes du Monde{% endblock %}
 
 {% block content %}
+
+
+<!-- TU CONTENIDO ORIGINAL (100% INTACTO) -->
 <div class="bg-gray-50 py-20">
   <div class="container mx-auto px-6 max-w-5xl">
 
@@ -213,4 +217,21 @@ stripe.redirectToCheckout({ sessionId: 'cs_test_...' }); // Para paquete Europa<
 
   </div>
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+</script>
+
+<style>
+  .animate-fadeIn { 
+    animation: fadeIn 1.5s ease-out; 
+  }
+  @keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(-20px);} 
+    to { opacity: 1; transform: translateY(0);} 
+  }
+</style>
 {% endblock %}

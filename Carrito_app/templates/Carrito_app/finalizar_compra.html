@@ -1,0 +1,285 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Finalizar Compra - Ailes du Monde{% endblock %}
+
+{% block content %}
+<section class="py-16 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">
+      Finalizar Compra
+    </h1>
+
+    <form method="POST" action="{% url 'checkout' %}" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {% csrf_token %}
+
+      <!-- IZQUIERDA: FORMULARIO DE DATOS -->
+      <div class="lg:col-span-2 space-y-8">
+
+        <!-- DATOS PERSONALES -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <i data-lucide="user" class="h-7 w-7 mr-2 text-indigo-600"></i> Datos Personales
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
+              <input type="text" name="nombre" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                     placeholder="Juan Pérez">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+              <input type="email" name="email" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                     placeholder="juan@ejemplo.com">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
+              <input type="tel" name="telefono" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                     placeholder="+54 9 11 1234-5678">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">DNI / Pasaporte *</label>
+              <input type="text" name="dni" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                     placeholder="30.123.456">
+            </div>
+          </div>
+        </div>
+
+        <!-- DIRECCIÓN DE FACTURACIÓN -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <i data-lucide="map-pin" class="h-7 w-7 mr-2 text-indigo-600"></i> Dirección de Facturación
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Dirección *</label>
+              <input type="text" name="direccion" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                     placeholder="Av. Corrientes 1234, Piso 5 Depto B">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Ciudad *</label>
+              <input type="text" name="ciudad" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                     placeholder="Buenos Aires">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Provincia *</label>
+              <select name="provincia" required 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <option value="">Seleccionar</option>
+                <option>Buenos Aires</option>
+                <option>Córdoba</option>
+                <option>Santa Fe</option>
+                <option>Mendoza</option>
+                <option>Otros</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Código Postal *</label>
+              <input type="text" name="codigo_postal" required 
+                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                     placeholder="C1001">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">País *</label>
+              <input type="text" name="pais" value="Argentina" required readonly
+                     class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DERECHA: MÉTODOS DE PAGO + RESUMEN -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-6 border border-gray-100">
+          
+          <!-- RESUMEN -->
+          <div class="mb-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              <i data-lucide="receipt" class="h-6 w-6 mr-2 text-indigo-600"></i> Resumen
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-semibold">${{ total }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Comisión</span>
+                <span id="comision" class="font-semibold text-orange-600">$0.00</span>
+              </div>
+              <div class="flex justify-between pt-3 border-t border-gray-200">
+                <span class="text-lg font-bold text-gray-800">Total</span>
+                <span id="total-final" class="text-2xl font-bold text-indigo-600">${{ total }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÉTODOS DE PAGO -->
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              <i data-lucide="credit-card" class="h-6 w-6 mr-2 text-indigo-600"></i> Método de Pago
+            </h3>
+
+            <div class="space-y-3">
+              <!-- TARJETAS DE DÉBITO -->
+              <details class="group">
+                <summary class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl cursor-pointer hover:bg-indigo-100 transition-all">
+                  <span class="font-medium text-gray-800">Tarjetas de Débito</span>
+                  <i data-lucide="chevron-down" class="h-5 w-5 text-indigo-600 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="mt-2 space-y-2 pl-4">
+                  <label class="flex items-center p-2 rounded-lg hover:bg-blue-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="visa_debito" class="mr-3 text-indigo-600" data-comision="0">
+                    <span class="text-sm"><strong>Visa Débito</strong> - Hasta 12 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-blue-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="mastercard_debito" class="mr-3 text-indigo-600" data-comision="0">
+                    <span class="text-sm"><strong>Mastercard</strong> - Hasta 12 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-blue-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="maestro" class="mr-3 text-indigo-600" data-comision="3">
+                    <span class="text-sm"><strong>Maestro</strong> - Hasta 6 cuotas - 3% comisión</span>
+                  </label>
+                </div>
+              </details>
+
+              <!-- TARJETAS DE CRÉDITO -->
+              <details class="group">
+                <summary class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl cursor-pointer hover:bg-pink-100 transition-all">
+                  <span class="font-medium text-gray-800">Tarjetas de Crédito</span>
+                  <i data-lucide="chevron-down" class="h-5 w-5 text-purple-600 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="mt-2 space-y-2 pl-4">
+                  <label class="flex items-center p-2 rounded-lg hover:bg-purple-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="visa_credito" class="mr-3 text-purple-600" data-comision="0">
+                    <span class="text-sm"><strong>Visa</strong> - Hasta 12 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-purple-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="mastercard_credito" class="mr-3 text-purple-600" data-comision="0">
+                    <span class="text-sm"><strong>Mastercard</strong> - Hasta 12 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-purple-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="amex" class="mr-3 text-purple-600" data-comision="3">
+                    <span class="text-sm"><strong>American Express</strong> - Hasta 6 cuotas - 3% comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-purple-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="diners" class="mr-3 text-purple-600" data-comision="3">
+                    <span class="text-sm"><strong>Diners Club</strong> - Hasta 6 cuotas - 3% comisión</span>
+                  </label>
+                </div>
+              </details>
+
+              <!-- BILLETERAS DIGITALES -->
+              <details class="group">
+                <summary class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl cursor-pointer hover:bg-emerald-100 transition-all">
+                  <span class="font-medium text-gray-800">Billeteras Digitales</span>
+                  <i data-lucide="chevron-down" class="h-5 w-5 text-green-600 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="mt-2 space-y-2 pl-4">
+                  <label class="flex items-center p-2 rounded-lg hover:bg-green-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="mercado_pago" class="mr-3 text-green-600" data-comision="2">
+                    <span class="text-sm"><strong>Mercado Pago</strong> - Hasta 12 cuotas - 2% comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-green-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="uala" class="mr-3 text-green-600" data-comision="1.5">
+                    <span class="text-sm"><strong>Ualá</strong> - Hasta 6 cuotas - 1.5% comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-green-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="naranja_x" class="mr-3 text-green-600" data-comision="2.5">
+                    <span class="text-sm"><strong>Naranja X</strong> - Hasta 3 cuotas - 2.5% comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-green-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="paypal" class="mr-3 text-green-600" data-comision="3">
+                    <span class="text-sm"><strong>PayPal</strong> - Pago único - 3% comisión</span>
+                  </label>
+                </div>
+              </details>
+
+              <!-- EFECTIVO -->
+              <details class="group">
+                <summary class="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl cursor-pointer hover:bg-amber-100 transition-all">
+                  <span class="font-medium text-gray-800">Efectivo</span>
+                  <i data-lucide="chevron-down" class="h-5 w-5 text-amber-600 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="mt-2 space-y-2 pl-4">
+                  <label class="flex items-center p-2 rounded-lg hover:bg-yellow-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="pagofacil" class="mr-3 text-amber-600" data-comision="0">
+                    <span class="text-sm"><strong>PagoFácil</strong> - Hasta 3 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-yellow-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="rapipago" class="mr-3 text-amber-600" data-comision="0">
+                    <span class="text-sm"><strong>Rapipago</strong> - Hasta 3 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-yellow-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="cobroexpress" class="mr-3 text-amber-600" data-comision="0">
+                    <span class="text-sm"><strong>CobroExpress</strong> - Pago único - Sin comisión</span>
+                  </label>
+                </div>
+              </details>
+
+              <!-- TRANSFERENCIA -->
+              <details class="group">
+                <summary class="flex items-center justify-between p-3 bg-gradient-to-r from-cyan-50 to-teal-50 rounded-xl cursor-pointer hover:bg-teal-100 transition-all">
+                  <span class="font-medium text-gray-800">Transferencia Bancaria</span>
+                  <i data-lucide="chevron-down" class="h-5 w-5 text-teal-600 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="mt-2 space-y-2 pl-4">
+                  <label class="flex items-center p-2 rounded-lg hover:bg-cyan-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="cbu" class="mr-3 text-teal-600" data-comision="0">
+                    <span class="text-sm"><strong>Transferencia CBU</strong> - Hasta 2 cuotas - Sin comisión</span>
+                  </label>
+                  <label class="flex items-center p-2 rounded-lg hover:bg-cyan-50 cursor-pointer">
+                    <input type="radio" name="metodo_pago" value="internacional" class="mr-3 text-teal-600" data-comision="0">
+                    <span class="text-sm"><strong>Transferencias Internacionales</strong> - Hasta 12 cuotas - Sin comisión</span>
+                  </label>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <!-- BOTÓN FINALIZAR -->
+          <button type="submit" 
+                  class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-xl transform hover:scale-105 transition-all text-lg">
+            <i data-lucide="lock" class="h-6 w-6"></i>
+            Completar Compra
+          </button>
+
+          <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200 text-center">
+            <p class="text-xs text-blue-700 flex items-center justify-center">
+              <i data-lucide="shield-check" class="h-4 w-4 mr-1"></i>
+              Compra 100% segura • Comprobante enviado al email
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- SCRIPT PARA CÁLCULO DE COMISIÓN EN TIEMPO REAL -->
+<script>
+  document.querySelectorAll('input[name="metodo_pago"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const comisionPorcentaje = parseFloat(this.dataset.comision) || 0;
+      const subtotal = ({ total });
+      const comision = (subtotal * comisionPorcentaje) / 100;
+      const totalFinal = subtotal + comision;
+
+      document.getElementById('comision').textContent = '$' + comision.toFixed(2);
+      document.getElementById('total-final').textContent = '$' + totalFinal.toFixed(2);
+    });
+  });
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+</script>
+{% endblock %}

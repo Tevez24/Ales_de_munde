@@ -6,14 +6,13 @@
 {% block content %}
 <div class="bg-gray-50 min-h-screen">
   <!-- Hero Section -->
-  <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1554223695-1ff4c9a0e0a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-purple-900 opacity-80"></div>
+  <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('{% static 'Carrito_app/media/img/forma de pago.jpg' %}');">
+    <div class="absolute inset-0 bg-gradient-to-r from-gray-200 to-black-100 opacity-10"></div>
     <div class="relative container mx-auto px-6 text-center text-white z-10">
-      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Medios de Pago Seguros y Flexibles</h1>
-      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Múltiples opciones para que pagues como prefieras. Transacciones protegidas, rápidas y con beneficios exclusivos.</p>
+      <p><h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">MEDIOS DE PAGOS SEGUROS Y FLEXIBLES</h1></p>
+      <p><h1 class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Múltiples opciones para que pagues como prefieras. Transacciones protegidas, rápidas y con beneficios exclusivos.</p></h1>
       <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
-        <a href="#metodos" class="bg-white text-blue-700 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">Explora Opciones</a>
-        <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition-all">Soporte Personalizado</a>
+        <a href="{% url 'contacto' %}" class="border-2 border-white text-gray-400 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 hover:text-blue-700 transition-all">Soporte Personalizado</a>
       </div>
     </div>
     <!-- Scroll Indicator -->
@@ -24,7 +23,7 @@
 
   <!-- Main Content -->
   <div class="container mx-auto px-6 py-20" id="metodos">
-
+  
     <!-- Beneficios -->
     <section class="mb-20">
       <div class="text-center mb-12">
@@ -33,11 +32,11 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0s;">
-          <i data-lucide="shield-lock" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
+          <i data-lucide="shield" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
           <h3 class="text-2xl font-bold text-gray-800 mb-3">Transacciones Seguras</h3>
           <p class="text-gray-600">Todas las transacciones están protegidas con encriptación SSL de 256 bits y certificación PCI DSS. Tus datos siempre a salvo.</p>
         </div>
-        <div class="bg влияет-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.2s;">
+        <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.2s;">
           <i data-lucide="clock" class="h-16 w-16 text-green-600 mb-6 mx-auto"></i>
           <h3 class="text-2xl font-bold text-gray-800 mb-3">Proceso Rápido</h3>
           <p class="text-gray-600">La mayoría de los pagos se procesan instantáneamente. Las reservas se confirman en menos de 5 minutos.</p>
@@ -226,29 +225,29 @@
     </section>
 
     <!-- Información Importante -->
-    <section class="mb-20 bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-8 animate-fadeIn">
+    <section class="mb-20 bg-blue-50 border-2 border-blue-300 rounded-2xl p-8 animate-fadeIn">
       <div class="flex items-center mb-6">
-        <i data-lucide="alert-triangle" class="h-10 w-10 text -yellow-600 mr-3"></i>
-        <h2 class="text-3xl font-bold text-yellow-800">Información Importante</h2>
+        <i data-lucide="alert-triangle" class="h-10 w-10 text-blue-600 mr-3"></i>
+        <h2 class="text-3xl font-bold text-blue-800">Información Importante</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h6 class="font-bold text-gray-800 mb-3">Términos y Condiciones de Pago:</h6>
           <ul class="space-y-2 text-gray-700">
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Los precios están expresados en pesos argentinos (ARS) salvo indicación contraria</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Las comisiones pueden variar según el banco emisor de la tarjeta</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Los pagos en cuotas están sujetos a aprobación crediticia</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Para pagos internacionales aplican tasas de cambio del día</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Los reembolsos se procesan en 5-10 días hábiles</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Los precios están expresados en pesos argentinos (ARS) salvo indicación contraria</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Las comisiones pueden variar según el banco emisor de la tarjeta</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Los pagos en cuotas están sujetos a aprobación crediticia</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Para pagos internacionales aplican tasas de cambio del día</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Los reembolsos se procesan en 5-10 días hábiles</li>
           </ul>
         </div>
         <div>
           <h6 class="font-bold text-gray-800 mb-3">Política de Cancelación:</h6>
           <ul class="space-y-2 text-gray-700">
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Cancelación gratuita hasta 24 horas antes del viaje</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class=" h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Entre 24-48 horas: 50% de reembolso</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Menos de 24 horas: Sin reembolso</li>
-            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Casos de fuerza mayor se evalúan individualmente</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Cancelación gratuita hasta 24 horas antes del viaje</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class=" h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Entre 24-48 horas: 50% de reembolso</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Menos de 24 horas: Sin reembolso</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"></i> Casos de fuerza mayor se evalúan individualmente</li>
           </ul>
         </div>
       </div>
