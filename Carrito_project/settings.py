@@ -26,8 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Carrito_app',
+<<<<<<< Updated upstream:Carrito_project/settings.py
     'rest_framework',
     'rest_framework_simplejwt',
+=======
+    'rest_framework',  # Agrega DRF
+    'rest_framework_simplejwt',  # Agrega SimpleJWT
+>>>>>>> Stashed changes:Carrito_project/Carrito_project/settings.py
 ]
 
 # ----------------------------
@@ -47,7 +52,18 @@ MIDDLEWARE = [
 # URLs
 # ----------------------------
 ROOT_URLCONF = 'Carrito_project.urls'
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Duración del token de acceso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Duración del token de refresco
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 # ----------------------------
 # REST Framework + JWT
 # ----------------------------
