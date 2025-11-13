@@ -1,0 +1,141 @@
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #1f2937; }
+
+/* Contenedor general */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* HERO con imagen de fondo (si usas inline style en template, esta clase solo controla contenido) */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.15);
+}
+.hero::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3,7,18,0.25), rgba(3,7,18,0.45));
+  pointer-events: none;
+}
+
+/* Contenido dentro del hero */
+.hero .hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+}
+.hero h1 { font-size: 2.4rem; margin-bottom: .5rem; letter-spacing: -0.02em; }
+.hero p { font-size: 1.05rem; opacity: .95; }
+
+/* GRID de cartas - paquetes: 3 columnas responsivas */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  align-items: stretch;
+}
+
+/* Tarjeta individual */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+  transition: transform .22s ease, box-shadow .22s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(15,23,42,0.12);
+}
+
+/* Imagen de la carta */
+.card .card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Contenido de la carta */
+.card .card-body {
+  padding: 1rem;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.card .card-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: .4rem;
+}
+.card .card-text {
+  font-size: .95rem;
+  color: #475569;
+  margin-bottom: .75rem;
+  flex: 1 1 auto;
+}
+
+/* Pie de la carta (precio / botones) */
+.card .card-footer {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn {
+  display: inline-block;
+  padding: .55rem .9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: #0ea5a4;
+  color: #fff;
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+/* Etiqueta de descuento o destacado */
+.badge {
+  background: linear-gradient(90deg,#f97316,#f43f5e);
+  color: #fff;
+  font-weight: 700;
+  padding: .3rem .5rem;
+  border-radius: 999px;
+  font-size: .8rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 2rem; }
+}
+@media (max-width: 640px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .card .card-img { height: 180px; }
+  .hero { min-height: 40vh; }
+}
+
+/* Accesibilidad y utilidades */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }

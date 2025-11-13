@@ -1,0 +1,79 @@
+{% extends 'Carrito_app/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Título y resumen de compra -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Detalle de la Compra <span class="text-primary">#{{ compra.id }}</span></h2>
+        <p class="text-muted">{{ compra.fecha|date:"d/m/Y H:i" }}</p>
+        <div class="d-inline-block px-4 py-2 bg-light rounded shadow-sm mt-2">
+            <h4>Total: <span class="text-success fw-bold">${{ compra.total }}</span></h4>
+        </div>
+    </div>
+
+    <hr class="mb-5">
+
+    {% if detalles %}
+    <div class="row g-4">
+        {% for item in detalles %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100">
+                {% if item.imagen %}
+                <img src="{{ item.imagen.url }}" class="card-img-top" alt="{{ item.producto }}">
+                {% else %}
+                <img src="{% static 'Carrito_app/media/img/default_product.jpg' %}" class="card-img-top" alt="{{ item.producto }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ item.producto }}</h5>
+                    <p class="card-text mb-1"><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+                    <p class="card-text mb-1"><strong>Precio unitario:</strong> ${{ item.precio }}</p>
+                    <p class="card-text mb-3"><strong>Subtotal:</strong> ${{ item.subtotal }}</p>
+                    <a href="{% url 'detalle_producto' item.id %}" class="btn btn-sm btn-primary mt-auto">Ver producto</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-center text-muted fs-5">No hay detalles para esta compra.</p>
+    {% endif %}
+
+    <!-- Resumen final -->
+    <div class="mt-5 p-4 bg-light rounded shadow-sm">
+        <h5 class="fw-bold mb-3">Resumen de la Compra</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Cantidad de productos
+                <span class="badge bg-primary rounded-pill">{{ detalles|length }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total
+                <span class="fw-bold text-success">${{ compra.total }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Botón de volver -->
+    <div class="text-center mt-5">
+        <a href="{% url 'historial_compras' %}" class="btn btn-outline-primary btn-lg">
+            &larr; Volver al historial
+        </a>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    .card:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    }
+    h2 span.text-primary {
+        font-size: 1.3em;
+    }
+    .list-group-item {
+        font-size: 1.05em;
+    }
+</style>
+{% endblock %}

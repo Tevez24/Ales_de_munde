@@ -1,0 +1,218 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Actividades - Ailes du Monde{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="relative h-screen bg-cover bg-center" style="background-image: url('(% static 'Carrito_app/media/img/actividades1.jpg' %)')">
+  <!-- Overlay degradado -->
+  <div class="absolute inset-0 bg-gradient-to-r from-indigo-700 to-orange-700 opacity-30"></div>
+  
+  <!-- Fallback si la imagen no carga (opcional, pero recomendado) -->
+  <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-orange-600 opacity-70 hidden" id="hero-fallback"></div>
+
+  <div class="relative container mx-auto px-6 text-center text-white z-10 flex flex-col justify-center h-full">
+    <h1 class="text-5xl md:text-6xl font-extrabold mb-2 tracking-tight animate-fadeIn">VIVE EXPERIENCIAS INOLVIDABLES</h1>
+    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">
+      Tours, excursiones, aventuras y actividades culturales para enriquecer tu viaje. 
+      Descubre lo mejor de cada destino con guías expertos.
+    </p>
+    <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
+      <a href="#buscador" class="bg-white text-orange-700 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+        Buscar Actividades
+      </a>
+      <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-orange-700 transition-all">
+        Sugerir Actividad
+      </a>
+    </div>
+  </div>
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+  </div>
+</div>
+
+<!-- BUSCADOR DE ACTIVIDADES -->
+<div class="container mx-auto px-6 -mt-20 relative z-10 mb-20" id="buscador">
+  <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+    <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center animate-fadeIn">
+      <i data-lucide="search" class="mr-3 h-6 w-6 text-orange-600"></i> Encuentra tu Aventura
+    </h2>
+    <form method="GET" action="{% url 'actividades' %}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-gray-700 flex items-center">
+          <i data-lucide="map-pin" class="h-4 w-4 mr-1"></i> Destino
+        </label>
+        <select name="destino" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500 py-3 px-4">
+          <option value="">Todos los Destinos</option>
+          {% for d in destinos %}
+            <option value="{{ d.id }}" {% if request.GET.destino == d.id|stringformat:"s" %}selected{% endif %}>{{ d.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-gray-700 flex items-center">
+          <i data-lucide="calendar" class="h-4 w-4 mr-1"></i> Fecha
+        </label>
+        <input type="date" name="fecha" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500 py-3 px-4">
+      </div>
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-gray-700 flex items-center">
+          <i data-lucide="users" class="h-4 w-4 mr-1"></i> Personas
+        </label>
+        <select name="personas" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500 py-3 px-4">
+          <option>1 Persona</option>
+          <option>2 Personas</option>
+          <option>3-5 Personas</option>
+          <option>6+ Personas</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white rounded-lg py-3 px-6 flex items-center justify-center transition-all transform hover:scale-105">
+          <i data-lucide="search" class="h-5 w-5 mr-2"></i> Buscar
+        </button>
+      </div>
+    </form>
+    <div class="flex flex-col md:flex-row items-center justify-center mt-6 space-y-4 md:space-y-0 md:space-x-6">
+      <select name="tipo" class="w-64 border-gray-300 rounded-lg py-3 px-4 shadow-sm focus:ring-orange-500 focus:border-orange-500">
+        <option>Tipo de Actividad</option>
+        <option>Tour Cultural</option>
+        <option>Aventura</option>
+        <option>Gastronómico</option>
+        <option>Naturaleza</option>
+        <option>Deportivo</option>
+      </select>
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="disponible" class="rounded text-orange-600 focus:ring-orange-500">
+        <label for="disponible" class="text-sm text-gray-700">Solo disponibles ahora</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTA DE ACTIVIDADES -->
+<div class="container mx-auto px-6 mb-20">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {% for actividad in actividades %}
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-fadeInCard">
+      <!-- Imagen + Categoría -->
+      <div class="relative">
+        <img src="{{ actividad.imagen.url }}" alt="{{ actividad.titulo }}" class="w-full h-48 object-cover">
+        <div class="absolute top-3 left-3 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
+          {{ actividad.categoria|default:"Aventura" }}
+        </div>
+        {% if actividad.oferta %}<div class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">EN OFERTA</div>{% endif %}
+      </div>
+
+      <!-- Contenido -->
+      <div class="p-5 flex flex-col flex-grow">
+        <div class="flex items-center text-green-600 text-xs mb-1">
+          <i data-lucide="map-pin" class="h-3.5 w-3.5 mr-1"></i>
+          <span class="truncate">{{ actividad.destino.nombre }}</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-1 line-clamp-1">{{ actividad.titulo }}</h3>
+        <p class="text-gray-600 text-xs mb-2 line-clamp-2">{{ actividad.descripcion|truncatewords:18 }}</p>
+        <div class="flex items-center text-gray-500 text-xs mb-3">
+          <i data-lucide="calendar" class="h-3.5 w-3.5 mr-1"></i>
+          <span>{{ actividad.duracion }} días</span>
+        </div>
+
+        <div class="mt-auto">
+          <p class="text-2xl font-bold text-blue-600">${{ actividad.precio|floatformat:0 }},00</p>
+        </div>
+
+        <div class="flex space-x-2 mt-3">
+          <a href="{% url 'detalle_actividad' actividad.id %}" 
+             class="flex-1 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-2 rounded-lg font-medium text-xs transition-all text-center flex items-center justify-center">
+            Ver Detalles
+          </a>
+          <a href="{% url 'add_to_cart' 'actividad' actividad.id %}" 
+             class="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg font-medium text-xs transition-all flex items-center justify-center">
+            <i data-lucide="shopping-cart" class="h-3.5 w-3.5 mr-1"></i> Reservar
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-gray-600 col-span-4">No se encontraron actividades que coincidan con tu búsqueda.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- BENEFICIOS -->
+<div class="container mx-auto px-6 py-20">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Por Qué Reservar con Nosotros</h2>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">
+      Experiencias curadas, guías certificados y flexibilidad total para tu aventura perfecta.
+    </p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard">
+      <i data-lucide="award" class="h-16 w-16 text-orange-600 mb-6 mx-auto"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-3">Guías Expertos</h3>
+      <p class="text-gray-600">Profesionales locales con conocimiento profundo de cada destino y actividad.</p>
+    </div>
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard">
+      <i data-lucide="shield-check" class="h-16 w-16 text-red-600 mb-6 mx-auto"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-3">Seguro Incluido</h3>
+      <p class="text-gray-600">Cobertura de accidentes y cancelación gratuita hasta 24 hs antes.</p>
+    </div>
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard">
+      <i data-lucide="percent" class="h-16 w-16 text-orange-600 mb-6 mx-auto"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-3">Precios Exclusivos</h3>
+      <p class="text-gray-600">Descuentos grupales, paquetes familiares y ofertas estacionales.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA FINAL -->
+<div class="container mx-auto px-6 py-20">
+  <section class="bg-orange-600 text-white rounded-2xl p-8 text-center">
+    <i data-lucide="headphones" class="h-16 w-16 mb-6 mx-auto"></i>
+    <h3 class="text-3xl font-bold mb-4">¿Listo para tu Próxima Aventura?</h3>
+    <p class="text-lg mb-8 max-w-2xl mx-auto">Contáctanos para recomendaciones personalizadas o reservas grupales.</p>
+    <a href="{% url 'contacto' %}" class="bg-white text-orange-600 hover:bg-orange-50 px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 inline-flex items-center">
+      <i data-lucide="phone" class="h-5 w-5 mr-2"></i> Contactar Asesor
+    </a>
+  </section>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+  document.querySelectorAll('.animate-fadeInCard').forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+  });
+
+  // Fallback si la imagen del hero no carga
+  const heroBg = new Image();
+  heroBg.src = "{% static 'Carrito_app/media/img/INICIO1.jpg' %}";
+  heroBg.onload = () => {
+    document.getElementById('hero-fallback')?.classList.add('hidden');
+  };
+  heroBg.onerror = () => {
+    document.getElementById('hero-fallback')?.classList.remove('hidden');
+  };
+</script>
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeInCard {
+    animation: fadeInCard 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}

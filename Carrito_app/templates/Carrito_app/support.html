@@ -1,0 +1,287 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Medios de Pago - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('Carrito_project/Carrito_app/static/Carrito_app/media/img/forma de pago.jpg');">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-white-500 opacity-50"></div>
+    <div class="relative container mx-auto px-6 text-center text-white z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Medios de Pago Seguros y Flexibles</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Múltiples opciones para que pagues como prefieras. Transacciones protegidas, rápidas y con beneficios exclusivos.</p>
+      <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
+        <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition-all">Soporte Personalizado</a>
+      </div>
+    </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-6 py-20" id="metodos">
+
+    <!-- Beneficios -->
+    <section class="mb-20">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Beneficios de Nuestros Pagos</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Pagos diseñados para tu comodidad, con seguridad de nivel bancario y opciones flexibles.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0s;">
+          <i data-lucide="shield-lock" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Transacciones Seguras</h3>
+          <p class="text-gray-600">Todas las transacciones están protegidas con encriptación SSL de 256 bits y certificación PCI DSS. Tus datos siempre a salvo.</p>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.2s;">
+          <i data-lucide="clock" class="h-16 w-16 text-green-600 mb-6 mx-auto"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Proceso Rápido</h3>
+          <p class="text-gray-600">La mayoría de los pagos se procesan instantáneamente. Las reservas se confirman en menos de 5 minutos.</p>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.4s;">
+          <i data-lucide="check-circle" class="h-16 w-16 text-purple-600 mb-6 mx-auto"></i>
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">Garantía de Reembolso</h3>
+          <p class="text-gray-600">Política de cancelación flexible con reembolso completo hasta 24 horas antes del viaje.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Métodos de Pago -->
+    <section class="mb-20">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Todos los Métodos de Pago Disponibles</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Elige entre tarjetas, billeteras digitales, efectivo y más. Con cuotas sin interés en seleccionados.</p>
+      </div>
+
+      <!-- Categoría: Tarjetas de Débito -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 animate-fadeInCard" style="animation-delay: 0s;">
+        <div class="flex items-center mb-4">
+          <i data-lucide="credit-card" class="h-8 w-8 text-blue-600 mr-3"></i>
+          <h5 class="text-xl font-bold text-gray-800">Tarjetas de Débito</h5>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Visa Débito</h6>
+              <small class="text-gray-500">Hasta 12 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Mastercard</h6>
+              <small class="text-gray-500">Hasta 12 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Maestro</h6>
+              <small class="text-gray-500">Hasta 6 cuotas</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">3% comisión</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Tarjetas de Crédito -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.2s;">
+        <div class="flex items-center mb-4">
+          <i data-lucide="credit-card" class="h-8 w-8 text-blue-600 mr-3"></i>
+          <h5 class="text-xl font-bold text-gray-800">Tarjetas de Crédito</h5>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Visa</h6>
+              <small class="text-gray-500">Hasta 12 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Mastercard</h6>
+              <small class="text-gray-500">Hasta 12 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">American Express</h6>
+              <small class="text-gray-500">Hasta 6 cuotas</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">3% comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-blue-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Diners Club</h6>
+              <small class="text-gray-500">Hasta 6 cuotas</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">3% comisión</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Billeteras Digitales -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.4s;">
+        <div class="flex items-center mb-4">
+          <i data-lucide="smartphone" class="h-8 w-8 text-purple-600 mr-3"></i>
+          <h5 class="text-xl font-bold text-gray-800">Billeteras Digitales</h5>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-purple-50 transition">
+            <div>
+              <h6 class="font-semibold text-gray-800">Mercado Pago</h6>
+              <small class="text-gray-500">Hasta 12 cuotas</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">2% comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-purple-50 transition">
+            <div>
+              <h6 class="font-semibold text-gray-800">Ualá</h6>
+              <small class="text-gray-500">Hasta 6 cuotas</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">1.5% comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-purple-50 transition">
+            <div>
+              <h6 class="font-semibold text-gray-800">Naranja X</h6>
+              <small class="text-gray-500">Hasta 3 cuotas</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">2.5% comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-purple-50 transition">
+            <div>
+              <h6 class="font-semibold text-gray-800">PayPal</h6>
+              <small class="text-gray-500">Pago único</small>
+            </div>
+            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">3% comisión</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Efectivo -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.6s;">
+        <div class="flex items-center mb-4">
+          <i data-lucide="wallet" class="h-8 w-8 text-green-600 mr-3"></i>
+          <h5 class="text-xl font-bold text-gray-800">Efectivo</h5>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-green-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">PagoFácil</h6>
+              <small class="text-gray-500">Hasta 3 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-green-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Rapipago</h6>
+              <small class="text-gray-500">Hasta 3 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-green-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">CobroExpress</h6>
+              <small class="text-gray-500">Pago único</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Transferencia Bancaria -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.8s;">
+        <div class="flex items-center mb-4">
+          <i data-lucide="landmark" class="h-8 w-8 text-indigo-600 mr-3"></i>
+          <h5 class="text-xl font-bold text-gray-800">Transferencia Bancaria</h5>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-indigo-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Transferencia CBU</h6>
+              <small class="text-gray-500">Hasta 2 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+          <div class="border rounded-xl p-4 flex justify-between items-center hover:bg-indigo-50 transition-colors">
+            <div>
+              <h6 class="font-semibold text-gray-800">Transferencias Internacionales</h6>
+              <small class="text-gray-500">Hasta 12 cuotas</small>
+            </div>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Sin comisión</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Información Importante -->
+    <section class="mb-20 bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-8 animate-fadeIn">
+      <div class="flex items-center mb-6">
+        <i data-lucide="alert-triangle" class="h-10 w-10 text-yellow-600 mr-3"></i>
+        <h2 class="text-3xl font-bold text-yellow-800">Información Importante</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h6 class="font-bold text-gray-800 mb-3">Términos y Condiciones de Pago:</h6>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Los precios están expresados en pesos argentinos (ARS) salvo indicación contraria</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Las comisiones pueden variar según el banco emisor de la tarjeta</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Los pagos en cuotas están sujetos a aprobación crediticia</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Para pagos internacionales aplican tasas de cambio del día</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Los reembolsos se procesan en 5-10 días hábiles</li>
+          </ul>
+        </div>
+        <div>
+          <h6 class="font-bold text-gray-800 mb-3">Política de Cancelación:</h6>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Cancelación gratuita hasta 24 horas antes del viaje</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Entre 24-48 horas: 50% de reembolso</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Menos de 24 horas: Sin reembolso</li>
+            <li class="flex items-start"><i data-lucide="circle-dot" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0"></i> Casos de fuerza mayor se evalúan individualmente</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section class="bg-blue-50 rounded-2xl p-8 text-center border border-blue-200 animate-fadeIn">
+      <i data-lucide="headphones" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800 mb-4">¿Necesitas Ayuda con tu Pago?</h3>
+      <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier consulta sobre pagos.</p>
+      <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6">
+        <a href="mailto:ailesdumunde1@gmail.com?subject=Consulta%20sobre%20Pagos" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105">Enviar Email</a> 
+        <a href="{% url 'pago' %}" class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-600 hover:text-white transition-all">Contactar Soporte</a>
+      </div>
+    </section>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+</script>
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeInCard {
+    animation: fadeInCard 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}

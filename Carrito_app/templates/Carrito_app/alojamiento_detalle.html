@@ -1,0 +1,81 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Detalles del Alojamiento - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-teal-50 py-20">
+
+  <!-- Contenedor principal -->
+  <div class="container mx-auto px-6 lg:px-12">
+
+    <!-- Tarjeta principal -->
+    <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(13,148,136,0.3)]">
+      <div class="grid md:grid-cols-2">
+        
+        <!-- Imagen -->
+        <div class="relative">
+          <img src="{{ alojamiento.imagen.url }}" alt="{{ alojamiento.nombre }}" 
+               class="w-full h-full object-cover md:rounded-l-3xl transition-transform duration-700 hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-l-3xl"></div>
+          <h1 class="absolute bottom-6 left-6 text-white text-4xl font-bold drop-shadow-lg">
+            {{ alojamiento.nombre }}
+          </h1>
+        </div>
+
+        <!-- Información -->
+        <div class="p-10 flex flex-col justify-center">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-3">Descripción</h2>
+          <p class="text-gray-600 leading-relaxed mb-6">{{ alojamiento.descripcion }}</p>
+
+          <div class="space-y-3 mb-8">
+            <p class="text-lg"><span class="font-semibold text-teal-700">📍 Ubicación:</span> {{ alojamiento.ubicacion }}</p>
+            <p class="text-lg">
+              <span class="font-semibold text-teal-700">💰 Precio por noche:</span>
+              <span class="text-3xl font-bold text-emerald-600 ms-2">${{ alojamiento.precio }}</span>
+            </p>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex gap-4">
+            <a href="{% url 'alojamiento' %}" 
+               class="px-6 py-3 rounded-xl font-semibold border border-gray-300 text-gray-800 hover:bg-gray-100 transition-all duration-300">
+               ← Volver
+            </a>
+            <a href="{% url 'carrito'  %}" 
+               class="px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300">
+               Reservar ahora
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alojamientos similares -->
+    <div class="mt-20">
+      <h2 class="text-3xl font-bold text-slate-800 mb-8 text-center">🏨 Alojamientos similares</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for item in alojamientos_similares %}
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+          <img src="{{ item.imagen.url }}" alt="{{ item.nombre }}" class="w-full h-56 object-cover">
+          <div class="p-5">
+            <h3 class="font-semibold text-lg text-slate-800 mb-2">{{ item.nombre }}</h3>
+            <p class="text-gray-600 mb-4">{{ item.descripcion|truncatechars:100 }}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-emerald-600 font-bold text-lg">${{ item.precio }}</span>
+              <a href="{% url 'alojamiento_detalle' item.id %}" 
+                 class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors">
+                 Ver más
+              </a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="col-span-3 text-center text-gray-500">No hay alojamientos similares disponibles.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

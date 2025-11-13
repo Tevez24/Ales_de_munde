@@ -1,0 +1,235 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+{% block title %}Inicio - Ailes du Monde{% endblock %}
+
+{% block content %}
+
+
+<div class="relative h-screen bg-cover bg-center" style="background-image: url('{% static 'Carrito_app/media/img/inicio.jpg' %}');">
+  <!-- Overlay oscuro -->
+  <div class="absolute inset-0 bg-gradient-to-r from-pink-800 opacity-60"></div>
+
+  <!-- Contenido del Hero -->
+  <div class="relative container mx-auto px-6 h-full flex flex-col justify-center items-center text-white text-center z-10">
+    <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight animate-fadeIn">
+      Descubre el Mundo con Ailes du Monde
+    </h1>
+    <p class="text-xl md:text-2xl mb-8 max-w-3xl font-light">
+      Paquetes de viaje únicos, personalizados y sostenibles para aventureros como tú. 
+      Explora destinos inolvidables con expertos que convierten sueños en realidades.
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-4 md:gap-6">
+      <a href="{% url 'paquetes' %}" 
+         class="bg-white text-blue-700 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+         aria-label="Explorar ofertas de paquetes de viaje">
+        Explora Ofertas
+      </a>
+      <a href="{% url 'contacto' %}" 
+         class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition-all"
+         aria-label="Contáctanos para más información">
+        Contáctanos
+      </a>
+    </div>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm">
+      <div class="flex items-center">
+        <i data-lucide="check-circle" class="h-6 w-6 mr-2 text-green-300"></i> Sostenible
+      </div>
+      <div class="flex items-center">
+        <i data-lucide="check-circle" class="h-6 w-6 mr-2 text-green-300"></i> Seguro
+      </div>
+      <div class="flex items-center">
+        <i data-lucide="check-circle" class="h-6 w-6 mr-2 text-green-300"></i> Personalizado
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+    </div>
+  </div>
+</div>
+<!-- FIN HERO -->
+
+<!-- =================================== COMBOS ESPECIALES =================================== -->
+<div class="container mx-auto px-6 py-16">
+  <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">Combos Especiales</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    {% for paquete in paquetes %}
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 flex flex-col border-2 
+                {% if paquete.oferta %}border-red-500{% else %}border-gray-100{% endif %} animate-fadeInCard">
+      
+      <!-- Imagen -->
+      <div class="relative">
+        <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}https://images.unsplash.com/photo-1501785882288-1e2a1b0b2b2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80{% endif %}"
+             alt="Imagen de {{ paquete.nombre }}" class="w-full h-56 object-cover">
+        
+        <div class="absolute top-4 left-4 flex items-center gap-2">
+          <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">{{ paquete.categoria }}</span>
+          <span class="bg-white text-gray-700 px-2 py-1 rounded-full text-xs border border-gray-200 flex items-center gap-1">
+            <i data-lucide="globe" class="h-3 w-3 text-gray-600"></i> {{ paquete.tipo }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Contenido -->
+      <div class="p-6 flex flex-col flex-grow">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-2 flex items-center justify-between">
+          <span class="flex items-center">
+            <i data-lucide="package" class="h-5 w-5 mr-2 text-blue-600"></i> {{ paquete.nombre }}
+          </span>
+          <span class="flex items-center text-sm text-gray-600 gap-4">
+            {% if paquete.rating %}
+              <span class="flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 text-yellow-400"></i> {{ paquete.rating }} 
+                <small class="text-gray-500">({{ paquete.reseñas_count }})</small>
+              </span>
+            {% endif %}
+            <span class="flex items-center gap-1">
+              <i data-lucide="calendar" class="h-4 w-4"></i> {{ paquete.duracion }} días
+            </span>
+          </span>
+        </h3>
+
+        <p class="text-gray-600 mb-4 flex items-center">
+          <i data-lucide="map-pin" class="h-5 w-5 mr-2 text-green-500"></i>
+          <strong>{{ paquete.destino }}</strong>
+        </p>
+
+        {% if paquete.incluye %}
+          <ul class="mb-4 space-y-2 text-gray-700">
+            {% for item in paquete.incluye|slice:":3" %}
+              <li class="flex items-start gap-3">
+                <span class="h-2 w-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></span>
+                <span>{{ item }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-gray-700 flex-grow mb-4">{{ paquete.descripcion|truncatewords:25 }}</p>
+        {% endif %}
+
+        <!-- Precio y botones -->
+        <div class="mt-auto pt-4 border-t border-gray-200">
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-3xl font-bold text-blue-600">${{ paquete.precio|floatformat:2 }}</p>
+            {% if paquete.oferta %}
+              <span class="bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded-full animate-pulse">EN OFERTA</span>
+            {% endif %}
+          </div>
+
+          <div class="flex space-x-3">
+            <a href="{% url 'paquete_detalle' paquete.id %}" 
+               class="flex-1 text-center bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold px-4 py-3 rounded-lg transition-all">
+              Ver Detalles
+            </a>
+            <button onclick="addToCart('paquete', {{ paquete.id }})"
+                    class="flex-1 text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-3 rounded-lg transition-all flex items-center justify-center">
+              <i data-lucide="shopping-cart" class="h-5 w-5 mr-2"></i> Reservar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+      <p class="col-span-full text-center text-gray-500 text-lg">No hay paquetes disponibles en este momento.</p>
+    {% endfor %}
+  </div>
+</div>
+<!-- FIN COMBOS -->
+
+<!-- =================================== POR QUÉ ELEGIRNOS =================================== -->
+<section class="mt-24 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl py-16 px-8">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold text-gray-800 mb-4">¿Por Qué Elegir Ailes du Monde?</h2>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+      Con 14 años de excelencia, hemos transformado viajes en memorias eternas para miles.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+      <i data-lucide="award" class="h-14 w-14 text-blue-600 mb-4 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800">14+</h3>
+      <p class="text-gray-600 mt-2">Años de Experiencia</p>
+      <p class="text-sm text-gray-500 mt-3">Líderes en turismo sostenible desde 2010</p>
+    </div>
+
+    <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+      <i data-lucide="users" class="h-14 w-14 text-green-600 mb-4 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800">50K+</h3>
+      <p class="text-gray-600 mt-2">Clientes Satisfechos</p>
+      <p class="text-sm text-gray-500 mt-3">Rating promedio 4.9/5 en reseñas</p>
+    </div>
+
+    <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+      <i data-lucide="globe" class="h-14 w-14 text-purple-600 mb-4 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800">85+</h3>
+      <p class="text-gray-600 mt-2">Destinos Globales</p>
+      <p class="text-sm text-gray-500 mt-3">Cobertura en 5 continentes</p>
+    </div>
+
+    <div class="text-center bg-white p-8 rounded-2xl shadow-md">
+      <i data-lucide="shield-check" class="h-14 w-14 text-red-600 mb-4 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800">100%</h3>
+      <p class="text-gray-600 mt-2">Viajes Seguros</p>
+      <p class="text-sm text-gray-500 mt-3">Seguros incluidos y soporte 24/7</p>
+    </div>
+  </div>
+</section>
+<!-- FIN POR QUÉ -->
+
+<!-- =================================== DERECHO DE ARREPENTIMIENTO =================================== -->
+<section class="mt-24 bg-blue-50 border-t-4 border-blue-400 rounded-2xl py-12 px-8">
+  <div class="container mx-auto text-center">
+    <i data-lucide="info" class="h-12 w-12 text-blue-600 mb-4 mx-auto"></i>
+    <h3 class="text-3xl font-bold text-blue-800 mb-4">Derecho de Arrepentimiento</h3>
+    <p class="text-blue-800 mb-6 max-w-3xl mx-auto">
+      Según la normativa argentina, puedes cancelar tu reserva dentro de los 10 días sin penalidades. Estamos aquí para ayudarte.
+    </p>
+    <a href="{% url 'arrepentimiento' %}" 
+       class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full inline-flex items-center font-semibold transition shadow-md">
+      <i data-lucide="alert-triangle" class="h-5 w-5 mr-2"></i> Solicitar Arrepentimiento
+    </a>
+  </div>
+</section>
+
+
+<!-- =================================== SCRIPTS Y ESTILOS =================================== -->
+
+<script>
+  // Inicializar íconos Lucide
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    lucide.createIcons().catch(err => console.error('Error al cargar íconos Lucide:', err));
+  }
+
+  // Función para agregar al carrito (localStorage)
+  function addToCart(type, id) {
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    // Aquí podrías hacer un fetch para obtener nombre/precio si no los tienes
+    cart.push({ type, id });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('¡Paquete agregado al carrito!');
+    
+    // Opcional: disparar evento personalizado
+    window.dispatchEvent(new CustomEvent('cart-updated'));
+  }
+
+  // Animaciones suaves al hacer scroll
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.animate-fadeInCard');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fadeIn');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
+  });
+</script>
+{% endblock %}
+

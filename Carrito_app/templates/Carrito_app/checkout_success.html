@@ -1,0 +1,20 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Compra Exitosa{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 text-center">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">¡Gracias por tu compra!</h4>
+                <p>Tu pedido ha sido procesado exitosamente. Recibirás un correo electrónico de confirmación en breve con los detalles de tu paquete.</p>
+                <hr>
+                <p class="mb-0">¡Esperamos que disfrutes de tu aventura con nosotros!</p>
+            </div>
+            <a href="{% url 'paquetes' %}" class="btn btn-primary mt-3">Volver a la pagina de paaquetes</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

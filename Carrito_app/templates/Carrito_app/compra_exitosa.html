@@ -1,0 +1,57 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-white py-16">
+  <div class="bg-white shadow-2xl rounded-2xl p-10 text-center max-w-lg w-full animate-fade-in">
+    <img src="{% static 'Viajes_app/images/avion_azul.png' %}" alt="Logo Ailes du Munde"
+         class="mx-auto w-24 h-24 mb-6 animate-bounce-slow">
+    
+    <h1 class="text-4xl font-extrabold text-blue-700 mb-4">¡Compra Exitosa!</h1>
+    <p class="text-gray-700 text-lg mb-6">
+      Gracias por confiar en <span class="font-semibold text-blue-800">AILES DU MUNDE</span>.
+      Tu compra ha sido procesada correctamente.
+    </p>
+
+    <div class="bg-blue-50 border-l-4 border-blue-600 text-left px-6 py-4 rounded-xl mb-8">
+      <h3 class="font-bold text-blue-800 text-xl mb-2">📦 Resumen</h3>
+      <p class="text-gray-700">Método de pago: 
+        <span class="font-semibold text-gray-900">{{ metodo_pago|capfirst }}</span>
+      </p>
+      <p class="text-gray-700">Se ha enviado un correo de confirmación a tu dirección registrada.</p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="{% url 'descargar_comprobante' %}" 
+         class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition-all transform hover:scale-105 shadow-md">
+        Descargar Comprobante
+      </a>
+      <a href="{% url 'actividades' %}" 
+         class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition-all transform hover:scale-105 shadow-md">
+        Seguir Explorando
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-12 text-center text-gray-600">
+    <p class="text-sm">© 2025 <span class="text-blue-700 font-semibold">AILES DU MUNDE</span> - Todos los derechos reservados.</p>
+  </div>
+</section>
+
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out;
+}
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 2s infinite;
+}
+</style>
+{% endblock %}

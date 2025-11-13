@@ -1,0 +1,227 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ paquete.nombre }} - Ailes du Monde{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  body {
+    background-color: #f5f7fb;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Imagen principal */
+  .hero-image {
+    position: relative;
+    height: 75vh;
+    overflow: hidden;
+    border-radius: 0 0 40px 40px;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+  }
+
+  .hero-text {
+    position: absolute;
+    bottom: 50px;
+    left: 80px;
+    color: #fff;
+  }
+
+  .hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  .hero-text p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  /* Contenedor general */
+  .package-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    padding: 3rem;
+  }
+
+  .package-description {
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.9;
+    text-align: justify;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .detail-box {
+    background: #f8faff;
+    padding: 1.8rem;
+    border-radius: 20px;
+    border-left: 5px solid #007bff;
+    transition: all 0.3s ease;
+  }
+
+  .detail-box:hover {
+    background: #eef5ff;
+    transform: translateY(-5px);
+  }
+
+  .detail-box h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 0.8rem;
+  }
+
+  .detail-box p, .detail-box li {
+    font-size: 0.95rem;
+    color: #333;
+  }
+
+  .detail-box i {
+    color: #007bff;
+    margin-right: 8px;
+  }
+
+  .price-section {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .price-card {
+    background: linear-gradient(135deg, #004aad, #007bff);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,74,173,0.3);
+    display: inline-block;
+    min-width: 300px;
+  }
+
+  .price-card h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .price-card p {
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+
+  .reserve-btn {
+    background: #ffc107;
+    color: #212529;
+    font-weight: 600;
+    padding: 0.9rem 2.5rem;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1rem;
+    margin-top: 1.2rem;
+    transition: 0.3s;
+  }
+
+  .reserve-btn:hover {
+    background: #ffca2c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255,193,7,0.4);
+  }
+
+  @media (max-width: 768px) {
+    .hero-text {
+      left: 20px;
+      bottom: 30px;
+    }
+    .hero-text h1 {
+      font-size: 2.2rem;
+    }
+    .package-container {
+      padding: 2rem;
+    }
+  }
+</style>
+
+<!-- Imagen principal -->
+<div class="hero-image">
+  <img src="{% if paquete.imagen %}{{ paquete.imagen.url }}{% else %}{% static 'Carrito_app/img/default_package.jpg' %}{% endif %}" alt="{{ paquete.nombre }}">
+  <div class="hero-overlay"></div>
+  <div class="hero-text">
+    <h1>{{ paquete.nombre }}</h1>
+    <p><i class="fas fa-map-marker-alt"></i> {{ paquete.destino.nombre }}</p>
+  </div>
+</div>
+
+<!-- Contenido -->
+<div class="package-container">
+  <p class="package-description">{{ paquete.descripcion }}</p>
+
+  <div class="details-grid">
+    <div class="detail-box">
+      <h3><i class="fas fa-clock"></i> Duración</h3>
+      <p>{{ paquete.duracion }} días</p>
+    </div>
+
+    <div class="detail-box">
+      <h3><i class="fas fa-calendar-alt"></i> Fechas</h3>
+      <p>Salida: {{ paquete.fecha_salida|date:"d/m/Y" }}<br>Regreso: {{ paquete.fecha_regreso|date:"d/m/Y" }}</p>
+    </div>
+
+    <div class="detail-box">
+      <h3><i class="fas fa-users"></i> Capacidad</h3>
+      <p>{{ paquete.capacidad }} personas</p>
+    </div>
+
+    <div class="detail-box">
+      <h3><i class="fas fa-concierge-bell"></i> Servicios Incluidos</h3>
+      <ul>
+        {% for servicio in paquete.servicios.all %}
+          <li>{{ servicio.nombre }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="detail-box">
+      <h3><i class="fas fa-hiking"></i> Actividades</h3>
+      <ul>
+        {% for actividad in paquete.actividades.all %}
+          <li>{{ actividad.nombre }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="price-section">
+    <div class="price-card">
+      <h2>${{ paquete.precio|floatformat:2 }}</h2>
+      <p>por persona</p>
+      {% if paquete.oferta %}
+      <span class="badge bg-danger">OFERTA</span>
+      {% endif %}
+      <form action="{% url 'add_to_cart' 'paquete' paquete.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="reserve-btn"><i class="fas fa-plane-departure"></i> Reservar Ahora</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

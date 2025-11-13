@@ -1,0 +1,26 @@
+/* Carrito_app/static/admin/css/custom_admin.css */
+body {
+    background: linear-gradient(135deg, #e0f7fa, #80deea) !important;
+    font-family: 'Segoe UI', sans-serif !important;
+}
+
+#header {
+    background: #006064 !important;
+    color: white !important;
+}
+
+#site-name a {
+    color: #ffca28 !important;
+    font-weight: bold !important;
+}
+
+.module caption {
+    background: #006064 !important;
+    color: white !important;
+}
+
+.module {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1) !important;
+}

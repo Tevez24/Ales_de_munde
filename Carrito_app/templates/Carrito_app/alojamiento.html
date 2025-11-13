@@ -1,0 +1,133 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Alojamiento - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative h-screen bg-cover bg-center flex items-center justify-center text-center" style="background-image: url('{% static 'Carrito_app/media/img/ALOJAMIENTO.jpg' %}');">
+    <div class="relative z-10 text-white max-w-3xl px-6">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Encuentra tu Estancia Perfecta</h1>
+      <p class="text-xl md:text-2xl mb-10 font-light animate-fadeIn" style="animation-delay: 0.5s;">
+        Hoteles, resorts, apartamentos y alquileres vacacionales en los mejores destinos del mundo.
+      </p>
+      <div class="flex flex-col md:flex-row justify-center items-center gap-6 animate-fadeIn" style="animation-delay: 1s;">
+        <a href="#buscador" class="bg-white text-blue-700 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+          Buscar Ahora
+        </a>
+        <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition-all">
+          Asesoría Personal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buscador -->
+  <div class="container mx-auto px-6 -mt-20 relative z-10 mb-20" id="buscador">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+      <form class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6 items-end">
+        <div class="md:col-span-2 lg:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2"><i data-lucide="map-pin" class="inline h-4 w-4 mr-1"></i> Destino</label>
+          <input type="text" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4" placeholder="Ej: París, Francia">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2"><i data-lucide="calendar" class="inline h-4 w-4 mr-1"></i> Check-in</label>
+          <input type="date" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2"><i data-lucide="calendar" class="inline h-4 w-4 mr-1"></i> Check-out</label>
+          <input type="date" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-3 px-4">
+        </div>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center w-full transition-all transform hover:scale-105">
+          <i data-lucide="search" class="h-5 w-5 mr-2"></i> Buscar Alojamientos
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alojamientos -->
+  <div class="container mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Alojamientos Destacados</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Descubre opciones premium verificadas, con reseñas reales y disponibilidad inmediata.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% if alojamientos %}
+        {% for alojamiento in alojamientos %}
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transform hover:-translate-y-2 transition-all duration-300">
+          <!-- Imagen -->
+          <div class="relative">
+            <img src="{% if alojamiento.imagen %}{{ alojamiento.imagen.url }}{% else %}https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80{% endif %}" alt="{{ alojamiento.nombre }}" class="w-full h-56 object-cover">
+            <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold">{{ alojamiento.tipo }}</div>
+            <div class="absolute top-3 right-3  bg-opacity-80 text-gray-700 text-xs px-3 py-1 rounded-full flex items-center">
+  
+            </div>
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ alojamiento.nombre }}</h3>
+            <div class="flex items-center text-gray-500 text-sm mb-3">
+              <i data-lucide="map-pin" class="h-4 w-4 mr-1 text-green-500"></i>
+              {{ alojamiento.destino }}
+            </div>
+            <p class="text-gray-600 text-sm mb-4">
+              🏨 {{ alojamiento.ubicacion }} — Habitaciones: {{ alojamiento.habitaciones }} — Capacidad: {{ alojamiento.capacidad }} personas.
+            </p>
+            <p class="text-gray-500 text-xs mb-4">{{ alojamiento.entrada_salida }}</p>
+
+            <hr class="my-4">
+
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-2xl font-bold text-blue-600">${{ alojamiento.precio_por_persona|floatformat:2 }}</p>
+                <span class="text-xs text-pink-600 font-semibold bg-pink-100 px-2 py-1 rounded-full">EN OFERTA</span>
+              </div>
+              <div class="flex gap-2">
+                <a href="{% url 'alojamiento_detalle' alojamiento.id %}" class="bg-blue-100 text-blue-700 hover:bg-blue-200 text-sm font-semibold px-4 py-2 rounded-lg transition-all">Ver Detalles</a>
+                <a href="{% url 'add_to_cart' 'alojamiento' alojamiento.id %}" class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all flex items-center">
+                  <i data-lucide="shopping-cart" class="h-4 w-4 mr-1"></i> Reservar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-span-3 text-center py-16 bg-white rounded-2xl shadow-lg">
+          <i data-lucide="search-x" class="h-20 w-20 text-gray-400 mx-auto mb-6"></i>
+          <h3 class="text-2xl font-semibold text-gray-700 mb-2">No se encontraron alojamientos</h3>
+          <a href="{% url 'alojamiento' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all">Recargar</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="container mx-auto px-6 py-20">
+    <section class="bg-blue-50 rounded-2xl p-8 text-center border border-blue-200 animate-fadeIn">
+      <i data-lucide="headphones" class="h-16 w-16 text-blue-600 mb-6 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800 mb-4">¿Buscas Algo Específico?</h3>
+      <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Contáctanos para recomendaciones personalizadas o reservas grupales.</p>
+      <a href="{% url 'contacto' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 inline-flex items-center">
+        <i data-lucide="phone" class="h-5 w-5 mr-2"></i> Contactar Asesor
+      </a>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+</script>
+<style>
+  .animate-fadeIn { animation: fadeIn 1.5s ease-out; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}

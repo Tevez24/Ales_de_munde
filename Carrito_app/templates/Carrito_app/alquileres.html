@@ -1,0 +1,326 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Alquileres - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative py-28 bg-cover bg-center overflow-hidden" style="background-image: url('{% static 'Carrito_app/media/img/alquiler1.jpg' %}');">
+    <div class="relative container mx-auto px-6 text-center text-white z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight animate-fadeIn">Alquila tu Hogar</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light animate-fadeIn" style="animation-delay: 0.5s;">Casas, departamentos, cabañas y villas para toda la familia. Comodidad, privacidad y experiencias únicas en destinos inolvidables.</p>
+      <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 animate-fadeIn" style="animation-delay: 1s;">
+        <a href="{% url 'alquileres' %}" class="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">Buscar Alquileres</a>
+        <a href="{% url 'contacto' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-purple-700 transition-all">Publicar Propiedad</a>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevron-down" class="h-8 w-8 text-white"></i>
+    </div>
+  </div>
+
+  <!-- Buscador de Alquileres -->
+  <div class="container mx-auto px-6 -mt-20 relative z-10 mb-20" id="buscador">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+      <h2 class="text-2xl font-bold text-center mb-6 flex items-center justify-center animate-fadeIn">
+        <i data-lucide="home" class="mr-3 h-6 w-6 text-purple-600"></i> Buscar Alquileres
+      </h2>
+      <form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 items-end">
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 flex items-center"><i data-lucide="map-pin" class="h-4 w-4 mr-1"></i> Destino</label>
+          <input type="text" placeholder="¿A dónde viajas?" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500 py-3 px-4">
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 flex items-center"><i data-lucide="calendar" class="h-4 w-4 mr-1"></i> Entrada</label>
+          <input type="date" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500 py-3 px-4">
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 flex items-center"><i data-lucide="calendar" class="h-4 w-4 mr-1"></i> Salida</label>
+          <input type="date" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500 py-3 px-4">
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 flex items-center"><i data-lucide="users" class="h-4 w-4 mr-1"></i> Huéspedes</label>
+          <select class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500 py-3 px-4">
+            <option>1 Huésped</option>
+            <option>2 Huéspedes</option>
+            <option>3 Huéspedes</option>
+            <option>4 Huéspedes</option>
+            <option>5 Huéspedes</option>
+            <option>6 Huéspedes</option>
+            <option>8+ Huéspedes</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-3 px-6 flex items-center justify-center transition-all transform hover:scale-105">
+            <i data-lucide="search" class="h-5 w-5 mr-2"></i> Buscar
+          </button>
+        </div>
+      </form>
+      <div class="flex flex-col md:flex-row items-center justify-center mt-6 space-y-4 md:space-y-0 md:space-x-6">
+        <select class="w-64 border-gray-300 rounded-lg py-3 px-4 shadow-sm focus:ring-purple-500 focus:border-purple-500">
+          <option>Tipo de propiedad</option>
+          <option>Casa</option>
+          <option>Departamento</option>
+          <option>Cabaña</option>
+          <option>Villa</option>
+          <option>Loft</option>
+        </select>
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" id="sinFecha" class="rounded text-purple-600 focus:ring-purple-500">
+          <label for="sinFecha" class="text-sm text-gray-700">Todavía no he decidido las fechas</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resultados: Alquileres Disponibles -->
+  <div class="container mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Alquileres Disponibles</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Explora opciones verificadas con comodidades premium. Reserva directamente y disfruta de estancias inolvidables.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% if alquileres %}
+        {% for alquiler in alquileres %}
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-fadeInCard">
+          <!-- Imagen + Categoría + Oferta -->
+          <div class="relative">
+            <img src="{% if alquiler.imagen %}{{ alquiler.imagen.url }}{% else %}https://images.unsplash.com/photo-1520637836862-4d197d17c35a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80{% endif %}" 
+                 alt="{{ alquiler.nombre }}" class="w-full h-48 object-cover">
+            <div class="absolute top-3 left-3 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
+              {{ alquiler.tipo_alquiler }}
+            </div>
+            {% if alquiler.oferta %}<div class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">EN OFERTA</div>{% endif %}
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-5 flex flex-col flex-grow">
+            <h3 class="text-lg font-bold text-gray-800 mb-1 line-clamp-1">{{ alquiler.nombre }}</h3>
+             <div class="flex items-center text-green-600 text-xs mb-1">
+              <i data-lucide="map-pin" class="h-3.5 w-3.5 mr-1"></i>
+              <span class="truncate">{{ alquiler.ubicacion }}</span>
+            </div>
+            <p class="text-gray-600 text-xs mb-2 line-clamp-2">{{ alquiler.descripcion}}</p>
+            <div class="flex items-center text-gray-500 text-xs mb-3 space-x-2">
+              <span><i data-lucide="calendar" class="h-3.5 w-3.5 inline"></i> {{ alquiler.anio }}</span>
+              <span>•</span>
+              <span><i data-lucide="settings" class="h-3.5 w-3.5 inline"></i> {{ alquiler.activo}}</span>
+              <span>•</span>
+              <span><i data-lucide="fuel" class="h-3.5 w-3.5 inline"></i> {{ alquiler.tipo }}</span>
+              <span><i data-lucide="users" class="h-3.5 w-3.5 inline"></i> {{ alquiler.capacidad }}</span>
+              <span>•</span>
+              <span><i data-lucide="bed" class="h-3.5 w-3.5 inline"></i> {{ alquiler.habitaciones }}</span>
+              <span>•</span>
+              <span><i data-lucide="shower" class="h-3.5 w-3.5 inline"></i> {{ alquiler.banios }}</span>
+            </div>
+          
+
+            <div class="mt-auto">
+              <p class="text-2xl font-bold text-purple-600">${{ alquiler.precio_por_noche }}</p>
+              <p class="text-xs text-gray-500">por noche</p>
+            </div>
+
+            <div class="flex space-x-2 mt-3">
+              <a href="{% url 'alquileres_detalle' alquiler.id %}" 
+                 class="flex-1 bg-purple-100 text-purple-700 hover:bg-purple-200 px-3 py-2 rounded-lg font-medium text-xs transition-all text-center flex items-center justify-center">
+                Ver Detalles
+              </a>
+              <a href="{% url 'add_to_cart' 'alquiler' alquiler.id %}" 
+                 class="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg font-medium text-xs transition-all flex items-center justify-center">
+                <i data-lucide="shopping-cart" class="h-3.5 w-3.5 mr-1"></i> Reservar
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="lg:col-span-4 text-center py-16 bg-white rounded-2xl shadow-lg">
+          <i data-lucide="search-x" class="h-20 w-20 text-gray-400 mx-auto mb-6"></i>
+          <h3 class="text-2xl font-semibold text-gray-700 mb-2">No se encontraron alquileres</h3>
+          <p class="text-gray-500 mb-6">Intenta ajustar tus filtros o regresa más tarde para nuevas opciones.</p>
+          <a href="{% url 'alquileres' %}" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all">Recargar</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Beneficios de Alquileres -->
+  <div class="container mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Por Qué Elegir Nuestros Alquileres</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Propiedades verificadas, soporte 24/7 y beneficios exclusivos para una estancia perfecta.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0s;">
+        <i data-lucide="shield-check" class="h-16 w-16 text-purple-600 mb-6 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-gray-800 mb-3">Propiedades Verificadas</h3>
+        <p class="text-gray-600">Todas las propiedades son inspeccionadas y verificadas por nuestro equipo para garantizar calidad y seguridad.</p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.2s;">
+        <i data-lucide="headphones" class="h-16 w-16 text-pink-600 mb-6 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-gray-800 mb-3">Soporte 24/7</h3>
+        <p class="text-gray-600">Asistencia inmediata para cualquier consulta o emergencia durante tu estancia.</p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100 animate-fadeInCard" style="animation-delay: 0.4s;">
+        <i data-lucide="percent" class="h-16 w-16 text-purple-600 mb-6 mx-auto"></i>
+        <h3 class="text-2xl font-bold text-gray-800 mb-3">Descuentos Exclusivos</h3>
+        <p class="text-gray-600">Ofertas especiales, cancelación gratuita y pagos flexibles con cuotas sin interés.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonios -->
+  <div class="container mx-auto px-6 py-20 bg-purple-50 rounded-2xl mb-20">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Lo Que Dicen Nuestros Huéspedes</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Experiencias reales de viajeros que han disfrutado de nuestros alquileres.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-xl shadow-md animate-fadeInCard" style="animation-delay: 0s;">
+        <div class="flex items-center mb-4">
+          <div class="flex text-yellow-500">
+            <i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i>
+          </div>
+        </div>
+        <p class="text-gray-600 italic mb-4">"La casa en Mar del Plata fue perfecta para nuestra familia. Limpia, espaciosa y con vista al mar increíble."</p>
+        <div class="flex items-center">
+          <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="María G." class="w-12 h-12 rounded-full mr-3">
+          <div>
+            <p class="font-semibold">María G.</p>
+            <p class="text-sm text-gray-500">Viajero verificado</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-md animate-fadeInCard" style="animation-delay: 0.2s;">
+        <div class="flex items-center mb-4">
+          <div class="flex text-yellow-500">
+            <i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5"></i>
+          </div>
+        </div>
+        <p class="text-gray-600 italic mb-4">"Excelente ubicación en Palermo y todas las comodidades. Recomendado 100%."</p>
+        <div class="flex items-center">
+          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Juan P." class="w-12 h-12 rounded-full mr-3">
+          <div>
+            <p class="font-semibold">Juan P.</p>
+            <p class="text-sm text-gray-500">Viajero verificado</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-md animate-fadeInCard" style="animation-delay: 0.4s;">
+        <div class="flex items-center mb-4">
+          <div class="flex text-yellow-500">
+            <i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i><i data-lucide="star" class="h-5 w-5 fill-current"></i>
+          </div>
+        </div>
+        <p class="text-gray-600 italic mb-4">"La villa en Mendoza superó expectativas. Piscina y vistas a los viñedos impresionantes."</p>
+        <div class="flex items-center">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ana L." class="w-12 h-12 rounded-full mr-3">
+          <div>
+            <p class="font-semibold">Ana L.</p>
+            <p class="text-sm text-gray-500">Viajero verificado</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información adicional: Para propietarios -->
+  <div class="container mx-auto px-6 py-20">
+    <section class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8 text-center border border-purple-100 animate-fadeIn">
+      <i data-lucide="key" class="h-16 w-16 text-purple-600 mb-6 mx-auto"></i>
+      <h3 class="text-3xl font-bold text-gray-800 mb-4">¿Eres Propietario?</h3>
+      <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Pon tu propiedad en alquiler y genera ingresos extra con nuestra plataforma segura y fácil de usar.</p>
+      <a href="{% url 'contacto' %}" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 inline-flex items-center">
+        <i data-lucide="upload" class="h-5 w-5 mr-2"></i> Publicar Propiedad
+      </a>
+    </section>
+  </div>
+
+  <!-- Preguntas Frecuentes (FAQ) -->
+  <div class="container mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">Preguntas Frecuentes</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Resolvemos tus dudas sobre alquileres, reservas y más.</p>
+    </div>
+    <div class="space-y-6 max-w-4xl mx-auto">
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Cómo reservo un alquiler?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Selecciona fechas, verifica disponibilidad y completa el pago seguro. Recibirás confirmación inmediata por email.</p>
+      </details>
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Hay política de cancelación?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Cancelación gratuita hasta 48 horas antes. Reembolso completo menos comisiones bancarias.</p>
+      </details>
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Las propiedades incluyen limpieza?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Sí, todas incluyen servicio de limpieza inicial y final. Opcional diaria por costo extra.</p>
+      </details>
+      <details class="bg-white p-6 rounded-xl shadow-md border border-gray-200 animate-fadeInCard">
+        <summary class="font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
+          ¿Puedo alquilar para eventos?
+          <i data-lucide="chevron-down" class="h-5 w-5 transition-transform"></i>
+        </summary>
+        <p class="mt-4 text-gray-600">Algunas propiedades permiten eventos. Consulta con el propietario al reservar.</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="container mx-auto px-6 py-20">
+    <section class="bg-purple-600 text-white rounded-2xl p-8 text-center">
+      <i data-lucide="phone" class="h-16 w-16 mb-6 mx-auto"></i>
+      <h3 class="text-3xl font-bold mb-4">¿Necesitas Ayuda Personalizada?</h3>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">Nuestro equipo está listo para asistirte en encontrar el alquiler ideal.</p>
+      <a href="{% url 'support' %}" class="bg-white text-purple-600 hover:bg-purple-50 px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 inline-flex items-center">
+        <i data-lucide="headphones" class="h-5 w-5 mr-2"></i> Contactar Soporte
+      </a>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+  document.querySelectorAll('.animate-fadeInCard').forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+  });
+  document.querySelectorAll('details').forEach((detail) => {
+    detail.addEventListener('toggle', () => {
+      const chevron = detail.querySelector('i[data-lucide="chevron-down"]');
+      if (chevron) {
+        chevron.style.transform = detail.open ? 'rotate(180deg)' : 'rotate(0deg)';
+      }
+    });
+  });
+</script>
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeInCard {
+    animation: fadeInCard 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] summary i { transform: rotate(180deg); }
+</style>
+{% endblock %}

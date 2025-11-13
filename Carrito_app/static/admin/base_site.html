@@ -1,0 +1,65 @@
+{% extends "admin/base_site.html" %}
+{% load static i18n %}
+
+{% block title %}{{ title }} | Ailes du Monde{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" height="40" style="margin-right: 12px; border-radius: 6px;">
+        <span style="font-weight: 600; font-size: 1.5rem;">Ailes du Monde</span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('dark-toggle');
+    const body = document.body;
+    const icon = toggle?.querySelector('i');
+
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        body.classList.add('dark-mode');
+        icon?.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    toggle?.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDark = body.classList.contains('dark-mode');
+        icon?.classList.toggle('fa-moon', !isDark);
+        icon?.classList.toggle('fa-sun', isDark);
+        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+    });
+});
+</script>
+{% endblock %}
+
+{% block usertools %}
+<div id="user-tools" style="display: flex; align-items: center; gap: 1rem; font-size: 0.95rem;">
+    {% if user.is_authenticated %}
+        <span>Bienvenido, <strong>{{ user.get_full_name|default:user.username }}</strong></span>
+        <a href="{% url 'admin:password_change' %}">Contraseña</a>
+        <a href="{% url 'admin:logout' %}">Salir</a>
+    {% else %}
+        <a href="{% url 'admin:login' %}">Ingresar</a>
+    {% endif %}
+    <button id="dark-toggle" style="background:none;border:none;color:white;font-size:1.1rem;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-moon"></i>
+    </button>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div id="footer" style="background:#0f3a5e;color:rgba(255,255,255,0.8);text-align:center;padding:1rem;font-size:0.875rem;margin-top:3rem;">
+    © {% now "Y" %} <strong>Ailes du Monde</strong> • 
+    <a href="#" style="color:#f4a261;text-decoration:none;">Docs</a> • 
+    <a href="#" style="color:#f4a261;text-decoration:none;">Soporte</a>
+</div>
+{% endblock %}

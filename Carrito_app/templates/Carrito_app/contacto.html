@@ -1,0 +1,105 @@
+{% extends 'Carrito_app/base.html' %}
+{% load static %}
+
+{% block title %}Contacto - Ailes du Monde{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <!-- Header Section -->
+  <div class="bg-blue-600 py-16 lg:py-20">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 animate-fadeIn">Ponte en Contacto</h1>
+      <p class="mt-2 text-lg text-orange-100 max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.3s;">Estamos aquí para ayudarte. Envíanos un mensaje o encuéntranos en nuestras oficinas.</p>
+    </div>
+  </div>
+
+  <!-- Contact Form and Info Section -->
+  <div class="container mx-auto px-4 py-12 lg:py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+      
+      <!-- Contact Form -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 border border-gray-100 animate-fadeIn" style="animation-delay: 0.5s;">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Envíanos un Mensaje</h2>
+        <form action="#" method="POST" class="space-y-5">
+          {% csrf_token %}
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+            <input type="text" name="name" id="name" required class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3 transition-all" placeholder="Tu nombre">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="email" required class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3 transition-all" placeholder="tuemail@ejemplo.com">
+          </div>
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-700">Asunto</label>
+            <input type="text" name="subject" id="subject" required class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3 transition-all" placeholder="Motivo del contacto">
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700">Mensaje</label>
+            <textarea name="message" id="message" rows="4" required class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2 px-3 transition-all" placeholder="Escribe tu mensaje"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+              Enviar Mensaje
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Contact Info & Map -->
+      <div class="space-y-8 animate-fadeIn" style="animation-delay: 0.7s;">
+        <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 border border-gray-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Información de Contacto</h2>
+          <div class="space-y-5">
+            <div class="flex items-center">
+              <i data-lucide="mail" class="h-6 w-6 text-blue-600 mr-4"></i>
+              <div>
+                <h3 class="font-semibold text-gray-700">Email</h3>
+                <a href="mailto:ailesdumunde1@gmail.com" class="text-gray-600 hover:underline">ailesdumunde1@gmail.com</a>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <i data-lucide="phone" class="h-6 w-6 text-blue-600 mr-4"></i>
+              <div>
+                <h3 class="font-semibold text-gray-700">Teléfono</h3>
+                <p class="text-gray-600">+54 11 1234 5678</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <i data-lucide="map-pin" class="h-6 w-6 text-blue-600 mr-4"></i>
+              <div>
+                <h3 class="font-semibold text-gray-700">Oficina</h3>
+                <p class="text-gray-600">Av. Corrientes 123, Piso 4, Oficina A<br>CABA, Argentina</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 border border-gray-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Nuestra Ubicación</h2>
+          <p class="text-gray-600 mb-4">El proyecto se originó en el IPET 57 Comodoro Martín Rivadavia, en Córdoba Capital, Argentina. Aquí puedes ver el mapa de nuestra institución educativa:</p>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.098314896!2d-64.222058!3d-31.413056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432985e9b5e6b6d%3A0x7b3a2f3e8f1d2e3f!2sIPET%2057%20Comodoro%20Mart%C3%ADn%20Rivadavia!5e0!3m2!1ses!2sar!4v1728000000000" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  lucide.createIcons();
+</script>
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
