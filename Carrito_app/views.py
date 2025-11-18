@@ -10,6 +10,7 @@ from io import BytesIO
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+import random
 
 import logging
 
@@ -21,7 +22,6 @@ from .forms import RegisterForm
 
 # Configuración de logs
 logger = logging.getLogger(__name__)
-
 
 
 
@@ -79,6 +79,7 @@ def vuelos(request):
         'aerolineas_seleccionadas': aerolineas_seleccionadas,
     }
     return render(request, 'Carrito_app/vuelos.html', context)
+
 def vuelo_detalle(request, pk):
     vuelo = get_object_or_404(Vuelos, id=pk)
     return render(request, 'Carrito_app/vuelo_detalle.html', {'vuelo': vuelo})
@@ -107,10 +108,10 @@ def alquileres_detalle(request, id):
     alquiler = get_object_or_404(Alquiler, id=id)
     return render(request, 'Carrito_app/alquileres_detalle.html', {'alquiler': alquiler})
 
-
 def transporte_detalle(request):
     transporte = get_object_or_404(Transporte, id=id)
     return render(request, 'Carrito_app/transporte_detalle.html', {'transporte': transporte})
+
 def transporte(request):
     transportes = Transporte.objects.all()
     return render(request, 'Carrito_app/transporte.html', {'transportes': transportes})
@@ -157,13 +158,47 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Registro exitoso')
-            return redirect('inicio')
+            user_data = form.cleaned_data
+            codigo_verificacion = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+            request.session['user_data'] = user_data
+            request.session['codigo_verificacion'] = codigo_verificacion
+            
+            # Envía el correo de verificación
+            send_mail(
+                'Código de Verificación',
+                f'Tu código de verificación es: {codigo_verificacion}',
+                settings.EMAIL_HOST_USER,
+                [user_data['email']],
+                fail_silently=False,
+            )
+            
+            return redirect('verificacion') # Redirige a la página de verificación
     else:
         form = RegisterForm()
     return render(request, 'Carrito_app/register.html', {'form': form})
+
+def verify_email(request):
+    if request.method == 'POST':
+        codigo_ingresado = request.POST.get('codigo')
+        codigo_verificacion = request.session.get('codigo_verificacion')
+
+        if codigo_ingresado == codigo_verificacion:
+            user_data = request.session.get('user_data')
+            user = UserProfile.objects.create_user(
+                username=user_data['username'],
+                email=user_data['email'],
+                password=user_data['password']
+            )
+            login(request, user)
+            messages.success(request, 'Registro exitoso')
+            # Limpia los datos de la sesión
+            del request.session['user_data']
+            del request.session['codigo_verificacion']
+            return redirect('inicio')
+        else:
+            messages.error(request, 'El código de verificación es incorrecto.')
+            return render(request, 'Carrito_app/verificacion.html', {'error': 'El código de verificación es incorrecto.'})
+    return render(request, 'Carrito_app/verificacion.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -179,7 +214,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('inicio')
-
 
 def detalle_compra(request, order_id):
     compra = get_object_or_404(Compra, id=order_id, usuario=request.user)
